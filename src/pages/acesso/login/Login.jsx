@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './Login.css';
-import eyeIconOn from './assets/imagens/view.png';
-import eyeIconOff from './assets/imagens/hide.png';
+import eyeIconOn from "../../../assets/images/view.png";
+import eyeIconOff from "../../../assets/images/hide.png";
 
 
 function Login() {
