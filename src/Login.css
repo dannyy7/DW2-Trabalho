@@ -1,4 +1,82 @@
 *{
     padding: 0;
     margin: 0;
+    box-sizing: border-box;
 }
+.PageContainer{
+    display: flex;
+    justify-content: center;
+    background-color:#D9B88F;
+    height: 100vh;
+    width: 100wh;
+    align-items: center;
+}
+.LoginContainer{
+    display: flex;
+    width: 23vw;
+    height: 85vh;
+    background-color: #F2DEC4;
+    justify-content:flex-start;
+    flex-direction: column;
+    border: solid 5px #D9B88F;
+    border-radius: 15px;
+    align-items: center;
+    padding-top: 50px;
+
+}
+.InputContainer{
+    display: flex;
+    flex-direction: column;
+    padding-top: 35px;
+}
+.InputConfig{
+    border: none;
+    background: transparent;
+    border-bottom: 2px solid #D9B88F;
+    width: 15vw;
+    height: 5vh;
+}
+#PasswordConfig{
+    display: flex;
+    margin-top: 30px;
+    flex-direction: column;
+}
+.EightPasswordConfig{
+    display: flex;
+    flex-direction: row;
+}
+#MostrarSenhaConfig{
+    width: 30px;
+    height: 20px;
+    margin-left: 10px;
+    background: transparent;
+    border: none;
+}
+
+.EyeIconConfig{
+    height: 25px;
+    width: auto;
+}
+h1{
+    font-size: 35px;
+}
+/* Color Theme Swatches in Hex
+.Mesquite-Flat-Sand-Dunes-1-hex { color: #656C73; }
+.Mesquite-Flat-Sand-Dunes-2-hex { color: #DCEAF2; }
+.Mesquite-Flat-Sand-Dunes-3-hex { color: #D9B88F; }
+.Mesquite-Flat-Sand-Dunes-4-hex { color: #F2DEC4; }
+.Mesquite-Flat-Sand-Dunes-5-hex { color: #A68776; }
+
+ Color Theme Swatches in RGBA 
+.Mesquite-Flat-Sand-Dunes-1-rgba { color: rgba(100, 108, 114, 1); }
+.Mesquite-Flat-Sand-Dunes-2-rgba { color: rgba(220, 233, 242, 1); }
+.Mesquite-Flat-Sand-Dunes-3-rgba { color: rgba(216, 183, 143, 1); }
+.Mesquite-Flat-Sand-Dunes-4-rgba { color: rgba(242, 221, 196, 1); }
+.Mesquite-Flat-Sand-Dunes-5-rgba { color: rgba(165, 135, 117, 1); }
+
+Color Theme Swatches in HSLA 
+.Mesquite-Flat-Sand-Dunes-1-hsla { color: hsla(208, 6, 42, 1); }
+.Mesquite-Flat-Sand-Dunes-2-hsla { color: hsla(202, 46, 90, 1); }
+.Mesquite-Flat-Sand-Dunes-3-hsla { color: hsla(33, 49, 70, 1); }
+.Mesquite-Flat-Sand-Dunes-4-hsla { color: hsla(33, 64, 85, 1); }
+.Mesquite-Flat-Sand-Dunes-5-hsla { color: hsla(22, 21, 55, 1); } */

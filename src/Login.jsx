@@ -1,9 +1,13 @@
 import { useState } from 'react';
 import './Login.css';
+import eyeIconOn from './assets/imagens/view.png';
+import eyeIconOff from './assets/imagens/hide.png';
+
 
 function Login() {
   const [eightPassword, setEightPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
+  const [UserName, setUserName] = useState('');
 
   function mostrarSenha() {
     setShowPassword(!showPassword);
@@ -17,32 +21,50 @@ function Login() {
     alert(`Tentando entrar com senha: ${eightPassword}`); // mudar depois
   }
 
-  let tipoInput;
+  let password;
   if (showPassword) {
-    tipoInput = 'text';
+    password = 'text';
   } else {
-    tipoInput = 'password';
+    password = 'password';
   }
 
   let textoBotaoMostrarSenha;
   if (showPassword) {
-    textoBotaoMostrarSenha = 'Ocultar Senha';
+    textoBotaoMostrarSenha = <img src={eyeIconOff} alt="Ocultar" className='EyeIconConfig'/>;
   } else {
-    textoBotaoMostrarSenha = 'Revelar Senha';
+    textoBotaoMostrarSenha = <img src={eyeIconOn} alt="Revelar" className='EyeIconConfig'/>;
   }
 
   return (
-    <div className="LoginContainer">
-      <input
-        type={tipoInput}
-        value={eightPassword}
-        onChange={(e) => setEightPassword(e.target.value)}
-        placeholder="Digite sua senha de 8 dígitos"
-      />
-      <br />
-      <button onClick={mostrarSenha}>{textoBotaoMostrarSenha}</button>
-      <button onClick={esqueciSenha}>Esqueci Minha Senha</button>
-      <button onClick={entrar}>Entrar</button>
+    <div className='PageContainer'>
+      <div className="LoginContainer">
+        <h1>Login</h1>
+        <div className='InputContainer'>
+          <label>Usuario</label>
+          <input
+            className='InputConfig'
+            type={'text'} 
+            value={UserName}
+            onChange={(e) => setUserName(e.target.value)}
+            placeholder="Digite seu UserName"
+          />
+          <div id='PasswordConfig'>
+            <label>Senha</label>
+          </div>
+            <div class='EightPasswordConfig'>
+              <input
+                className='InputConfig'
+                type={password} 
+                value={eightPassword}
+                onChange={(e) => setEightPassword(e.target.value)}
+                placeholder="Digite sua senha de 8 dígitos"
+              />
+            <button id='MostrarSenhaConfig' onClick={mostrarSenha}>{textoBotaoMostrarSenha}</button>
+          </div>
+        </div>
+        <button onClick={esqueciSenha}>Esqueci Minha Senha</button>
+        <button onClick={entrar}>Entrar</button>
+      </div>
     </div>
   );
 }
