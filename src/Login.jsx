@@ -61,9 +61,11 @@ function Login() {
               />
             <button id='MostrarSenhaConfig' onClick={mostrarSenha}>{textoBotaoMostrarSenha}</button>
           </div>
+          <div id='EsqueciSenha'>
+            <button onClick={esqueciSenha}>Esqueci Minha Senha</button>
+          </div>
+        <button onClick={entrar} id='LoginButton'>Entrar</button>
         </div>
-        <button onClick={esqueciSenha}>Esqueci Minha Senha</button>
-        <button onClick={entrar}>Entrar</button>
       </div>
     </div>
   );
