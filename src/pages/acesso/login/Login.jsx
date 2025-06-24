@@ -2,12 +2,16 @@ import { useState } from 'react';
 import './Login.css';
 import eyeIconOn from "../../../assets/images/view.png";
 import eyeIconOff from "../../../assets/images/hide.png";
-
+import { useNavigate } from 'react-router-dom';
 
 function Login() {
   const [eightPassword, setEightPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [UserName, setUserName] = useState('');
+  const navigate = useNavigate();  
+  const entrar = () => {
+    navigate('/PaginaPrincipal');  
+  };
 
   function mostrarSenha() {
     setShowPassword(!showPassword);
@@ -15,10 +19,6 @@ function Login() {
 
   function esqueciSenha() {
     alert('Recuperação de senha enviada para seu e-mail!'); // mudar depois
-  }
-
-  function entrar() {
-    alert(`Tentando entrar com senha: ${eightPassword}`); // mudar depois
   }
 
   let password;
@@ -51,7 +51,7 @@ function Login() {
           <div id='PasswordConfig'>
             <label>Senha</label>
           </div>
-            <div class='EightPasswordConfig'>
+            <div className='EightPasswordConfig'>
               <input
                 className='InputConfig'
                 type={password} 
