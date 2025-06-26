@@ -5,12 +5,10 @@ import Login from './Login'; // A página para onde o botão vai te levar
 
 function App() {
   return (
-    <Router>
-        <Routes>
-          <Route path="/" element={<Login />} />
-          <Route path="/PaginaPrincipal" element={<PaginaPrincipal />} />
-        </Routes>
-    </Router>
+    <Routes>
+      <Route path="/" element={<Login />} />
+      <Route path="/PaginaPrincipal" element={<PaginaPrincipal />} />
+    </Routes>
   );
 }
 
