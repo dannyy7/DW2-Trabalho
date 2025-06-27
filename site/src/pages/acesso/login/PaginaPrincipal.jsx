@@ -6,6 +6,7 @@ export default function PaginaPrincipal(){
     const[TipoTarefa, setTipoTarefa] = useState(false)
     const[PaginaCriarCategoria, setPaginaCriarCategoria] = useState(false)
     const [NomeCategoria, setNomeCategoria] = useState("");
+    const [Categorias, setCategorias] = useState([])
 
     function CriarTarefa(){
         setPaginaCriarTarefa(true)
@@ -36,7 +37,7 @@ export default function PaginaPrincipal(){
             Categoria = 
             <>
                 <button onClick={CriarCategoria}>Novo</button>
-                <button onClick={NomeCategoria}/>
+                <button>{NomeCategoria}</button>
             </>
 
 
