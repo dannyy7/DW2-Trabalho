@@ -6,10 +6,17 @@ export default function PaginaPrincipal(){
     const[TipoTarefa, setTipoTarefa] = useState(false)
     const[PaginaCriarCategoria, setPaginaCriarCategoria] = useState(false)
     const [NomeCategoria, setNomeCategoria] = useState("");
+    const[ErroCategoria, setErroCategoria] = useState("")
     const [Categorias, setCategorias] = useState([])
+    const[MostrarAdicionarCategoria, setMostrarAdicionarCategoria] = useState(true)
+    const[MostrarCategoria, setMostrarCategoria] = useState(true) 
 
     function CriarTarefa(){
         setPaginaCriarTarefa(true)
+    }
+    function LimparAdicionarCategoria(){
+        setMostrarAdicionarCategoria(false)
+
     }
     function EscolherCategoriaTarefa(){
         setCategoriaTarefa(true)
@@ -19,6 +26,27 @@ export default function PaginaPrincipal(){
     }
     function CriarCategoria(){
         setPaginaCriarCategoria(true)
+        setMostrarAdicionarCategoria(true)
+    }
+    function EscolherCategoria(z){
+        {MostrarCategoria &&(<p>{z}</p>)}
+        
+    }
+    function AdicionarArrayCategorias (){
+        if (Categorias.includes(NomeCategoria.trim())){
+            setErroCategoria("Essa Categoria ja existe")
+            return
+        }
+        if(NomeCategoria === ""){
+            setErroCategoria("Não é possivel adicionar uma categoria vazia!")
+            return
+        }   
+            let CloneArrayCategorias = [...Categorias]
+            CloneArrayCategorias.push(NomeCategoria)
+            setCategorias(CloneArrayCategorias)
+            LimparAdicionarCategoria()
+            
+            
     }
     let Tipo = null
     let Categoria = null
@@ -37,7 +65,7 @@ export default function PaginaPrincipal(){
             Categoria = 
             <>
                 <button onClick={CriarCategoria}>Novo</button>
-                <button>{NomeCategoria}</button>
+                {Categorias.map(x => <button onClick={y => EscolherCategoria(x)}>{x}</button>)}
             </>
 
 
@@ -52,8 +80,23 @@ export default function PaginaPrincipal(){
         if (PaginaCriarCategoria){
             CategoriaCriar = 
             <>
+            {
+                (ErroCategoria !== "") ?
+                <>
+                <p>{ErroCategoria}</p>
+                <button onClick={()=>{setErroCategoria("")}}>x</button>
+                </>
+                 :""
+            }
+            {
+            MostrarAdicionarCategoria &&(
+            <>
             <input type="text" value={NomeCategoria} onChange={(e) => setNomeCategoria(e.target.value)}/>
-            <button>adicionar</button>
+            <button onClick={AdicionarArrayCategorias}>adicionar</button>
+            </>
+            )
+            }
+
             </>
         }
     }
