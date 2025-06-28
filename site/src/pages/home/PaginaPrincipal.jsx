@@ -1,127 +1,142 @@
 import { useState } from "react"
 
-export default function PaginaPrincipal(){
-    const[PaginaCriarTarefa, setPaginaCriarTarefa] = useState(false)
-    const[CategoriaTarefa, setCategoriaTarefa] = useState(false)
-    const[TipoTarefa, setTipoTarefa] = useState(false)
-    const[PaginaCriarCategoria, setPaginaCriarCategoria] = useState(false)
-    const [NomeCategoria, setNomeCategoria] = useState("");
-    const[ErroCategoria, setErroCategoria] = useState("")
+export default function PaginaPrincipal() {
+    const [PaginaCriarGasto, setPaginaCriarGasto] = useState(false)
+    const [CategoriaGasto, setCategoriaGasto] = useState(false)
+    const [TipoGasto, setTipoGasto] = useState(false)
+    const [PaginaCriarCategoria, setPaginaCriarCategoria] = useState(false)
+    const [NomeCategoria, setNomeCategoria] = useState("")
+    const [ErroCategoria, setErroCategoria] = useState("")
     const [Categorias, setCategorias] = useState([])
-    const[MostrarAdicionarCategoria, setMostrarAdicionarCategoria] = useState(true)
-    const[MostrarCategoria, setMostrarCategoria] = useState(true) 
+    const [MostrarAdicionarCategoria, setMostrarAdicionarCategoria] = useState(true)
+    const [MostrarCategorias, setMostrarCategorias] = useState(false)
+    const [CategoriaDoGasto, setCategoriaDoGasto] = useState("")
 
-    function CriarTarefa(){
-        setPaginaCriarTarefa(true)
+    function CriarGasto() {
+        setPaginaCriarGasto(true)
     }
-    function LimparAdicionarCategoria(){
+
+    function LimparAdicionarCategoria() {
         setMostrarAdicionarCategoria(false)
+    }
 
+    function EscolherCategoriaGasto() {
+        setCategoriaGasto(true)
+        setMostrarCategorias(!MostrarCategorias)
     }
-    function EscolherCategoriaTarefa(){
-        setCategoriaTarefa(true)
+
+    function EscolherTipoGasto() {
+        setTipoGasto(true)
     }
-    function EscolherTipoTarefa(){
-        setTipoTarefa(true)
-    }
-    function CriarCategoria(){
+
+    function CriarCategoria() {
         setPaginaCriarCategoria(true)
         setMostrarAdicionarCategoria(true)
     }
-    function EscolherCategoria(z){
-        {MostrarCategoria &&(<p>{z}</p>)}
-        
+
+    function EscolherCategoria(z) {
+        setMostrarCategorias(!MostrarCategorias)
+        setCategoriaDoGasto(z)
     }
-    function AdicionarArrayCategorias (){
-        if (Categorias.includes(NomeCategoria.trim())){
-            setErroCategoria("Essa Categoria ja existe")
+
+    function AdicionarArrayCategorias() {
+        if (Categorias.includes(NomeCategoria.trim())) {
+            setErroCategoria("Essa Categoria já existe")
             return
         }
-        if(NomeCategoria === ""){
-            setErroCategoria("Não é possivel adicionar uma categoria vazia!")
+        if (NomeCategoria === "") {
+            setErroCategoria("Não é possível adicionar uma categoria vazia!")
             return
-        }   
-            let CloneArrayCategorias = [...Categorias]
-            CloneArrayCategorias.push(NomeCategoria)
-            setCategorias(CloneArrayCategorias)
-            LimparAdicionarCategoria()
-            
-            
+        }
+        let CloneArrayCategorias = [...Categorias]
+        CloneArrayCategorias.push(NomeCategoria)
+        setCategorias(CloneArrayCategorias)
+        LimparAdicionarCategoria()
     }
+
     let Tipo = null
     let Categoria = null
-    let TarefaCriar = null
+    let GastoCriar = null
     let CategoriaCriar = null
-    if (PaginaCriarTarefa){
-        TarefaCriar = 
-        <>
-        <input type="text" id="NomeTarefa"/>
-        <button onClick={EscolherCategoriaTarefa}>EscolherCategoria</button>
-        <button onClick={EscolherTipoTarefa}>EscolherTipo</button>
-        </>
 
-
-        if (CategoriaTarefa){
-            Categoria = 
+    if (PaginaCriarGasto) {
+        GastoCriar =
             <>
-                <button onClick={CriarCategoria}>Novo</button>
-                {Categorias.map(x => <button onClick={y => EscolherCategoria(x)}>{x}</button>)}
+                <input type="text" id="NomeGasto" />
+                <button onClick={EscolherCategoriaGasto}>EscolherCategoria</button>
+                <button onClick={EscolherTipoGasto}>EscolherTipo</button>
             </>
 
-
-        }
-        if (TipoTarefa){
-            Tipo = 
-            <>
-            <button>Fixo</button>
-            <button>Variavel</button>
-            </>
-        }
-        if (PaginaCriarCategoria){
-            CategoriaCriar = 
-            <>
-            {
-                (ErroCategoria !== "") ?
-                <>
-                <p>{ErroCategoria}</p>
-                <button onClick={()=>{setErroCategoria("")}}>x</button>
-                </>
-                 :""
-            }
-            {
-            MostrarAdicionarCategoria &&(
-            <>
-            <input type="text" value={NomeCategoria} onChange={(e) => setNomeCategoria(e.target.value)}/>
-            <button onClick={AdicionarArrayCategorias}>adicionar</button>
-            </>
+        if (CategoriaGasto) {
+            MostrarCategorias && (
+                Categoria =
+                    <>
+                        <button onClick={CriarCategoria}>Novo</button>
+                        {Categorias.map(x => <button key={x} onClick={() => EscolherCategoria(x)}>{x}</button>)}
+                    </>
             )
-            }
+        }
 
-            </>
+        if (TipoGasto) {
+            Tipo =
+                <>
+                    <button>Fixo</button>
+                    <button>Variável</button>
+                </>
+        }
+
+        if (PaginaCriarCategoria) {
+            CategoriaCriar =
+                <>
+                    {
+                        (ErroCategoria !== "") ?
+                            <>
+                                <p>{ErroCategoria}</p>
+                                <button onClick={() => { setErroCategoria("") }}>x</button>
+                            </>
+                            : ""
+                    }
+                    {
+                        MostrarAdicionarCategoria && (
+                            <>
+                                <input
+                                    type="text"
+                                    value={NomeCategoria}
+                                    onChange={(e) => setNomeCategoria(e.target.value)}
+                                />
+                                <button onClick={AdicionarArrayCategorias}>Adicionar</button>
+                            </>
+                        )
+                    }
+                </>
         }
     }
-    function EditarTarefa(){
 
+    function EditarGasto() {
+        // Lógica futura
     }
-    function ExcluirTarefa(){
 
+    function ExcluirGasto() {
+        // Lógica futura
     }
-    function Filtro(){
 
+    function Filtro() {
+        // Lógica futura
     }
-    return(
+
+    return (
         <>
-        <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="pesquisar"/>
-        <button onClick={CriarTarefa}>+</button>
-        <button onClick={Filtro}>Filtrar</button>
-        {TarefaCriar}
-        {Categoria}
-        {Tipo}
-        {CategoriaCriar}
+            <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="pesquisar" />
+            <button onClick={CriarGasto}>+</button>
+            <button onClick={Filtro}>Filtrar</button>
+            <p>Categoria:{CategoriaDoGasto}</p> 
+            {GastoCriar}
+            {Categoria}
+            {Tipo}
+            {CategoriaCriar}
         </>
     )
-
 }
 
-//<button onClick={EditarTarefa}>editar</button>
-//<button onClick={ExcluirTarefa}>excluir</button>
+// <button onClick={EditarGasto}>editar</button>
+// <button onClick={ExcluirGasto}>excluir</button>
