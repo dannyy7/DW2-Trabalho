@@ -44,10 +44,14 @@ function DespVar() {
                     <div className="desp">
                         {/* banco de dados */}
                     </div>
+                    <div className="data">
+                        {/* banco de dados */}
+                    </div>
                 </div>
             </div>
             <div className="body">
                 {/* vai ser feito com o banco de dados */}
+                <div className="nameSpent"></div>
             </div>
         </div>
     )

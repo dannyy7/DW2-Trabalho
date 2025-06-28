@@ -1,0 +1,188 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+
+}
+
+.container {
+    width: 100vw;
+    height: 100vh;
+}
+
+.header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding-top: 15px;
+    width: 100vw;
+    height: 15vh;
+    background-color: yellow;
+}
+
+
+
+.logo button,
+.logo img {
+    width: 5vw;
+    height: 10vh;
+    border: 1px solid black;
+    border-radius: 30%;
+    border: 0 none;
+    outline: none;
+    background-color: transparent;
+}
+
+.logo button:hover {
+    opacity: 0.5;
+    transition: .5s;
+}
+
+.search{
+    display: flex;   
+}
+
+.search input {
+    width: 50vw;
+    height: 10vh;
+
+    font-size: 3vh;
+
+    border: 0 none;
+    outline: none;
+    border-radius: 25px;
+
+    display: flex;
+}
+
+.search input::placeholder{
+    font-size: 3vh;
+    justify-content: center;
+    align-items: center;
+}
+
+.search img{
+    width: 3vw;
+    height: 6vh;
+
+    margin-top: 12px;
+}
+
+.search img:hover {
+    opacity: 0.5;
+    transition: .5s;
+}
+
+.user button,
+.user img {
+    width: 5vw;
+    height: 10vh;
+    border: 1px solid black;
+    border-radius: 30%;
+
+    border: 0 none;
+    outline: none;
+
+    background-color: transparent;
+}
+
+.user button:hover {
+    opacity: 0.5;
+    transition: .5s;
+}
+
+.middle{
+    width: 100vw;
+    height: 20vh;
+    background-color: rgba(255, 255, 0, 0.622);
+}  
+
+.middle  div:first-child{
+    display: flex;
+    flex-direction: row;
+
+    justify-content: center;
+}
+
+.middle div{
+    display: flex;
+    justify-content: center;
+
+    
+}
+
+.return img, .return button{
+    width: 4vw;
+    height: 8vh;
+
+    background-color: transparent;
+
+    border-radius: 50%;
+}
+
+.return img{
+    width: 2vw;
+    height: 6vh;
+
+    padding-top: 1px;
+}
+
+.value{
+    width: 20vw;
+    height: 8vh;
+
+    border: 1px solid gray;
+    border-radius: 25px;
+}
+
+.create button, .order button{
+    width: 4vw;
+    height: 8vh;
+    font-size: 3vh;
+
+    background-color: transparent;
+    border: 1px solid black;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.order button{
+    padding-bottom: 10px;
+}
+
+.desp{
+    margin-top: 1vh;
+    width: 20vw;
+    height: 8vh;
+
+    border: 1px solid gray;
+    border-radius: 25px;
+}
+
+.data{
+    margin-top: 1vh;
+    width: 16vw;
+    height: 8vh;
+
+    border: 1px solid black;
+    border-radius: 25px;
+}
+
+.body{
+    width: 100vw;
+    height: 65vh;
+    background-color: rgba(255, 255, 0, 0.342);
+}
+
+.nameSpent{
+    width: 35vw;
+    height: 10vh;
+
+    border: 1px solid black;
+    border-radius: 20px;
+
+    margin-top: 20px;
+}
