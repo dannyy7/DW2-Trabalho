@@ -6,6 +6,7 @@ import DespVar from './pages/despVariaveis/home/despVar';
 import Category from './pages/despVariaveis/category/despVar'
 import Desp from './pages/despVariaveis/desp/despVar'
 import Ordenar from './pages/ordenar/ordenar';
+import Register from './pages/acesso/cadastro/register';
 
 function App() {
   return (
@@ -16,6 +17,8 @@ function App() {
       <Route path="/DespVar2" element={<Category />} />
       <Route path="/DespVar3" element={<Desp />} />
       <Route path="/Ordenar" element={<Ordenar />} />
+      <Route path="/Register" element={<Register />} />
+
     </Routes>
   );
 }
