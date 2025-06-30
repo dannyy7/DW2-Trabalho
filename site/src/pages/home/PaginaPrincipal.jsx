@@ -11,6 +11,7 @@ export default function PaginaPrincipal() {
     const [MostrarAdicionarCategoria, setMostrarAdicionarCategoria] = useState(true)
     const [MostrarCategorias, setMostrarCategorias] = useState(false)
     const [CategoriaDoGasto, setCategoriaDoGasto] = useState("")
+    const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false)
 
     function CriarGasto() {
         setPaginaCriarGasto(true)
@@ -27,6 +28,7 @@ export default function PaginaPrincipal() {
 
     function EscolherTipoGasto() {
         setTipoGasto(true)
+        setMostrarTipoGasto(!MostrarTipoGasto)
     }
 
     function CriarCategoria() {
@@ -76,14 +78,28 @@ export default function PaginaPrincipal() {
                     </>
             )
         }
+        let TipoEscolheu = ""
+        function SetarTipo(x){
+            if (x == "Fixo"){
+                TipoEscolheu = "fixo"
+                return TipoEscolheu
+            }
+            if (x == "Variavel"){
+                TipoEscolheu = "variavel"
+                return TipoEscolheu
+            }
+        }
 
         if (TipoGasto) {
-            Tipo =
-                <>
-                    <button>Fixo</button>
-                    <button>Variável</button>
-                </>
+            MostrarTipoGasto && (
+                Tipo =
+                    <>
+                        <button id="Fixo" onClick={SetarTipo(e.target.id)}>Fixo</button>
+                        <button id="Variavel" onClick={SetarTipo(e.target.id)}>Variável</button>
+                    </>
+            )
         }
+
 
         if (PaginaCriarCategoria) {
             CategoriaCriar =
