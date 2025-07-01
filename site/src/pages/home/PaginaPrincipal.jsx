@@ -13,6 +13,16 @@ export default function PaginaPrincipal() {
     const [CategoriaDoGasto, setCategoriaDoGasto] = useState("")
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false)
     const [ValordoTipo, setValordoTipo] = useState("")
+    const [CriarGastoTarefa, setCriarGastoTarefa] = useState(
+        {
+            NomeGastoObjeto:"Você ainda não inseriu um nome",
+            TipoGastoObjeto:"Você ainda não inseriu o tipo do gasto",
+            CategoriaGastoObjeto:"Sem categoria",
+            ValorGastoObjeto:"Você ainda não inseriu um valor",
+            DataGastoObjeto:"Você ainda não inseriu uma data",
+            UserIdGastoObjeto:""
+        }
+    )
 
     function CriarGasto() {
         setPaginaCriarGasto(true)
@@ -65,9 +75,10 @@ export default function PaginaPrincipal() {
     if (PaginaCriarGasto) {
         GastoCriar =
             <>
-                <input type="text" id="NomeGasto" />
+                <input type="text" id="NomeGasto" value="NomeGasto"/>
                 <button onClick={EscolherCategoriaGasto}>EscolherCategoria</button>
                 <button onClick={EscolherTipoGasto}>EscolherTipo</button>
+                <button onClick={setCriarGastoTarefa({...CriarGastoTarefa, NomeGastoObjeto:NomeGasto.value})}>Criar</button>
             </>
 
         if (CategoriaGasto) {
@@ -84,8 +95,8 @@ export default function PaginaPrincipal() {
             MostrarTipoGasto && (
                 Tipo =
                     <>
-                        <button onClick={x => setValordoTipo("Fixo")}>Fixo</button>
-                        <button onClick={x => setValordoTipo("Variável")}>Variável</button>
+                        <button onClick={x => setCriarGastoTarefa({...CriarGastoTarefa, TipoGastoObjeto:'fixo',})}>Fixo</button>//setValordoTipo"Fixo"
+                        <button onClick={x => setCriarGastoTarefa({...CriarGastoTarefa, TipoGastoObjeto:'variavel',})}>Variável</button>//setValordoTipo"Variável"
                     </>
             )
         }
