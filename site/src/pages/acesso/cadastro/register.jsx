@@ -17,7 +17,7 @@ function Register() {
     // }
 
     async function createUsers() {
-        await Api.post('/Register', {
+        await Api.post('/usuarios', {
             name: inputName.current.value,
             phone: inputPhone.current.value,
             email: inputEmail.current.value,
@@ -38,23 +38,25 @@ function Register() {
 
     return (
         <div className="container">
-            <div className="name">
-                <input  name='name' type="text" ref={inputName} placeholder="name" />
-            </div>
-            <div className="email">
-                <input name='email' type="email" ref={inputEmail} placeholder="email" />
-            </div>
-            <div className="phone">
-                <input name='phone' type="text" ref={inputPhone} placeholder="phone" />
-            </div>
-            <div className="password">
-                <input name='password' type="text" ref={inputPassword} placeholder="password" />
-            </div>
-            <div className="button">
-                <button type="button" onClick={createUsers}>
-                    clique
-                </button>
-            </div>
+            <form action="">
+                <div className="name">
+                    <input  name='name' type="text" ref={inputName} placeholder="name" />
+                </div>
+                <div className="email">
+                    <input name='email' type="email" ref={inputEmail} placeholder="email" />
+                </div>
+                <div className="phone">
+                    <input name='phone' type="text" ref={inputPhone} placeholder="phone" />
+                </div>
+                <div className="password">
+                    <input name='password' type="text" ref={inputPassword} placeholder="password" />
+                </div>
+                <div className="button">
+                    <button type="button" onClick={createUsers}>
+                        clique
+                    </button>
+                </div>
+            </form>
         </div>
     )
 }
