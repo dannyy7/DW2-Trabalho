@@ -2,7 +2,7 @@ import Api from "../../../services/api";
 import { useEffect, useState, useRef } from "react";
 
 function Register() {
-    const [users, setUsers] = useState([])
+    // const [users, setUsers] = useState([])
 
     const inputName = useRef()
     const inputPhone = useRef()
