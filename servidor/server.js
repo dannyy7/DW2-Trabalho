@@ -16,7 +16,8 @@ app.post('/usuarios', async (req, res) => {
         data: {
             email: req.body.email,
             name: req.body.name,
-            age: req.body.age
+            phone: req.body.phone,
+            password: req.body.password,
         }
     })
     res.status(201).json(req.body)
@@ -30,7 +31,8 @@ app.put('/usuarios/:id', async (req, res) => {
         data: {
             email: req.body.email,
             name: req.body.name,
-            age: req.body.age,
+            phone: req.body.phone,
+            password: req.body.password,
         }
     })
     res.status(201).json(req.body)
