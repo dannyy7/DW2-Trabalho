@@ -13,16 +13,15 @@ export default function PaginaPrincipal() {
     const [CategoriaDoGasto, setCategoriaDoGasto] = useState("")
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false)
     const [ValordoTipo, setValordoTipo] = useState("")
-    const [CriarGastoTarefa, setCriarGastoTarefa] = useState(
-        {
-            NomeGastoObjeto:"Você ainda não inseriu um nome",
-            TipoGastoObjeto:"Você ainda não inseriu o tipo do gasto",
-            CategoriaGastoObjeto:"Sem categoria",
-            ValorGastoObjeto:"Você ainda não inseriu um valor",
-            DataGastoObjeto:"Você ainda não inseriu uma data",
-            UserIdGastoObjeto:""
-        }
-    )
+    const [NomeGasto, setNomeGasto] = useState("")
+    const [CriarGastoTarefa, setCriarGastoTarefa] = useState({
+        NomeGastoObjeto: "Você ainda não inseriu um nome",
+        TipoGastoObjeto: "Você ainda não inseriu o tipo do gasto",
+        CategoriaGastoObjeto: "Sem categoria",
+        ValorGastoObjeto: "Você ainda não inseriu um valor",
+        DataGastoObjeto: "Você ainda não inseriu uma data",
+        UserIdGastoObjeto: ""
+    })
 
     function CriarGasto() {
         setPaginaCriarGasto(true)
@@ -50,20 +49,21 @@ export default function PaginaPrincipal() {
     function EscolherCategoria(z) {
         setMostrarCategorias(!MostrarCategorias)
         setCategoriaDoGasto(z)
+        setCriarGastoTarefa({ ...CriarGastoTarefa, CategoriaGastoObjeto: z })
     }
 
     function AdicionarArrayCategorias() {
-        if (Categorias.includes(NomeCategoria.trim())) {
+        const nomeTrimado = NomeCategoria.trim()
+        if (Categorias.includes(nomeTrimado)) {
             setErroCategoria("Essa Categoria já existe")
             return
         }
-        if (NomeCategoria === "") {
+        if (nomeTrimado === "") {
             setErroCategoria("Não é possível adicionar uma categoria vazia!")
             return
         }
-        let CloneArrayCategorias = [...Categorias]
-        CloneArrayCategorias.push(NomeCategoria)
-        setCategorias(CloneArrayCategorias)
+        setCategorias([...Categorias, nomeTrimado])
+        setNomeCategoria("")
         LimparAdicionarCategoria()
     }
 
@@ -73,59 +73,78 @@ export default function PaginaPrincipal() {
     let CategoriaCriar = null
 
     if (PaginaCriarGasto) {
-        GastoCriar =
+        GastoCriar = (
             <>
-                <input type="text" id="NomeGasto" value="NomeGasto"/>
-                <button onClick={EscolherCategoriaGasto}>EscolherCategoria</button>
-                <button onClick={EscolherTipoGasto}>EscolherTipo</button>
-                <button onClick={setCriarGastoTarefa({...CriarGastoTarefa, NomeGastoObjeto:NomeGasto.value})}>Criar</button>
+                <input
+                    type="text"
+                    id="NomeGasto"
+                    value={NomeGasto}
+                    onChange={(e) => setNomeGasto(e.target.value)}
+                    placeholder="Digite o nome do gasto"
+                />
+                <button onClick={EscolherCategoriaGasto}>Escolher Categoria</button>
+                <button onClick={EscolherTipoGasto}>Escolher Tipo</button>
+                <button onClick={() =>
+                    setCriarGastoTarefa({ ...CriarGastoTarefa, NomeGastoObjeto: NomeGasto })
+                }>
+                    Criar
+                </button>
             </>
+        )
 
-        if (CategoriaGasto) {
-            MostrarCategorias && (
-                Categoria =
-                    <>
-                        <button onClick={CriarCategoria}>Novo</button>
-                        {Categorias.map(x => <button key={x} onClick={() => EscolherCategoria(x)}>{x}</button>)}
-                    </>
+        if (CategoriaGasto && MostrarCategorias) {
+            Categoria = (
+                <>
+                    <button onClick={CriarCategoria}>Novo</button>
+                    {Categorias.map(x =>
+                        <button key={x} onClick={() => EscolherCategoria(x)}>{x}</button>
+                    )}
+                </>
             )
         }
 
-        if (TipoGasto) {
-            MostrarTipoGasto && (
-                Tipo =
-                    <>
-                        <button onClick={x => setCriarGastoTarefa({...CriarGastoTarefa, TipoGastoObjeto:'fixo',})}>Fixo</button>//setValordoTipo"Fixo"
-                        <button onClick={x => setCriarGastoTarefa({...CriarGastoTarefa, TipoGastoObjeto:'variavel',})}>Variável</button>//setValordoTipo"Variável"
-                    </>
+        if (TipoGasto && MostrarTipoGasto) {
+            Tipo = (
+                <>
+                    <button onClick={() => {
+                        setCriarGastoTarefa({ ...CriarGastoTarefa, TipoGastoObjeto: 'fixo' })
+                        setValordoTipo("Fixo")
+                    }}>
+                        Fixo
+                    </button>
+                    <button onClick={() => {
+                        setCriarGastoTarefa({ ...CriarGastoTarefa, TipoGastoObjeto: 'variavel' })
+                        setValordoTipo("Variável")
+                    }}>
+                        Variável
+                    </button>
+                </>
             )
         }
-
 
         if (PaginaCriarCategoria) {
-            CategoriaCriar =
+            CategoriaCriar = (
                 <>
-                    {
-                        (ErroCategoria !== "") ?
-                            <>
-                                <p>{ErroCategoria}</p>
-                                <button onClick={() => { setErroCategoria("") }}>x</button>
-                            </>
-                            : ""
+                    {ErroCategoria !== "" &&
+                        <>
+                            <p>{ErroCategoria}</p>
+                            <button onClick={() => { setErroCategoria("") }}>x</button>
+                        </>
                     }
-                    {
-                        MostrarAdicionarCategoria && (
-                            <>
-                                <input
-                                    type="text"
-                                    value={NomeCategoria}
-                                    onChange={(e) => setNomeCategoria(e.target.value)}
-                                />
-                                <button onClick={AdicionarArrayCategorias}>Adicionar</button>
-                            </>
-                        )
+
+                    {MostrarAdicionarCategoria &&
+                        <>
+                            <input
+                                type="text"
+                                value={NomeCategoria}
+                                onChange={(e) => setNomeCategoria(e.target.value)}
+                                placeholder="Nome da nova categoria"
+                            />
+                            <button onClick={AdicionarArrayCategorias}>Adicionar</button>
+                        </>
                     }
                 </>
+            )
         }
     }
 
@@ -143,18 +162,21 @@ export default function PaginaPrincipal() {
 
     return (
         <>
-            <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="pesquisar" />
+            <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="Pesquisar" />
             <button onClick={CriarGasto}>+</button>
             <button onClick={Filtro}>Filtrar</button>
-            <p>Categoria:{CategoriaDoGasto}</p> 
-            <p>Tipo:{ValordoTipo}</p>
+            <p>Categoria: {CategoriaDoGasto}</p>
+            <p>Tipo: {ValordoTipo}</p>
             {GastoCriar}
             {Categoria}
             {Tipo}
             {CategoriaCriar}
+
+            {/* 
+            <button onClick={EditarGasto}>editar</button>
+            <button onClick={ExcluirGasto}>excluir</button> 
+            */}
+            
         </>
     )
 }
-
-// <button onClick={EditarGasto}>editar</button>
-// <button onClick={ExcluirGasto}>excluir</button>
