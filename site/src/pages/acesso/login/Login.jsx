@@ -10,7 +10,7 @@ function Login() {
     try {
     const response = await Api.get('/usuarios');
     const users = response.data;
-    const filteredUsers = users.filter(user => user.name === UserName && user.password === eightPassword);
+    const filteredUsers = users.filter(user => (user.name === UserName || user.email === UserName) && user.password === eightPassword);
     const userId = filteredUsers[0].id;
     
     if (filteredUsers.length > 0) {
@@ -66,7 +66,7 @@ function Login() {
             type={'text'}
             value={UserName}
             onChange={(e) => setUserName(e.target.value)}
-            placeholder="Digite seu UserName"
+            placeholder="Digite seu UserName ou seu email"
           />
           <div id='PasswordConfig'>
             <label>Senha</label>

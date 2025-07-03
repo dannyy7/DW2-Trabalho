@@ -8,19 +8,31 @@ function Register() {
     const inputPassword = useRef()
 
     async function createUsers() {
-        await Api.post('/usuarios', {
+
+        const response = await Api.get('/usuarios');
+        const users = response.data;
+        const filteredUsers = users.filter(user => user.name === inputName && user.email === inputEmail );
+        const name = filteredUsers[0].name
+        const email  = filteredUsers[1].email
+
+        if(inputName != name && inputEmail != email){
+            await Api.post('/usuarios', {
             name: inputName.current.value,
             phone: inputPhone.current.value,
             email: inputEmail.current.value,
             password: inputPassword.current.value
-        }) 
+        })
+        } else{
+            alert("o nome e email precisam ser diferentes")
+        }
+
     }
 
     return (
         <div className="container">
             <form action="">
                 <div className="name">
-                    <input  name='name' type="text" ref={inputName} placeholder="name" />
+                    <input name='name' type="text" ref={inputName} placeholder="name" />
                 </div>
                 <div className="email">
                     <input name='email' type="email" ref={inputEmail} placeholder="email" />
