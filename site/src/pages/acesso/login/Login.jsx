@@ -1,16 +1,36 @@
-import { useState } from 'react';
+import { useEffect, useState, useRef } from "react";
 import './Login.css';
 import eyeIconOn from "../../../assets/images/view.png";
 import eyeIconOff from "../../../assets/images/hide.png";
 import { useNavigate } from 'react-router-dom';
+import Api from "../../../services/api";
 
 function Login() {
+  async function getUsers() {
+    try {
+    const response = await Api.get('/usuarios');
+    const users = response.data;
+    const filteredUsers = users.filter(user => user.name === UserName && user.password === eightPassword);
+    const userId = filteredUsers[0].id;
+    
+    if (filteredUsers.length > 0) {
+      navigate(`/PaginaPrincipal/${userId}`);
+    } else {
+      alert('Usuário ou senha incorretos.');
+    }
+
+  } catch (error) {
+    console.error('Erro ao buscar usuários:', error);
+    alert('Erro ao fazer login. Verifique as informações.');
+  }
+  }
+
   const [eightPassword, setEightPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [UserName, setUserName] = useState('');
-  const navigate = useNavigate();  
+  const navigate = useNavigate();
   const entrar = () => {
-    navigate('/PaginaPrincipal');  
+    getUsers()
   };
 
   function mostrarSenha() {
@@ -30,9 +50,9 @@ function Login() {
 
   let textoBotaoMostrarSenha;
   if (showPassword) {
-    textoBotaoMostrarSenha = <img src={eyeIconOff} alt="Ocultar" className='EyeIconConfig'/>;
+    textoBotaoMostrarSenha = <img src={eyeIconOff} alt="Ocultar" className='EyeIconConfig' />;
   } else {
-    textoBotaoMostrarSenha = <img src={eyeIconOn} alt="Revelar" className='EyeIconConfig'/>;
+    textoBotaoMostrarSenha = <img src={eyeIconOn} alt="Revelar" className='EyeIconConfig' />;
   }
 
   return (
@@ -43,7 +63,7 @@ function Login() {
           <label>Usuario</label>
           <input
             className='InputConfig'
-            type={'text'} 
+            type={'text'}
             value={UserName}
             onChange={(e) => setUserName(e.target.value)}
             placeholder="Digite seu UserName"
@@ -51,20 +71,20 @@ function Login() {
           <div id='PasswordConfig'>
             <label>Senha</label>
           </div>
-            <div className='EightPasswordConfig'>
-              <input
-                className='InputConfig'
-                type={password} 
-                value={eightPassword}
-                onChange={(e) => setEightPassword(e.target.value)}
-                placeholder="Digite sua senha de 8 dígitos"
-              />
+          <div className='EightPasswordConfig'>
+            <input
+              className='InputConfig'
+              type={password}
+              value={eightPassword}
+              onChange={(e) => setEightPassword(e.target.value)}
+              placeholder="Digite sua senha de 8 dígitos"
+            />
             <button id='MostrarSenhaConfig' onClick={mostrarSenha}>{textoBotaoMostrarSenha}</button>
           </div>
           <div id='EsqueciSenha'>
             <button onClick={esqueciSenha}>Esqueci Minha Senha</button>
-          </div>
-        <button onClick={entrar} id='LoginButton'>Entrar</button>
+          </div >
+          <button onClick={entrar} id='LoginButton'>Entrar</button>
         </div>
       </div>
     </div>

@@ -44,7 +44,7 @@ app.delete('/usuarios/:id', async (req, res) => {
             id: req.params.id
         }
     })
-    res.status(201).json({message:'usuário deletado com sucesso'})
+    res.status(201).json({ message: 'usuário deletado com sucesso' })
 })
 
 app.get('/usuarios', async (req, res) => {

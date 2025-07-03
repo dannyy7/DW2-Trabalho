@@ -12,7 +12,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Login />} />
-      <Route path="/PaginaPrincipal" element={<PaginaPrincipal />} />
+      <Route path="/PaginaPrincipal/:id" element={<PaginaPrincipal />} />
       <Route path="/DespVar" element={<DespVar />} />
       <Route path="/DespVar2" element={<Category />} />
       <Route path="/DespVar3" element={<Desp />} />

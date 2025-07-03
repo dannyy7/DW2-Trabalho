@@ -2,19 +2,10 @@ import Api from "../../../services/api";
 import { useEffect, useState, useRef } from "react";
 
 function Register() {
-    // const [users, setUsers] = useState([])
-
     const inputName = useRef()
     const inputPhone = useRef()
     const inputEmail = useRef()
     const inputPassword = useRef()
-
-
-    // async function getUsers() {
-    //     const usersFromApi = await api.get('/Register')
-
-    //     setUsers(usersFromApi.data)
-    // }
 
     async function createUsers() {
         await Api.post('/usuarios', {
@@ -22,19 +13,8 @@ function Register() {
             phone: inputPhone.current.value,
             email: inputEmail.current.value,
             password: inputPassword.current.value
-        })
-
-        // getUsers()
+        }) 
     }
-
-    // async function deleteUsers(id) {
-    //     await api.delete(`/usuarios/${id}`)
-    //     getUsers()
-    // }
-
-    // useEffect(() => {
-    //     getUsers()
-    // }, [])
 
     return (
         <div className="container">
