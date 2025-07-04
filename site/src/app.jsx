@@ -7,6 +7,7 @@ import Category from './pages/despVariaveis/category/despVar'
 import Desp from './pages/despVariaveis/desp/despVar'
 import Ordenar from './pages/ordenar/ordenar';
 import Register from './pages/acesso/cadastro/register';
+import Create from './pages/criar/Create';
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
       <Route path="/DespVar3" element={<Desp />} />
       <Route path="/Ordenar" element={<Ordenar />} />
       <Route path="/Register" element={<Register />} />
+      <Route path="/Create/:id" element={<Create />} />
+
 
     </Routes>
   );

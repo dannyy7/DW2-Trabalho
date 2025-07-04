@@ -20,3 +20,13 @@ model User {
   phone    String
   password String
 }
+
+model Spent {
+  id          String @id @default (auto()) @map("_id") @db.ObjectId
+  name        String  
+  value       String
+  type        String
+  category    String
+  description   String
+  userId     String
+}

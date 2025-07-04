@@ -1,4 +1,3 @@
-import './despVar.css';
 import iconMoney from './assets/money.png';
 import iconUser from './assets/user.png';
 import iconSearch from './assets/search.png'
