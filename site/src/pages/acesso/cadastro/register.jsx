@@ -1,11 +1,13 @@
 import Api from "../../../services/api";
 import { useEffect, useState, useRef } from "react";
+import { useNavigate } from 'react-router-dom';
 
 function Register() {
     const inputName = useRef()
     const inputPhone = useRef()
     const inputEmail = useRef()
     const inputPassword = useRef()
+    const navigate = useNavigate();
 
     async function createUsers() {
 
@@ -13,8 +15,9 @@ function Register() {
             const response = await Api.get('/usuarios');
             const users = response.data;
             const filteredUsers = users.filter(user => (user.name === inputName && user.email === inputEmail));
-            const name = filteredUsers[0];
+            var name = filteredUsers[0];
             const email = filteredUsers[1];
+            const userId = filteredUsers[0].id;
 
 
             if (inputName != name && inputEmail != email) {
@@ -24,13 +27,14 @@ function Register() {
                     email: inputEmail.current.value,
                     password: inputPassword.current.value
                 })
+                navigate(`/PaginaPrincipal/${userId}`);
             } else {
                 alert('email e nome precisam ser diferentes');
             }
 
         } catch (error) {
             console.error('Erro ao buscar usuários:', error);
-            alert('email e nome precisam ser diferentes');
+            alert(name);
         }
 
 
