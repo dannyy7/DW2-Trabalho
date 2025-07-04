@@ -14,6 +14,8 @@ export default function PaginaPrincipal() {
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false)
     const [ValordoTipo, setValordoTipo] = useState("")
     const [NomeGasto, setNomeGasto] = useState("")
+    const [ValorGasto, setValorGasto] = useState(0)
+    const [DataGasto, setDataGasto] = useState("")
     const [CriarGastoTarefa, setCriarGastoTarefa] = useState({
         NomeGastoObjeto: "Você ainda não inseriu um nome",
         TipoGastoObjeto: "Você ainda não inseriu o tipo do gasto",
@@ -44,6 +46,15 @@ export default function PaginaPrincipal() {
     function CriarCategoria() {
         setPaginaCriarCategoria(true)
         setMostrarAdicionarCategoria(true)
+    }
+
+    function Gastos(){
+        setCriarGastoTarefa({ ...CriarGastoTarefa, 
+            NomeGastoObjeto: NomeGasto,
+            ValorGastoObjeto: ValorGasto,
+            DataGastoObjeto: DataGasto,
+        })
+        setPaginaCriarGasto(false)
     }
 
     function EscolherCategoria(z) {
@@ -84,11 +95,11 @@ export default function PaginaPrincipal() {
                 />
                 <button onClick={EscolherCategoriaGasto}>Escolher Categoria</button>
                 <button onClick={EscolherTipoGasto}>Escolher Tipo</button>
-                <button onClick={() =>
-                    setCriarGastoTarefa({ ...CriarGastoTarefa, NomeGastoObjeto: NomeGasto })
-                }>
-                    Criar
-                </button>
+                <input type="number" value={ValorGasto}
+                    onChange={(e) => setValorGasto(e.target.value)}/>
+                <input type="date" value={DataGasto}
+                    onChange={(e) => setDataGasto(e.target.value)}/>
+                <button onClick={Gastos}>Criar</button>
             </>
         )
 
@@ -165,12 +176,12 @@ export default function PaginaPrincipal() {
             <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="Pesquisar" />
             <button onClick={CriarGasto}>+</button>
             <button onClick={Filtro}>Filtrar</button>
-            <p>Categoria: {CategoriaDoGasto}</p>
-            <p>Tipo: {ValordoTipo}</p>
+
             {GastoCriar}
             {Categoria}
             {Tipo}
             {CategoriaCriar}
+            
 
             {/* 
             <button onClick={EditarGasto}>editar</button>
