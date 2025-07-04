@@ -3,42 +3,48 @@ import { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
-    const inputName = useRef()
-    const inputPhone = useRef()
-    const inputEmail = useRef()
-    const inputPassword = useRef()
+    const inputName = useRef();
+    const inputPhone = useRef();
+    const inputEmail = useRef();
+    const inputPassword = useRef();
     const navigate = useNavigate();
 
     async function createUsers() {
-
         try {
             const response = await Api.get('/usuarios');
             const users = response.data;
-            const filteredUsers = users.filter(user => (user.name === inputName && user.email === inputEmail));
-            var name = filteredUsers[0];
-            const email = filteredUsers[1];
-            const userId = filteredUsers[0].id;
 
+            // Pegando os valores dos inputs
+            const nameValue = inputName.current.value;
+            const emailValue = inputEmail.current.value;
 
-            if (inputName != name && inputEmail != email) {
-                await Api.post('/usuarios', {
-                    name: inputName.current.value,
+            // Verifica se já existe usuário com mesmo nome ou email
+            const alreadyExists = users.some(user =>
+                user.name === nameValue && user.email === emailValue
+            );
+
+            if (!alreadyExists) {
+                const createResponse = await Api.post('/usuarios', {
+                    name: nameValue,
                     phone: inputPhone.current.value,
-                    email: inputEmail.current.value,
+                    email: emailValue,
                     password: inputPassword.current.value
-                })
-                navigate(`/PaginaPrincipal/${userId}`);
+                });
+
+                const createdUser = createResponse.data;
+
+                // Redireciona usando o ID retornado
+                navigate(`/PaginaPrincipal/${createdUser.id}`);
             } else {
-                alert('email e nome precisam ser diferentes');
+                alert('Já existe um usuário com este nome ou email');
             }
 
         } catch (error) {
-            console.error('Erro ao buscar usuários:', error);
-            alert(name);
+            console.error('Erro ao criar usuário:', error);
+            alert("Erro ao criar usuário. Tente novamente. Trocando email ou nome");
         }
-
-
     }
+
 
     return (
         <div className="container">

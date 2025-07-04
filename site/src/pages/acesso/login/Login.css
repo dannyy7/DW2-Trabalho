@@ -76,8 +76,8 @@ h1{
     border: none;
 }
 
-#LoginButton{
-    margin-top: 30px;
+.LoginButton{
+    margin-top: 10px;
     border: none;
     border-radius: 25px;
     padding: 10px;

@@ -8,21 +8,21 @@ import Api from "../../../services/api";
 function Login() {
   async function getUsers() {
     try {
-    const response = await Api.get('/usuarios');
-    const users = response.data;
-    const filteredUsers = users.filter(user => (user.name === UserName || user.email === UserName) && user.password === eightPassword);
-    const userId = filteredUsers[0].id;
-    
-    if (filteredUsers.length > 0) {
-      navigate(`/PaginaPrincipal/${userId}`);
-    } else {
-      alert('Usuário ou senha incorretos.');
-    }
+      const response = await Api.get('/usuarios');
+      const users = response.data;
+      const filteredUsers = users.filter(user => (user.name === UserName || user.email === UserName) && user.password === eightPassword);
+      const userId = filteredUsers[0].id;
 
-  } catch (error) {
-    console.error('Erro ao buscar usuários:', error);
-    alert('Erro ao fazer login. Verifique as informações.');
-  }
+      if (filteredUsers.length > 0) {
+        navigate(`/PaginaPrincipal/${userId}`);
+      } else {
+        alert('Usuário ou senha incorretos.');
+      }
+
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+      alert('Erro ao fazer login. Verifique as informações.');
+    }
   }
 
   const [eightPassword, setEightPassword] = useState('');
@@ -37,10 +37,6 @@ function Login() {
     setShowPassword(!showPassword);
   }
 
-  function esqueciSenha() {
-    alert('Recuperação de senha enviada para seu e-mail!'); // mudar depois
-  }
-
   let password;
   if (showPassword) {
     password = 'text';
@@ -53,6 +49,20 @@ function Login() {
     textoBotaoMostrarSenha = <img src={eyeIconOff} alt="Ocultar" className='EyeIconConfig' />;
   } else {
     textoBotaoMostrarSenha = <img src={eyeIconOn} alt="Revelar" className='EyeIconConfig' />;
+  }
+
+  function clique() {
+    navigate(`/Register`)
+  }
+
+  function esqueci2(){
+    <>
+    <button type="button"></button>
+    </>
+  }
+
+  function esqueci(){
+    alert(esqueci2())
   }
 
   return (
@@ -82,12 +92,13 @@ function Login() {
             <button id='MostrarSenhaConfig' onClick={mostrarSenha}>{textoBotaoMostrarSenha}</button>
           </div>
           <div id='EsqueciSenha'>
-            <button onClick={esqueciSenha}>Esqueci Minha Senha</button>
+            <button onClick={esqueci}>Esqueci Minha Senha</button>
           </div >
-          <button onClick={entrar} id='LoginButton'>Entrar</button>
+          <button onClick={entrar} className='LoginButton'>Entrar</button>
+          <button onClick={clique} className='LoginButton'>Cadastrar-se</button>
         </div>
       </div>
-    </div>
+    </div >
   );
 }
 
