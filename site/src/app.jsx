@@ -1,10 +1,9 @@
-import React from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import PaginaPrincipal from './pages/home/PaginaPrincipal';  // Sua página inicial
 import Login from './pages/acesso/login/Login'; // A página para onde o botão vai te levar
 import DespVar from './pages/despVariaveis/home/despVar';
-import Category from './pages/despVariaveis/category/despVar'
-import Desp from './pages/despVariaveis/desp/despVar'
+import Category from './pages/despVariaveis/category/despVar';
+import Desp from './pages/despVariaveis/desp/despVar';
 import Ordenar from './pages/ordenar/ordenar';
 import Register from './pages/acesso/cadastro/register';
 import Create from './pages/criar/Create';
