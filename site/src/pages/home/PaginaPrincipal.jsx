@@ -16,7 +16,7 @@ export default function PaginaPrincipal() {
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false)
     const [ValordoTipo, setValordoTipo] = useState("")
     const [NomeGasto, setNomeGasto] = useState("")
-    const [ValorGasto, setValorGasto] = useState(0)
+    const [ValorGasto, setValorGasto] = useState("")
     const [DataGasto, setDataGasto] = useState("")
     const [ArrayDeGastos, setArrayDeGastos] = useState([])
 
@@ -55,8 +55,6 @@ export default function PaginaPrincipal() {
 
         setArrayDeGastos([...ArrayDeGastos, novoGasto])
         setPaginaCriarGasto(false)
-
-        // Limpar campos
         setNomeGasto("")
         setValordoTipo("")
         setCategoriaDoGasto("")
@@ -72,11 +70,9 @@ export default function PaginaPrincipal() {
     function AdicionarArrayCategorias() {
         const nomeTrimado = NomeCategoria.trim()
         if (Categorias.includes(nomeTrimado)) {
-            setErroCategoria("Essa Categoria já existe")
             return
         }
         if (nomeTrimado === "") {
-            setErroCategoria("Não é possível adicionar uma categoria vazia!")
             return
         }
         setCategorias([...Categorias, nomeTrimado])
@@ -84,113 +80,110 @@ export default function PaginaPrincipal() {
         LimparAdicionarCategoria()
     }
 
-    let Tipo = null
-    let Categoria = null
     let GastoCriar = null
-    let CategoriaCriar = null
 
     if (PaginaCriarGasto) {
         GastoCriar = (
-            <>
             <div className="boxall">
                 <div className="boxcriargasto">
-                    <input
-                        type="text"
-                        id="NomeGasto"
-                        value={NomeGasto}
-                        onChange={(e) => setNomeGasto(e.target.value)}
-                        placeholder="Digite o nome do gasto"
-                    />
-                    <button onClick={EscolherCategoriaGasto}>Escolher Categoria</button>
-                    <button onClick={EscolherTipoGasto}>Escolher Tipo</button>
-                    <input type="number" value={ValorGasto}
-                        onChange={(e) => setValorGasto(e.target.value)} />
-                    <input type="date" value={DataGasto}
-                        onChange={(e) => setDataGasto(e.target.value)} />
-                    <button onClick={Gastos}>Criar</button>
+                    <p className="titulo">Crie Seu Gasto</p>
+                    <div className="boxColum">
+                        <div className="Colum1">
+                            <label>Nome do Gasto</label>
+                            <input
+                                className="linha"
+                                type="text"
+                                id="NomeGasto"
+                                value={NomeGasto}
+                                onChange={(e) => setNomeGasto(e.target.value)}
+                                placeholder="Digite o nome do gasto"
+                            />
+                            <label>Valor do Gasto</label>
+                            <input
+                                className="linha"
+                                type="number"
+                                value={ValorGasto}
+                                onChange={(e) => setValorGasto(e.target.value)}
+                            />
+                            <input
+                                id="data"
+                                className="linha"
+                                type="date"
+                                value={DataGasto}
+                                onChange={(e) => setDataGasto(e.target.value)}
+                            />
+                            <div className="row">
+                                <p>Tipo:{ValordoTipo}</p>
+                                <p>Categoria:{CategoriaDoGasto}</p>
+                            </div>
+                        </div>
+
+                        <div className="Colum2">
+                            <div className="criacategoria">
+                                <button className="botoes" onClick={EscolherCategoriaGasto}>Escolher Categoria</button>
+                                {CategoriaGasto && MostrarCategorias && (
+                                    <>
+                                        <div className="categorias">
+                                            <button className="botoes" onClick={CriarCategoria}>Novo</button>
+                                            {Categorias.map(x => (
+                                                <button className="botoes" key={x} onClick={() => EscolherCategoria(x)}>{x}</button>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
+                            </div>
+                            <div className="criacategoria">
+                                <button className="botoes" onClick={EscolherTipoGasto}>Escolher Tipo</button>
+
+                                {TipoGasto && MostrarTipoGasto && (
+                                    <div className="tipo-gasto">
+                                        <button className="botoes" onClick={() => setValordoTipo("Fixo")}>Fixo</button>
+                                        <button className="botoes" onClick={() => setValordoTipo("Variável")}>Variável</button>
+                                    </div>
+                                )}
+                            </div>
+                        </div>
+                    </div>
+                                                        {PaginaCriarCategoria && (
+                                        <div className="criar-categoria">
+                                            {ErroCategoria !== "" && (
+                                                <>
+                                                    <p>{ErroCategoria}</p>
+                                                </>
+                                            )}
+
+                                            {MostrarAdicionarCategoria && (
+                                                <div id="criacategoria">
+                                                    <input id="namecat"
+                                                        type="text"
+                                                        value={NomeCategoria}
+                                                        onChange={(e) => setNomeCategoria(e.target.value)}
+                                                        placeholder="Nome da nova categoria"
+                                                    />
+                                                    <button id="namebu" onClick={AdicionarArrayCategorias}>Adicionar</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
+                    <button id="criar" onClick={Gastos}>Criar</button>
                 </div>
             </div>
-            </>
         )
-
-        if (CategoriaGasto && MostrarCategorias) {
-            Categoria = (
-                <>
-                    <button onClick={CriarCategoria}>Novo</button>
-                    {Categorias.map(x =>
-                        <button key={x} onClick={() => EscolherCategoria(x)}>{x}</button>
-                    )}
-                </>
-            )
-        }
-
-        if (TipoGasto && MostrarTipoGasto) {
-            Tipo = (
-                <>
-                    <button onClick={() => {
-                        setValordoTipo("Fixo")
-                    }}>
-                        Fixo
-                    </button>
-                    <button onClick={() => {
-                        setValordoTipo("Variável")
-                    }}>
-                        Variável
-                    </button>
-                </>
-            )
-        }
-
-        if (PaginaCriarCategoria) {
-            CategoriaCriar = (
-                <>
-                    {ErroCategoria !== "" &&
-                        <>
-                            <p>{ErroCategoria}</p>
-                            <button onClick={() => { setErroCategoria("") }}>x</button>
-                        </>
-                    }
-
-                    {MostrarAdicionarCategoria &&
-                        <>
-                            <input
-                                type="text"
-                                value={NomeCategoria}
-                                onChange={(e) => setNomeCategoria(e.target.value)}
-                                placeholder="Nome da nova categoria"
-                            />
-                            <button onClick={AdicionarArrayCategorias}>Adicionar</button>
-                        </>
-                    }
-                </>
-            )
-        }
     }
-
-    function EditarGasto() {
-        // Lógica futura
-    }
-
-    function ExcluirGasto() {
-        // Lógica futura
-    }
-
 
     return (
         <>
             <div className="Cabecalho">
-                <img src={logo} alt="Logo da empresa" id="logo"/>
+                <img src={logo} alt="Logo da empresa" id="logo" />
                 <div className="BoxPesquisa">
                     <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="🔍︎Pesquisar" />
                     <button onClick={CriarGasto} id="CriarGasto">+</button>
                 </div>
-
             </div>
+
             <div className="boxbarra"></div>
             {GastoCriar}
-            {Categoria}
-            {Tipo}
-            {CategoriaCriar}
 
             <div>
                 {ArrayDeGastos.map((gasto, index) => (
@@ -209,6 +202,7 @@ export default function PaginaPrincipal() {
         </>
     )
 }
+
 
 
 // import { useNavigate } from 'react-router-dom';
