@@ -1,6 +1,7 @@
 import Api from "../../../services/api";
 import { useEffect, useState, useRef } from "react";
 import { useNavigate } from 'react-router-dom';
+import '../login/Login.css';
 
 function Register() {
     const inputName = useRef();
@@ -47,27 +48,35 @@ function Register() {
 
 
     return (
-        <div className="container">
-            <form action="">
-                <div className="name">
-                    <input name='name' type="text" ref={inputName} placeholder="name" />
-                </div>
-                <div className="email">
-                    <input name='email' type="email" ref={inputEmail} placeholder="email" />
-                </div>
-                <div className="phone">
-                    <input name='phone' type="text" ref={inputPhone} placeholder="phone" />
-                </div>
-                <div className="password">
-                    <input name='password' type="text" ref={inputPassword} placeholder="password" />
-                </div>
-                <div className="button">
-                    <button type="button" onClick={createUsers}>
-                        clique
-                    </button>
-                </div>
-            </form>
+        <div className='PageContainer'>
+        <div className="LoginContainer">
+            <h1>Cadastro</h1>
+            <div className='InputContainer'>
+                <form action="">
+                    <div className="bugfix">
+                            <label>Usuario</label>
+                            <input name='name' type="text" ref={inputName} placeholder="Digite seu nome de usuário" className='InputConfig' />
+
+                        <div className="email">
+                            <label>Email</label>
+                            <input name='email' type="email" ref={inputEmail} placeholder="Digite seu email" className='InputConfig'/>
+                        </div>
+                        <div className="phone">
+                            <label>Telefone</label>
+                            <input name='phone' type="text" ref={inputPhone} placeholder="Digite seu telefone" className='InputConfig'/>
+                        </div>
+                            <label>Senha</label>
+                            <input name='password' type="text" ref={inputPassword} placeholder="Crie sua senha" className='InputConfig'/>
+                    </div>
+                    <div className="button">
+                        <button type="button" onClick={createUsers} className="LoginButton" id="firstbuc">
+                            clique
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
+        </div >
     )
 }
 

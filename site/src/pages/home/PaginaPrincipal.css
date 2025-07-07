@@ -8,7 +8,7 @@
     width: 100vw;
     height: 100vh;
     display: flex;
-    background-color: brown;
+    backdrop-filter: blur(3px);
     align-items: center;
     justify-content: center;
     position: fixed; /* Para modal centralizar e sobrepor */
