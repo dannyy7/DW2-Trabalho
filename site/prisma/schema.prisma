@@ -25,6 +25,7 @@ model Spent {
   id          String @id @default (auto()) @map("_id") @db.ObjectId
   name        String  
   value       String
+  date        DateTime @default(now())
   type        String
   category    String
   description   String

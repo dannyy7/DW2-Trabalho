@@ -1,6 +1,8 @@
 import { useState } from "react";
 import './PaginaPrincipal.css';
 import logo from '../../assets/images/image.png';
+import { useParams } from 'react-router-dom';
+import Api from "../../services/api";
 
 export default function PaginaPrincipal() {
     const [PaginaCriarGasto, setPaginaCriarGasto] = useState(false);
@@ -18,6 +20,7 @@ export default function PaginaPrincipal() {
     const [ValordoTipo, setValordoTipo] = useState("");
     const [CategoriaDoGasto, setCategoriaDoGasto] = useState("");
     const [ValorGasto, setValorGasto] = useState("");
+    const [DescricaoGasto, setDescricaoGasto] = useState("");
     const [DataGasto, setDataGasto] = useState("");
 
     const [ArrayDeGastos, setArrayDeGastos] = useState([]);
@@ -26,6 +29,7 @@ export default function PaginaPrincipal() {
 
     const [EditarNome, setEditarNome] = useState("");
     const [EditarValor, setEditarValor] = useState("");
+    const [EditarDescricao, setEditarDescricao] = useState("");
     const [EditarData, setEditarData] = useState("");
     const [EditarCategoria, setEditarCategoria] = useState("");
     const [EditarTipo, setEditarTipo] = useState("");
@@ -61,6 +65,7 @@ export default function PaginaPrincipal() {
             TipoGastoObjeto: ValordoTipo,
             CategoriaGastoObjeto: CategoriaDoGasto,
             ValorGastoObjeto: ValorGasto,
+            DescricaoGasto: DescricaoGasto,
             DataGastoObjeto: DataGasto,
             UserIdGastoObjeto: ""
         };
@@ -68,10 +73,14 @@ export default function PaginaPrincipal() {
         setArrayDeGastos([...ArrayDeGastos, novoGasto]);
         setPaginaCriarGasto(false);
         setNomeGasto("");
+        setDescricaoGasto("");
         setValordoTipo("");
         setCategoriaDoGasto("");
         setValorGasto("");
         setDataGasto("");
+
+
+        createSpent()
     }
 
     function EscolherCategoria(z) {
@@ -94,6 +103,7 @@ export default function PaginaPrincipal() {
         setEditarNome(gasto.NomeGastoObjeto);
         setEditarValor(gasto.ValorGastoObjeto);
         setEditarData(gasto.DataGastoObjeto);
+        setEditarDescricao(gasto.DescricaoGastoObjeto);
         setEditarCategoria(gasto.CategoriaGastoObjeto);
         setEditarTipo(gasto.TipoGastoObjeto);
         setMostrarCategoriasEdicao(false);
@@ -106,6 +116,7 @@ export default function PaginaPrincipal() {
             NomeGastoObjeto: EditarNome,
             ValorGastoObjeto: EditarValor,
             DataGastoObjeto: EditarData,
+            DescricaoGastoObjeto: EditarDescricao,
             CategoriaGastoObjeto: EditarCategoria,
             TipoGastoObjeto: EditarTipo,
             UserIdGastoObjeto: ""
@@ -143,6 +154,13 @@ export default function PaginaPrincipal() {
                                 type="number"
                                 value={ValorGasto}
                                 onChange={(e) => setValorGasto(e.target.value)}
+                            />
+                            <label id="bugDescricao">Descrição</label>
+                            <input
+                                className="linha"
+                                type="text"
+                                value={DescricaoGasto}
+                                onChange={(e) => setDescricaoGasto(e.target.value)}
                             />
                             <input
                                 id="data"
@@ -207,6 +225,27 @@ export default function PaginaPrincipal() {
         );
     }
 
+    const inputValue = { ValorGasto };
+    const inputName = { NomeGasto };
+    const inputCategory = { CategoriaDoGasto };
+    const inputDescription = { DescricaoGasto };
+    const inputDate = { DataGasto };
+    const { id } = useParams();
+    const inputType = { ValordoTipo };
+
+    async function createSpent() {
+
+        await Api.post('/spent', {
+            name: inputName,
+            value: inputValue,
+            description: inputDescription,
+            category: inputCategory,
+            date: inputDate,
+            type: inputType,
+            userId: id,
+        })
+    }
+
     return (
         <>
             <div className="Cabecalho">
@@ -240,6 +279,13 @@ export default function PaginaPrincipal() {
                                     type="number"
                                     value={EditarValor}
                                     onChange={e => setEditarValor(e.target.value)}
+                                />
+                                <label id="bugDescricao">Descrição</label>
+                                <input
+                                    className="linha"
+                                    type="text"
+                                    value={EditarDescricao}
+                                    onChange={(e) => setDescricaoGasto(e.target.value)}
                                 />
                                 <input
                                     id="data"
@@ -320,6 +366,7 @@ export default function PaginaPrincipal() {
                         onClick={() => AbrirEdicao(gasto, index)}
                     >
                         <strong>Nome:</strong> {gasto.NomeGastoObjeto} <br />
+                        <strong>Descrição:</strong>{gasto.DescricaoGastoObjeto}<br />
                         <strong>Valor:</strong> R$ {gasto.ValorGastoObjeto} <br />
                         <strong>Tipo:</strong> {gasto.TipoGastoObjeto} <br />
                         <strong>Categoria:</strong> {gasto.CategoriaGastoObjeto} <br />
@@ -327,6 +374,7 @@ export default function PaginaPrincipal() {
                     </button>
                 ))}
             </div>
+
         </>
     );
 }

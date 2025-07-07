@@ -8,6 +8,7 @@ function Create() {
     const inputName = useRef();
     const inputCategory = useRef();
     const inputDescription = useRef();
+    const inputDate = useRef()
     const navigate = useNavigate();
     const { id } = useParams();
     const [inputType, setInputType] = useState("");
@@ -19,6 +20,7 @@ function Create() {
             value: inputValue.current.value,
             description: inputDescription.current.value,
             category: inputCategory.current.value,
+            date: inputDate.current.value,
             type: inputType,
             userId: id,
         })

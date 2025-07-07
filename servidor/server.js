@@ -56,12 +56,13 @@ app.get('/usuarios', async (req, res) => {
 app.post('/spent', async (req, res) => {
     await prisma.spent.create({
         data: {
-            name: req.body.name,
-            value: req.body.value,
-            description: req.body.description,
-            category: req.body.category,
-            type: req.body.type,
-            userId: req.body.userId
+            name: req.body.NomeGasto.value,
+            value: req.body.value.ValorGasto,
+            description: req.body.description.DescricaoGasto,
+            category: req.body.category.CategoriaGasto,
+            type: req.body.type.ValordoTipo,
+            userId: req.body.userId,
+            date: req.body.date.DataGasto,
         }
     })
     res.status(201).json(req.body)
