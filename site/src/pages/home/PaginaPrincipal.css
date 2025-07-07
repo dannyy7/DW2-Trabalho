@@ -11,6 +11,10 @@
     background-color: brown;
     align-items: center;
     justify-content: center;
+    position: fixed; /* Para modal centralizar e sobrepor */
+    top: 0;
+    left: 0;
+    z-index: 1000;
 }
 
 #Pesquisar {
@@ -46,6 +50,14 @@
     border-bottom-left-radius: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#CriarGasto:hover {
+    background-color: #dcdcdc;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .BoxPesquisa {
@@ -73,6 +85,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
 }
 
 .titulo {
@@ -81,7 +94,6 @@
     font-family: "Nunito", sans-serif;
     text-align: center;
     margin-bottom: 40px;
-
 }
 
 .boxColum {
@@ -104,66 +116,219 @@
     width: 90%;
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     gap: 30px;
     justify-content: center;
-}
-.criacategoria{
-    display: flex;
-    flex-direction: column;
+    position: relative;
 }
 
-label{
+.criacategoria {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    height: 100px;
+    position: relative;
+}
+
+.categorias,
+.tipo-gasto {
+    position: absolute;
+    top: 35px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 10;
+    background-color: white;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 140px;
+}
+
+label {
     display: flex;
     justify-content: flex-start;
     margin-right: 260px;
     margin-top: 10px;
 }
-.linha{
-    border-bottom: 2px solid black;
+
+.linha {
     width: 100%;
     border: none;
     border-bottom: 2px solid black;
     background: transparent;
 }
-#data{
+
+#data {
     margin-top: 10px;
 }
-.botoes{
+
+.botoes {
     border: transparent solid 2px;
     border-radius: 5px;
     width: 130px;
     height: 25px;
+    transition: all 0.3s ease;
+    cursor: pointer;
 }
-.row{
+
+.botoes:hover {
+    background-color: #dcdcdc;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.row {
     display: flex;
     gap: 80px;
     margin-top: 10px;
     font-size: 17px;
+    justify-content: space-between;
+    width: 100%;
 }
-#criar{
+
+#criar {
     height: 5vh;
     width: 15vw;
     border-radius: 20px;
     margin-top: 30px;
     margin-bottom: 30px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    background-color: initial;
 }
-#criacategoria{
+
+#criar:hover {
+    background-color: #dcdcdc;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+#criacategoria {
     margin-top: 20px;
 }
-#namecat{
+
+#namecat {
     width: 20vw;
-    height:25px;
+    height: 25px;
     border-top-left-radius: 20px;
     border-bottom-left-radius: 20px;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
-#namebu{
+
+#namebu {
     width: 5vw;
-    height:25px;
+    height: 25px;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
     border-top-right-radius: 20px;
     border-bottom-right-radius: 20px;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#namebu:hover {
+    background-color: #dcdcdc;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para os botões de gastos na lista */
+#Gastoss {
+    display: block;
+    margin: 10px 0;
+    padding: 10px;
+    width: 90%;
+    text-align: left;
+    cursor: pointer;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: all 0.3s ease;
+    background-color: white;
+}
+
+#Gastoss:hover {
+    background-color: #e0e0e0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+
+/* Modal Editar Gasto */
+.modal-editar {
+    background-color: blueviolet;
+    border: transparent 2px solid;
+    border-radius: 20px;
+    padding: 20px;
+    width: 30vw;
+    min-height: 70vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+
+.modal-titulo {
+    margin-top: 40px;
+    font-size: 40px;
+    font-family: "Nunito", sans-serif;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.modal-row {
+    display: flex;
+    gap: 80px;
+    margin-top: 10px;
+    font-size: 17px;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.modal-btn-salvar {
+    width: 45%;
+    cursor: pointer;
+    border-radius: 20px;
+    height: 5vh;
+    transition: all 0.3s ease;
+    background-color: initial;
+}
+
+.modal-btn-salvar:hover {
+    background-color: #dcdcdc;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+.modal-btn-excluir {
+    width: 45%;
+    cursor: pointer;
+    border-radius: 20px;
+    height: 5vh;
+    background-color: #e74c3c;
+    color: white;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.modal-btn-excluir:hover {
+    background-color: #c0392b;
+}
+
+.modal-btn-cancelar {
+    margin-top: 15px;
+    background-color: #95a5a6;
+    color: white;
+    border-radius: 20px;
+    height: 5vh;
+    width: 100%;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s ease;
+}
+
+.modal-btn-cancelar:hover {
+    background-color: #7f8c8d;
 }
