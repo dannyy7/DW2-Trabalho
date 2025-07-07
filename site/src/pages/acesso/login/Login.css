@@ -38,6 +38,14 @@
     width: 15vw;
     height: 5vh;
 }
+.InputConfig:hover{
+    border-bottom: 2px solid #f5c7f5;
+}
+.InputConfig:focus{
+    border: 2px solid #a1d1ff;
+    outline: none;
+    border-radius: 10px;
+}
 #PasswordConfig{
     display: flex;
     margin-top: 30px;
@@ -77,14 +85,44 @@ h1{
 }
 
 .LoginButton{
-    margin-top: 10px;
+    margin-top: 5px;
     border: none;
     border-radius: 25px;
     padding: 10px;
-    width: 100%;
+    width: 80%;
     color: white;
     background-image: linear-gradient(90deg, #4fa6f8, #da5cda);
+    margin-left: 30px;
+    cursor: pointer;
+    transition: all 0.3s ease;
 }
+.LoginButton:hover{
+    transform: scale(1.05);
+    background-image: linear-gradient(90deg, #6bdbfd, #f06af0);
+}
+.LoginButton:active{
+    transform: scale(0.8);
+}
+.bugfix{
+    margin-left: 50px;
+}
+#firstbul{
+    margin-top: 30px;
+}
+#firstbuc{
+    margin-top: 30px;
+}
+#EsqueciMinhaSenha{
+    color: #747070;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+#EsqueciMinhaSenha:hover{
+    color: #ff97ff;
+    transform: scale(1.07);
+
+}
+/*Cores de degrade  #4fa6f8, #da5cda */
 Color Theme Swatches in Hex
 .Mesquite-Flat-Sand-Dunes-1-hex { color: #656C73; }
 .Mesquite-Flat-Sand-Dunes-2-hex { color: #DCEAF2; }
@@ -93,6 +131,7 @@ Color Theme Swatches in Hex
 .Mesquite-Flat-Sand-Dunes-5-hex { color: #A68776; }
 
  Color Theme Swatches in RGBA 
+ 
 .Mesquite-Flat-Sand-Dunes-1-rgba { color: rgba(100, 108, 114, 1); }
 .Mesquite-Flat-Sand-Dunes-2-rgba { color: rgba(220, 233, 242, 1); }
 .Mesquite-Flat-Sand-Dunes-3-rgba { color: rgba(216, 183, 143, 1); }
