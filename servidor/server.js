@@ -5,7 +5,10 @@ import pkg from '@prisma/client';
 import cors from 'cors'
 
 const { PrismaClient } = pkg;
-const prisma = new PrismaClient();
+const prisma = new PrismaClient({
+  log: ['query', 'info', 'warn', 'error'],
+});
+
 
 const app = express()
 app.use(express.json())
@@ -54,19 +57,38 @@ app.get('/usuarios', async (req, res) => {
 
 
 app.post('/spent', async (req, res) => {
-    await prisma.spent.create({
-        data: {
-            name: req.body.name,
-            value: req.body.value,
-            description: req.body.description,
-            category: req.body.category,
-            date: req.body.date,
-            type: req.body.type,
-            userId: req.body.userId,
-        }
-    })
-    res.status(201).json(req.body)
-})
+  try {
+    const dateObj = new Date(req.body.date);
+    if (isNaN(dateObj.getTime())) {
+      return res.status(400).json({ error: "Data inválida" });
+    }
+
+    const gasto = await prisma.spent.create({
+      data: {
+        name: req.body.name,
+        value: parseFloat(req.body.value),
+        description: req.body.description,
+        category: req.body.category,
+        date: dateObj,
+        type: req.body.type,
+        userId: req.body.userId,
+      }
+    });
+
+    res.status(201).json(gasto);
+  } catch (error) {
+    console.error("Erro ao criar gasto:", error);
+    res.status(500).json({ error: "Erro ao criar gasto" });
+  }
+});
+
+
+
+
+
+
+
+
 
 app.put('/spent/:id', async (req, res) => {
     await prisma.user.update({

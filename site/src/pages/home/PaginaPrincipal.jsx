@@ -1,4 +1,4 @@
-import { useState } from "react";
+ import { useState } from "react"; 
 import './PaginaPrincipal.css';
 import logo from '../../assets/images/image.png';
 import { useParams } from 'react-router-dom';
@@ -234,17 +234,25 @@ export default function PaginaPrincipal() {
     const inputType = { ValordoTipo };
 
     async function createSpent() {
-
-        await Api.post('/spent', {
-            name: inputName,
-            value: inputValue,
-            description: inputDescription,
-            category: inputCategory,
-            date: inputDate,
-            type: inputType,
-            userId: id,
-        })
+        try {
+            await Api.post('/spent', {
+                name: NomeGasto,
+                value: parseFloat(ValorGasto),      // converte para float
+                description: DescricaoGasto,
+                category: CategoriaDoGasto,
+                date: DataGasto,                    // string no formato 'YYYY-MM-DD'
+                type: ValordoTipo,
+                userId: id,                        // id vindo do useParams
+            });
+        } catch (error) {
+            console.error("Erro ao criar gasto:", error);
+        }
     }
+
+
+
+
+
 
     return (
         <>

@@ -1,4 +1,4 @@
-// This is your Prisma schema file,
+// This is your Prisma schema file, 
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 // Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
@@ -15,18 +15,19 @@ datasource db {
 
 model User {
   id       String  @id @default(auto()) @map("_id") @db.ObjectId
-  name     String? @unique
+  name     String  @unique
   email    String  @unique
   phone    String
   password String
 }
 
 model Spent {
-  id          String @id @default (auto()) @map("_id") @db.ObjectId
-  name        String  
-  value       String
-  type        String
+  id          String   @id @default(auto()) @map("_id") @db.ObjectId
+  name        String
+  value       Float
+  description String
   category    String
-  description   String
-  userId     String
+  date        DateTime
+  type        String
+  userId      String
 }
