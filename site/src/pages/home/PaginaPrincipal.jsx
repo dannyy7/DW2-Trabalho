@@ -1,4 +1,4 @@
- import { useState } from "react"; 
+import { useEffect, useState } from "react";
 import './PaginaPrincipal.css';
 import logo from '../../assets/images/image.png';
 import { useParams } from 'react-router-dom';
@@ -80,7 +80,8 @@ export default function PaginaPrincipal() {
         setDataGasto("");
 
 
-        createSpent()
+        createSpent();
+
     }
 
     function EscolherCategoria(z) {
@@ -225,13 +226,7 @@ export default function PaginaPrincipal() {
         );
     }
 
-    const inputValue = { ValorGasto };
-    const inputName = { NomeGasto };
-    const inputCategory = { CategoriaDoGasto };
-    const inputDescription = { DescricaoGasto };
-    const inputDate = { DataGasto };
     const { id } = useParams();
-    const inputType = { ValordoTipo };
 
     async function createSpent() {
         try {
@@ -244,15 +239,21 @@ export default function PaginaPrincipal() {
                 type: ValordoTipo,
                 userId: id,                        // id vindo do useParams
             });
+            getSpents();
         } catch (error) {
             console.error("Erro ao criar gasto:", error);
         }
+
     }
 
+    async function getSpents() {
+        const spentsFromApi = await Api.get('/spent')
+        setArrayDeGastos(spentsFromApi.data);
+    }
 
-
-
-
+    useEffect(() => {
+        getSpents()
+    }, [])
 
     return (
         <>
@@ -366,22 +367,23 @@ export default function PaginaPrincipal() {
                 </div>
             )}
 
-            <div>
-                {ArrayDeGastos.map((gasto, index) => (
-                    <button
-                        id="Gastoss"
-                        key={index}
-                        onClick={() => AbrirEdicao(gasto, index)}
-                    >
-                        <strong>Nome:</strong> {gasto.NomeGastoObjeto} <br />
-                        <strong>Descrição:</strong>{gasto.DescricaoGastoObjeto}<br />
-                        <strong>Valor:</strong> R$ {gasto.ValorGastoObjeto} <br />
-                        <strong>Tipo:</strong> {gasto.TipoGastoObjeto} <br />
-                        <strong>Categoria:</strong> {gasto.CategoriaGastoObjeto} <br />
-                        <strong>Data:</strong> {gasto.DataGastoObjeto}
-                    </button>
-                ))}
-            </div>
+            {
+                ArrayDeGastos.map((spent) => (
+                    <div key={spent.id}>
+                        <button
+                            id="Gastoss"
+                            onClick={() => AbrirEdicao(spent, spent.id)}
+                        >
+                            <strong>Nome:</strong> {spent.name} <br />
+                            <strong>Descrição:</strong>{spent.description}<br />
+                            <strong>Valor:</strong> R$ {spent.value} <br />
+                            <strong>Tipo:</strong> {spent.type} <br />
+                            <strong>Categoria:</strong> {spent.category} <br />
+                            <strong>Data:</strong> {spent.date.split('T')[0]}
+                        </button>
+                    </div>
+                ))
+            }
 
         </>
     );

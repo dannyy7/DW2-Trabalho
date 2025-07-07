@@ -9,7 +9,6 @@ const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
 });
 
-
 const app = express()
 app.use(express.json())
 app.use(cors())
@@ -55,7 +54,6 @@ app.get('/usuarios', async (req, res) => {
     res.status(200).json(users)
 })
 
-
 app.post('/spent', async (req, res) => {
   try {
     const dateObj = new Date(req.body.date);
@@ -69,12 +67,11 @@ app.post('/spent', async (req, res) => {
         value: parseFloat(req.body.value),
         description: req.body.description,
         category: req.body.category,
-        date: dateObj,
+        date: dateObj,           // Aqui está o date convertido para Date
         type: req.body.type,
         userId: req.body.userId,
       }
     });
-
     res.status(201).json(gasto);
   } catch (error) {
     console.error("Erro ao criar gasto:", error);
@@ -82,41 +79,57 @@ app.post('/spent', async (req, res) => {
   }
 });
 
-
-
-
-
-
-
-
-
 app.put('/spent/:id', async (req, res) => {
-    await prisma.user.update({
-        where: {
-            id: req.params.id
-        },
-        data: {
-            email: req.body.email,
-            name: req.body.name,
-            phone: req.body.phone,
-            password: req.body.password,
-        }
-    })
-    res.status(201).json(req.body)
-})
+  try {
+    const dateObj = new Date(req.body.date);
+    if (isNaN(dateObj.getTime())) {
+      return res.status(400).json({ error: "Data inválida" });
+    }
+
+    const gastoAtualizado = await prisma.spent.update({
+      where: {
+        id: req.params.id
+      },
+      data: {
+        name: req.body.name,
+        value: parseFloat(req.body.value),
+        description: req.body.description,
+        category: req.body.category,
+        date: dateObj,           // date atualizado
+        type: req.body.type,
+        userId: req.body.userId,
+      }
+    });
+    res.status(200).json(gastoAtualizado);
+  } catch (error) {
+    console.error("Erro ao atualizar gasto:", error);
+    res.status(500).json({ error: "Erro ao atualizar gasto" });
+  }
+});
 
 app.delete('/spent/:id', async (req, res) => {
-    await prisma.user.delete({
-        where: {
-            id: req.params.id
-        }
-    })
-    res.status(201).json({ message: 'usuário deletado com sucesso' })
-})
+  try {
+    await prisma.spent.delete({
+      where: {
+        id: req.params.id
+      }
+    });
+    res.status(200).json({ message: 'gasto deletado com sucesso' });
+  } catch (error) {
+    console.error("Erro ao deletar gasto:", error);
+    res.status(500).json({ error: "Erro ao deletar gasto" });
+  }
+});
 
-app.get('/spent', async (req, res) => {
-    const users = await prisma.user.findMany()
-    res.status(200).json(users)
-})
+app.get('/Spent', async (req, res) => {
+  try {
+    const gastos = await prisma.spent.findMany();
+    res.status(200).json(gastos);
+  } catch (error) {
+    console.error("Erro ao buscar gastos:", error);
+    res.status(500).json({ error: "Erro ao buscar gastos" });
+  }
+}); 
+
 
 app.listen(3000)
