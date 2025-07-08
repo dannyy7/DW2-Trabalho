@@ -68,9 +68,9 @@ function Register() {
                             <label>Senha</label>
                             <input name='password' type="text" ref={inputPassword} placeholder="Crie sua senha" className='InputConfig'/>
                     </div>
-                    <div className="button">
+                    <div>
                         <button type="button" onClick={createUsers} className="LoginButton" id="firstbuc">
-                            clique
+                            Cadastrar
                         </button>
                     </div>
                 </form>
