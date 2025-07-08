@@ -247,9 +247,18 @@ export default function PaginaPrincipal() {
     }
 
     async function getSpents() {
-        const spentsFromApi = await Api.get('/spent')
-        setArrayDeGastos(spentsFromApi.data);
+    try {
+        const response = await Api.get('/spent');
+        const gastosTratados = response.data.map(spent => ({
+            ...spent,
+            date: spent.date ? spent.date.split('T')[0] : ''
+        }));
+        setArrayDeGastos(gastosTratados);
+    } catch (error) {
+        console.error("Erro ao buscar gastos:", error);
     }
+}
+
 
     useEffect(() => {
         getSpents()
@@ -379,7 +388,7 @@ export default function PaginaPrincipal() {
                             <strong>Valor:</strong> R$ {spent.value} <br />
                             <strong>Tipo:</strong> {spent.type} <br />
                             <strong>Categoria:</strong> {spent.category} <br />
-                            <strong>Data:</strong> {spent.date.split('T')[0]}
+                            <strong>Data:</strong> {spent.date}
                         </button>
                     </div>
                 ))

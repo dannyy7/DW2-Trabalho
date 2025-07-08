@@ -14,7 +14,6 @@ function Home() {
 
   async function getUsers() {
     const usersFromApi = await api.get('/usuarios')
-
     setUsers(usersFromApi.data)
   }
 
