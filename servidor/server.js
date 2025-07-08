@@ -121,15 +121,23 @@ app.delete('/spent/:id', async (req, res) => {
   }
 });
 
-app.get('/Spent', async (req, res) => {
-  try {
-    const gastos = await prisma.spent.findMany();
-    res.status(200).json(gastos);
-  } catch (error) {
-    console.error("Erro ao buscar gastos:", error);
-    res.status(500).json({ error: "Erro ao buscar gastos" });
-  }
-}); 
+app.get('/spent', async (req, res) => {
+    const { userId } = req.query;
+
+    try {
+        const spents = await prisma.spent.findMany({
+            where: {
+                userId: userId, // Certifique-se que userId é uma string válida
+            }
+        });
+
+        res.status(200).json(spents);
+    } catch (error) {
+        console.error("Erro ao buscar gastos:", error);
+        res.status(500).json({ error: "Erro ao buscar gastos" });
+    }
+});
+
 
 
 app.listen(3000)

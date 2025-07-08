@@ -246,9 +246,10 @@ export default function PaginaPrincipal() {
 
     }
 
-    async function getSpents() {
+async function getSpents() {
     try {
-        const response = await Api.get('/spent');
+        const response = await Api.get(`/spent?${id}=userId`);
+        console.log(response)
         const gastosTratados = response.data.map(spent => ({
             ...spent,
             date: spent.date ? spent.date.split('T')[0] : ''
@@ -258,6 +259,7 @@ export default function PaginaPrincipal() {
         console.error("Erro ao buscar gastos:", error);
     }
 }
+
 
 
     useEffect(() => {
