@@ -276,24 +276,12 @@ export default function PaginaPrincipal() {
         }
     }
 
-
-
-    // async function fetchCategorias() {
-    //     try {
-    //         const response = await Api.get(`/categorias?userId=${id}`);
-    //         setCategorias(response.data);
-    //     } catch (error) {
-    //         console.error("Erro ao carregar categorias:", error);
-    //     }
-    // }
-
     async function deleteSpents(id) {
         await Api.delete(`/spent/${id}`);
         getSpents();
     }
 
     useEffect(() => {
-        // fetchCategorias();
         getSpents(); // já chama os gastos também
     }, []);
 
@@ -337,7 +325,7 @@ export default function PaginaPrincipal() {
                                     className="linha"
                                     type="text"
                                     value={EditarDescricao}
-                                    onChange={(e) => setDescricaoGasto(e.target.value)}
+                                    onChange={(e) => setEditarDescricao(e.target.value)}
                                 />
                                 <input
                                     id="data"

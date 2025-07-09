@@ -141,13 +141,4 @@ app.get('/spent', async (req, res) => {
     }
 });
 
-app.get('/categorias', async (req, res) => {
-    const { userId } = req.query;
-    const categorias = await prisma.categoria.findMany({
-        where: { userId }
-    });
-    res.json(categorias);
-});
-
-
 app.listen(3000)
