@@ -14,44 +14,44 @@ app.use(express.json())
 app.use(cors())
 
 app.post('/usuarios', async (req, res) => {
-    await prisma.user.create({
-        data: {
-            email: req.body.email,
-            name: req.body.name,
-            phone: req.body.phone,
-            password: req.body.password,
-        }
-    })
-    res.status(201).json(req.body)
+  await prisma.user.create({
+    data: {
+      email: req.body.email,
+      name: req.body.name,
+      phone: req.body.phone,
+      password: req.body.password,
+    }
+  })
+  res.status(201).json(req.body)
 })
 
 app.put('/usuarios/:id', async (req, res) => {
-    await prisma.user.update({
-        where: {
-            id: req.params.id
-        },
-        data: {
-            email: req.body.email,
-            name: req.body.name,
-            phone: req.body.phone,
-            password: req.body.password,
-        }
-    })
-    res.status(201).json(req.body)
+  await prisma.user.update({
+    where: {
+      id: req.params.id
+    },
+    data: {
+      email: req.body.email,
+      name: req.body.name,
+      phone: req.body.phone,
+      password: req.body.password,
+    }
+  })
+  res.status(201).json(req.body)
 })
 
 app.delete('/usuarios/:id', async (req, res) => {
-    await prisma.user.delete({
-        where: {
-            id: req.params.id
-        }
-    })
-    res.status(201).json({ message: 'usuário deletado com sucesso' })
+  await prisma.user.delete({
+    where: {
+      id: req.params.id
+    }
+  })
+  res.status(201).json({ message: 'usuário deletado com sucesso' })
 })
 
 app.get('/usuarios', async (req, res) => {
-    const users = await prisma.user.findMany()
-    res.status(200).json(users)
+  const users = await prisma.user.findMany()
+  res.status(200).json(users)
 })
 
 app.post('/spent', async (req, res) => {
@@ -125,20 +125,40 @@ app.delete('/spent/:id', async (req, res) => {
 });
 
 app.get('/spent', async (req, res) => {
-    const { userId } = req.query;
+  const { userId } = req.query;
 
-    try {
-        const spents = await prisma.spent.findMany({
-            where: {
-                userId: userId, // Certifique-se que userId é uma string válida
-            }
-        });
+  try {
+    const spents = await prisma.spent.findMany({
+      where: {
+        userId: userId, // Certifique-se que userId é uma string válida
+      }
+    });
 
-        res.status(200).json(spents);
-    } catch (error) {
-        console.error("Erro ao buscar gastos:", error);
-        res.status(500).json({ error: "Erro ao buscar gastos" });
-    }
+    res.status(200).json(spents);
+  } catch (error) {
+    console.error("Erro ao buscar gastos:", error);
+    res.status(500).json({ error: "Erro ao buscar gastos" });
+  }
 });
+
+app.get('/spent/:id', async (req, res) => {
+  try {
+    const gasto = await prisma.spent.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!gasto) {
+      return res.status(404).json({ error: "Gasto não encontrado" });
+    }
+
+    res.status(200).json(gasto);
+  } catch (error) {
+    console.error("Erro ao buscar gasto:", error);
+    res.status(500).json({ error: "Erro ao buscar gasto" });
+  }
+});
+
 
 app.listen(3000)

@@ -107,6 +107,7 @@ export default function PaginaPrincipal() {
         setEditarDescricao(gasto.description);
         setEditarCategoria(gasto.category);   // <- CORRETO
         setEditarTipo(gasto.type);
+        buscarCategoriaDoGastoSelecionado(gasto.id);
     }
 
     function SalvarEdicao() {
@@ -281,10 +282,25 @@ export default function PaginaPrincipal() {
         getSpents();
     }
 
-    useEffect(() => {
-        getSpents(); // já chama os gastos também
-    }, []);
+    async function buscarCategoriaDoGastoSelecionado(gastoId) {
+        try {
+            const response = await Api.get(`/spent/${gastoId}`); // 👈 passo 3
+            const gasto = response.data;
 
+            const categoria = gasto.category; // 👈 passo 4
+
+            if (categoria && !Categorias.includes(categoria)) {
+                setCategorias((prev) => [...prev, categoria]); // 👈 passo 5
+            }
+        } catch (error) {
+            console.error("Erro ao buscar categoria do gasto:", error);
+        }
+    }
+
+
+    useEffect(() => {
+        getSpents(); // já chama os gastos também 
+    }, []);
 
     return (
         <>
@@ -345,6 +361,7 @@ export default function PaginaPrincipal() {
                                     <button className="botoes" onClick={() => setMostrarCategoriasEdicao(!MostrarCategoriasEdicao)}>Escolher Categoria</button>
                                     {MostrarCategoriasEdicao && (
                                         <div className="categorias">
+                                            <button className="botoes" onClick={CriarCategoria}>Novo</button>
                                             {Categorias.map((cat) => (
                                                 <button
                                                     className="botoes"
