@@ -261,20 +261,22 @@ export default function PaginaPrincipal() {
 
     async function putSpent() {
         try {
-            await Api.put('/spent', {
+            await Api.put(`/spent/${GastoSelecionado.id}`, {
                 name: EditarNome,
-                value: parseFloat(EditarValor),      // converte para float
+                value: parseFloat(EditarValor),
                 description: EditarDescricao,
                 category: EditarCategoria,
-                date: EditarData,                    // string no formato 'YYYY-MM-DD'
+                date: EditarData,
                 type: EditarTipo,
-                userId: id,                        // id vindo do useParams
+                userId: id,
             });
             getSpents();
         } catch (error) {
             console.error("Erro ao alterar gasto:", error);
         }
     }
+
+
 
     // async function fetchCategorias() {
     //     try {

@@ -87,22 +87,28 @@ app.put('/spent/:id', async (req, res) => {
     }
 
     const gastoAtualizado = await prisma.spent.update({
+      where: {
+        id: req.params.id // <- ESSA LINHA ESTAVA FALTANDO
+      },
       data: {
         name: req.body.name,
         value: parseFloat(req.body.value),
         description: req.body.description,
         category: req.body.category,
-        date: dateObj,           // date atualizado
+        date: dateObj,
         type: req.body.type,
         userId: req.body.userId,
       }
     });
+
     res.status(200).json(gastoAtualizado);
   } catch (error) {
     console.error("Erro ao atualizar gasto:", error);
     res.status(500).json({ error: "Erro ao atualizar gasto" });
   }
 });
+
+
 
 app.delete('/spent/:id', async (req, res) => {
   try {
