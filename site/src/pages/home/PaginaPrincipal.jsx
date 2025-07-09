@@ -100,25 +100,25 @@ export default function PaginaPrincipal() {
     }
 
     function AbrirEdicao(gasto, index) {
-            setGastoSelecionado({ ...gasto, index });
-            setEditarNome(gasto.name);
-            setEditarValor(gasto.value);
-            setEditarData(gasto.date);
-            setEditarDescricao(gasto.description);
-            setEditarCategoria(gasto.category);   // <- CORRETO
-            setEditarTipo(gasto.type);
+        setGastoSelecionado({ ...gasto, index });
+        setEditarNome(gasto.name);
+        setEditarValor(gasto.value);
+        setEditarData(gasto.date);
+        setEditarDescricao(gasto.description);
+        setEditarCategoria(gasto.category);   // <- CORRETO
+        setEditarTipo(gasto.type);
     }
 
     function SalvarEdicao() {
         const gastosAtualizados = [...ArrayDeGastos];
         gastosAtualizados[GastoSelecionado.index] = {
-            NomeGastoObjeto: EditarNome,
-            ValorGastoObjeto: EditarValor,
-            DataGastoObjeto: EditarData,
-            DescricaoGastoObjeto: EditarDescricao,
-            CategoriaGastoObjeto: EditarCategoria,
-            TipoGastoObjeto: EditarTipo,
-            UserIdGastoObjeto: ""
+            name: EditarNome,
+            value: EditarValor,
+            date: EditarData,
+            description: EditarDescricao,
+            category: EditarCategoria,
+            type: EditarTipo,
+            userId: id,
         };
         setArrayDeGastos(gastosAtualizados);
         setGastoSelecionado(null);
@@ -129,6 +129,7 @@ export default function PaginaPrincipal() {
         const gastosAtualizados = ArrayDeGastos.filter((_, i) => i !== GastoSelecionado.index);
         setArrayDeGastos(gastosAtualizados);
         setGastoSelecionado(null);
+        deleteSpents(GastoSelecionado.id);
     }
 
     let GastoCriar = null;
@@ -275,9 +276,25 @@ export default function PaginaPrincipal() {
         }
     }
 
+    // async function fetchCategorias() {
+    //     try {
+    //         const response = await Api.get(`/categorias?userId=${id}`);
+    //         setCategorias(response.data);
+    //     } catch (error) {
+    //         console.error("Erro ao carregar categorias:", error);
+    //     }
+    // }
+
+    async function deleteSpents(id) {
+        await Api.delete(`/spent/${id}`);
+        getSpents();
+    }
+
     useEffect(() => {
-        getSpents()
-    }, [])
+        // fetchCategorias();
+        getSpents(); // já chama os gastos também
+    }, []);
+
 
     return (
         <>
