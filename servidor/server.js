@@ -87,9 +87,6 @@ app.put('/spent/:id', async (req, res) => {
     }
 
     const gastoAtualizado = await prisma.spent.update({
-      where: {
-        id: req.params.id
-      },
       data: {
         name: req.body.name,
         value: parseFloat(req.body.value),

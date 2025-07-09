@@ -100,15 +100,13 @@ export default function PaginaPrincipal() {
     }
 
     function AbrirEdicao(gasto, index) {
-        setGastoSelecionado({ ...gasto, index });
-        setEditarNome(gasto.NomeGastoObjeto);
-        setEditarValor(gasto.ValorGastoObjeto);
-        setEditarData(gasto.DataGastoObjeto);
-        setEditarDescricao(gasto.DescricaoGastoObjeto);
-        setEditarCategoria(gasto.CategoriaGastoObjeto);
-        setEditarTipo(gasto.TipoGastoObjeto);
-        setMostrarCategoriasEdicao(false);
-        setMostrarTipoGastoEdicao(false);
+            setGastoSelecionado({ ...gasto, index });
+            setEditarNome(gasto.name);
+            setEditarValor(gasto.value);
+            setEditarData(gasto.date);
+            setEditarDescricao(gasto.description);
+            setEditarCategoria(gasto.category);   // <- CORRETO
+            setEditarTipo(gasto.type);
     }
 
     function SalvarEdicao() {
@@ -124,6 +122,7 @@ export default function PaginaPrincipal() {
         };
         setArrayDeGastos(gastosAtualizados);
         setGastoSelecionado(null);
+        putSpent();
     }
 
     function ExcluirGasto() {
@@ -246,21 +245,35 @@ export default function PaginaPrincipal() {
 
     }
 
-async function getSpents() {
-    try {
-        const response = await Api.get(`/spent?${id}=userId`);
-        console.log(response)
-        const gastosTratados = response.data.map(spent => ({
-            ...spent,
-            date: spent.date ? spent.date.split('T')[0] : ''
-        }));
-        setArrayDeGastos(gastosTratados);
-    } catch (error) {
-        console.error("Erro ao buscar gastos:", error);
+    async function getSpents() {
+        try {
+            const response = await Api.get(`/spent?userId=${id}`);
+            const gastosTratados = response.data.map(spent => ({
+                ...spent,
+                date: spent.date ? spent.date.split('T')[0] : ''
+            }));
+            setArrayDeGastos(gastosTratados);
+        } catch (error) {
+            console.error("Erro ao buscar gastos:", error);
+        }
     }
-}
 
-
+    async function putSpent() {
+        try {
+            await Api.put('/spent', {
+                name: EditarNome,
+                value: parseFloat(EditarValor),      // converte para float
+                description: EditarDescricao,
+                category: EditarCategoria,
+                date: EditarData,                    // string no formato 'YYYY-MM-DD'
+                type: EditarTipo,
+                userId: id,                        // id vindo do useParams
+            });
+            getSpents();
+        } catch (error) {
+            console.error("Erro ao alterar gasto:", error);
+        }
+    }
 
     useEffect(() => {
         getSpents()
