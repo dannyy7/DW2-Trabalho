@@ -25,9 +25,9 @@ model Spent {
   id          String   @id @default(auto()) @map("_id") @db.ObjectId
   name        String
   value       Float
-  description String
-  category    String
-  date        DateTime
-  type        String
+  description String?
+  category    String?
+  date        DateTime?
+  type        String?
   userId      String
 }
