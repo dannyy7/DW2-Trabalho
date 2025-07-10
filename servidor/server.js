@@ -55,6 +55,25 @@ app.get('/usuarios', async (req, res) => {
   res.status(200).json(users)
 })
 
+app.get('/usuarios/:id', async (req, res) => {
+  try {
+    const usuario = await prisma.user.findUnique({
+      where: {
+        id: req.params.id,
+      },
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ error: "Gasto não encontrado" });
+    }
+
+    res.status(200).json(usuario);
+  } catch (error) {
+    console.error("Erro ao buscar gasto:", error);
+    res.status(500).json({ error: "Erro ao buscar gasto" });
+  }
+});
+
 app.post('/spent', async (req, res) => {
   try {
     let dateObj = null;

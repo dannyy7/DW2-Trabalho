@@ -4,6 +4,8 @@ import logo from '../../assets/images/image.png';
 import { useParams } from 'react-router-dom';
 import Api from "../../services/api";
 import user from '../../assets/images/user.png';
+import eyeIconOn from "../../assets/images/view.png";
+import eyeIconOff from "../../assets/images/hide.png";
 
 export default function PaginaPrincipal() {
     const [PaginaCriarGasto, setPaginaCriarGasto] = useState(false);
@@ -17,7 +19,10 @@ export default function PaginaPrincipal() {
     const [MostrarCategorias, setMostrarCategorias] = useState(false);
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false);
     const [termoPesquisa, setTermoPesquisa] = useState("");
-
+    const [MostrarSidebarUsuario, setMostrarSidebarUsuario] = useState(false);
+    const [EditarUsuario, setEditarUsuario] = useState(false);
+    const [MostrarSenha, setMostrarSenha] = useState(false);
+    const [Usuario, setUsuario] = useState("");
 
     const [NomeGasto, setNomeGasto] = useState("");
     const [ValordoTipo, setValordoTipo] = useState("");
@@ -39,13 +44,20 @@ export default function PaginaPrincipal() {
     const [MostrarCategoriasEdicao, setMostrarCategoriasEdicao] = useState(false);
     const [MostrarTipoGastoEdicao, setMostrarTipoGastoEdicao] = useState(false);
 
-
-
     function CriarGasto() {
         setPaginaCriarGasto(true);
     }
 
+    function functionUser() {
 
+        const novoEstado = !MostrarSidebarUsuario;
+        setMostrarSidebarUsuario(novoEstado);
+
+        if (novoEstado) {
+            getUser(id);
+
+        }
+    }
 
 
     function LimparAdicionarCategoria() {
@@ -86,7 +98,6 @@ export default function PaginaPrincipal() {
         setCategoriaDoGasto("");
         setValorGasto("");
         setDataGasto("");
-
 
         createSpent();
 
@@ -292,13 +303,13 @@ export default function PaginaPrincipal() {
 
     async function buscarCategoriaDoGastoSelecionado(gastoId) {
         try {
-            const response = await Api.get(`/spent/${gastoId}`); 
+            const response = await Api.get(`/spent/${gastoId}`);
             const gasto = response.data;
 
-            const categoria = gasto.category; 
+            const categoria = gasto.category;
 
             if (categoria && !Categorias.includes(categoria)) {
-                setCategorias((prev) => [...prev, categoria]); 
+                setCategorias((prev) => [...prev, categoria]);
             }
         } catch (error) {
             console.error("Erro ao buscar categoria do gasto:", error);
@@ -323,7 +334,7 @@ export default function PaginaPrincipal() {
             }
 
             setArrayDeGastos(resultados);
-            setTermoPesquisa(""); 
+            setTermoPesquisa("");
         } catch (error) {
             console.error("Erro ao buscar despesa:", error);
             alert("Erro ao buscar despesa. Verifique a conexão ou tente novamente.");
@@ -335,11 +346,61 @@ export default function PaginaPrincipal() {
         return;
     }
 
+    function handleDeletarConta() {
+        if (window.confirm("Tem certeza que deseja deletar sua conta?")) {
+            Api.delete(`/usuarios/${id}`) // supondo que você tenha essa rota
+                .then(() => {
+                    alert("Conta deletada com sucesso.");
+                    window.location.href = "/";
+                })
+                .catch(() => alert("Erro ao deletar conta."));
+        }
+    }
 
+    function handleSair() {
+        window.location.href = "/";
+    }
+
+    async function getUser(id) {
+        try {
+            var response = await Api.get(`/usuarios/${id}`);
+            var user = response.data;
+
+            setUsuario({
+                name: user.name,
+                phone: user.phone,
+                email: user.email,
+                password: user.password,
+            });
+
+        } catch (error) {
+            console.error('Erro ao buscar usuário:', error);
+            alert("erro erro");
+        }
+    }
+
+    async function putUser(id) {
+        try {
+            await Api.put(`/usuarios/${id}`, {
+                name: Usuario.name,
+                phone: Usuario.phone,
+                email: Usuario.email,
+                password: Usuario.password
+            });
+            getUser(id);
+        } catch (error) {
+            console.error("Erro ao alterar usuario:", error);
+        }
+    }
+
+    function Ordenar(){
+
+    }
 
     useEffect(() => {
-        getSpents(); // já chama os gastos também 
+        getSpents();
     }, []);
+
 
     return (
         <>
@@ -358,11 +419,89 @@ export default function PaginaPrincipal() {
                     <button onClick={Pesquisar} id="iconPesquisar">🔍︎</button>
                     <button onClick={CriarGasto} id="CriarGasto">+</button>
                 </div>
-                <img src={user} alt="usuario" id="logo" onClick={Return} />
+                <img src={user} alt="usuario" id="logo" onClick={functionUser} />
             </div>
 
             <div className="boxbarra"></div>
             {GastoCriar}
+
+            {MostrarSidebarUsuario && (
+                <div className="sidebar-overlay" onClick={() => setMostrarSidebarUsuario(false)}>
+                    <div
+                        className="sidebar-usuario"
+                        onClick={(e) => e.stopPropagation()} // evita fechar ao clicar dentro da sidebar
+                    >
+                        <button className="fechar-sidebar" onClick={() => setMostrarSidebarUsuario(false)}>×</button>
+
+                        <h2>Dados do Usuário</h2>
+
+                        <label>Nome</label>
+                        <input
+                            type="text"
+                            disabled={!EditarUsuario}
+                            value={Usuario.name || ""}
+                            onChange={(e) => setUsuario({ ...Usuario, nome: e.target.value })}
+                        />
+
+                        <label>Telefone</label>
+                        <input
+                            type="text"
+                            disabled={!EditarUsuario}
+                            value={Usuario.phone || ""}
+                            onChange={(e) => setUsuario({ ...Usuario, phone: e.target.value })}
+                        />
+
+                        <label>Email</label>
+                        <input
+                            type="email"
+                            disabled={!EditarUsuario}
+                            value={Usuario.email || ""}
+                            onChange={(e) => setUsuario({ ...Usuario, email: e.target.value })}
+                        />
+
+                        <label>Senha</label>
+                        <div className="input-senha">
+                            <input
+                                type={MostrarSenha ? "text" : "password"}
+                                disabled={!EditarUsuario}
+                                value={Usuario.password || ""}
+                                onChange={(e) => setUsuario({ ...Usuario, password: e.target.value })}
+                            />
+                            <button
+                                type="button"
+                                className="btn-olho"
+                                onClick={() => setMostrarSenha(!MostrarSenha)}
+                            >
+                                <img
+                                    src={MostrarSenha ? eyeIconOff : eyeIconOn}
+                                    alt={MostrarSenha ? "Ocultar senha" : "Mostrar senha"}
+                                />
+                            </button>
+                        </div>
+
+
+
+                        <div className="botoes-sidebar">
+                            <button
+                                onClick={() => {
+                                    if (EditarUsuario) {
+                                        alert("Dados salvos!");
+                                        putUser(id);  
+                                        getUser(id);
+                                    }
+                                    setEditarUsuario(!EditarUsuario);
+                                }}
+                            >
+                                {EditarUsuario ? "Salvar" : "Alterar Dados"}
+                            </button>
+
+                            <button onClick={handleDeletarConta}>Deletar Conta</button>
+                            <button onClick={handleSair}>Sair</button>
+                        </div>
+                    </div>
+                </div>
+            )}
+
 
             {GastoSelecionado && (
                 <div className="boxall">
