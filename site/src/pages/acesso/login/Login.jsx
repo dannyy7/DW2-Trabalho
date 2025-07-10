@@ -1,25 +1,27 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from 'react-router-dom';
+import { GoogleLogin } from '@react-oauth/google';
+import Api from "../../../services/api";
 import './Login.css';
+
 import eyeIconOn from "../../../assets/images/view.png";
 import eyeIconOff from "../../../assets/images/hide.png";
-import { useNavigate } from 'react-router-dom';
-import Api from "../../../services/api";
-import { GoogleLogin } from '@react-oauth/google';
 
 function Login() {
+  // Estados para login
+  const [UserName, setUserName] = useState('');
   const [eightPassword, setEightPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [UserName, setUserName] = useState('');
-  const navigate = useNavigate();
 
+  // Estados para redefinir senha
   const [mostrarRedefinirSenha, setMostrarRedefinirSenha] = useState(false);
   const [usuarioParaRedefinir, setUsuarioParaRedefinir] = useState('');
   const [novaSenha, setNovaSenha] = useState('');
   const [mostrarNovaSenha, setMostrarNovaSenha] = useState(false);
 
+  const navigate = useNavigate();
 
-
-  // Parallax effect
+  // Efeito parallax no fundo
   useEffect(() => {
     const container = document.querySelector('.parallax-container');
     const background = document.querySelector('.parallax-background');
@@ -28,6 +30,7 @@ function Login() {
       const { innerWidth, innerHeight } = window;
       const x = (e.clientX / innerWidth - 0.5) * 30;
       const y = (e.clientY / innerHeight - 0.5) * 30;
+
       if (background) {
         background.style.setProperty('--offset-x', `${x}px`);
         background.style.setProperty('--offset-y', `${y}px`);
@@ -45,18 +48,20 @@ function Login() {
     };
   }, []);
 
-  // Login handler
+  // Login com usuário/senha
   async function getUsers() {
     try {
       const response = await Api.get('/usuarios');
       const users = response.data;
+
       const filteredUsers = users.filter(
-        user => (user.name === UserName || user.email === UserName) && user.password === eightPassword
+        user =>
+          (user.name === UserName || user.email === UserName) &&
+          user.password === eightPassword
       );
 
       if (filteredUsers.length > 0) {
-        const userId = filteredUsers[0].id;
-        navigate(`/PaginaPrincipal/${userId}`);
+        navigate(`/PaginaPrincipal/${filteredUsers[0].id}`);
       } else {
         alert('Usuário ou senha incorretos.');
       }
@@ -66,21 +71,21 @@ function Login() {
     }
   }
 
-  // Password toggle
-  function mostrarSenha() {
-    setShowPassword(!showPassword);
+  // Login com Google
+  async function loginComGoogle(credentialResponse) {
+    const credential = credentialResponse.credential;
+
+    try {
+      const response = await Api.post('/auth/google', { token: credential });
+      const { id } = response.data;
+      navigate(`/PaginaPrincipal/${id}`);
+    } catch (err) {
+      console.error('Erro no login com Google:', err);
+      alert('Erro ao logar com Google.');
+    }
   }
 
-  // Register navigation
-  function clique() {
-    navigate(`/Register`);
-  }
-
-  // Esqueci minha senha
-  function esqueci() {
-    setMostrarRedefinirSenha(true);
-  }
-
+  // Redefinir senha
   async function redefinirSenha() {
     try {
       const response = await Api.get('/usuarios');
@@ -110,14 +115,12 @@ function Login() {
     }
   }
 
-
-
-
   return (
     <div className="parallax-container">
       <div className='PageContainer'>
         <div className="LoginContainer">
           <h1>Login</h1>
+
           <div className='InputContainer'>
             <div className="bugfix">
               <label>Usuário</label>
@@ -128,9 +131,11 @@ function Login() {
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Digite seu UserName ou email"
               />
+
               <div id='PasswordConfig'>
                 <label>Senha</label>
               </div>
+
               <div className='EightPasswordConfig'>
                 <input
                   className='InputConfig'
@@ -139,7 +144,7 @@ function Login() {
                   onChange={(e) => setEightPassword(e.target.value)}
                   placeholder="Digite sua senha de 8 dígitos"
                 />
-                <button id='MostrarSenhaConfig' onClick={mostrarSenha}>
+                <button id='MostrarSenhaConfig' onClick={() => setShowPassword(!showPassword)}>
                   <img
                     src={showPassword ? eyeIconOff : eyeIconOn}
                     alt={showPassword ? "Ocultar" : "Revelar"}
@@ -147,32 +152,30 @@ function Login() {
                   />
                 </button>
               </div>
+
               <div id='EsqueciSenha'>
-                <button onClick={esqueci} id="EsqueciMinhaSenha">Esqueci Minha Senha</button>
+                <button onClick={() => setMostrarRedefinirSenha(true)} id="EsqueciMinhaSenha">
+                  Esqueci Minha Senha
+                </button>
               </div>
             </div>
-            <button onClick={getUsers} className='LoginButton' id="firstbul">Entrar</button>
-            <button onClick={clique} className='LoginButton'>Cadastrar-se</button>
+
+            <button onClick={getUsers} className='LoginButton' id="firstbul">
+              Entrar
+            </button>
+
+            <button onClick={() => navigate('/Register')} className='LoginButton'>
+              Cadastrar-se
+            </button>
+
             <GoogleLogin
-              onSuccess={async (credentialResponse) => {
-                const credential = credentialResponse.credential;
-
-                try {
-                  const response = await Api.post('/auth/google', { token: credential });
-                  const { id } = response.data;
-                  navigate(`/PaginaPrincipal/${id}`);
-                } catch (err) {
-                  console.error('Erro no login com Google:', err);
-                  alert('Erro ao logar com Google.');
-                }
-              }}
-              onError={() => {
-                alert("Erro ao tentar login com Google.");
-              }}
+              onSuccess={loginComGoogle}
+              onError={() => alert("Erro ao tentar login com Google.")}
             />
-
           </div>
         </div>
+
+        {/* Modal de redefinição de senha */}
         {mostrarRedefinirSenha && (
           <div className="modal-overlay">
             <div className="modal-redefinir">
@@ -196,7 +199,10 @@ function Login() {
                   onChange={(e) => setNovaSenha(e.target.value)}
                   placeholder="Digite a nova senha"
                 />
-                <button id="MostrarSenhaConfig" onClick={() => setMostrarNovaSenha(!mostrarNovaSenha)}>
+                <button
+                  id="MostrarSenhaConfig"
+                  onClick={() => setMostrarNovaSenha(!mostrarNovaSenha)}
+                >
                   <img
                     src={mostrarNovaSenha ? eyeIconOff : eyeIconOn}
                     alt={mostrarNovaSenha ? "Ocultar" : "Revelar"}
@@ -205,18 +211,18 @@ function Login() {
                 </button>
               </div>
 
-
-              <button className="LoginButton" onClick={redefinirSenha}>Salvar nova senha</button>
-              <button className="LoginButton" onClick={() => setMostrarRedefinirSenha(false)}>Cancelar</button>
+              <button className="LoginButton" onClick={redefinirSenha}>
+                Salvar nova senha
+              </button>
+              <button className="LoginButton" onClick={() => setMostrarRedefinirSenha(false)}>
+                Cancelar
+              </button>
             </div>
           </div>
         )}
-
       </div>
-    </div>);
-
-
-
+    </div>
+  );
 }
 
 export default Login;

@@ -1,9 +1,11 @@
+/* Reset e Box Sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* Container Modal Centralizado */
 .boxall {
     width: 100vw;
     height: 100vh;
@@ -11,11 +13,49 @@
     backdrop-filter: blur(3px);
     align-items: center;
     justify-content: center;
-    position: fixed;
-    /* Para modal centralizar e sobrepor */
+    position: fixed; /* Para modal centralizar e sobrepor */
     top: 0;
     left: 0;
     z-index: 1000;
+}
+
+/* Barra Superior */
+.Cabecalho {
+    background-color: aqua;
+    height: 10vh;
+    width: 100vw;
+    display: flex;
+    align-items: center;
+}
+
+/* Logo */
+#logo {
+    height: 7vh;
+    width: auto;
+    margin-left: 10px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+#logo:hover {
+    background-color: transparent;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
+/* Barra Azul Fina */
+.boxbarra {
+    width: 100vw;
+    height: 2vh;
+    background-color: blue;
+}
+
+/* Área de Pesquisa */
+.BoxPesquisa {
+    display: flex;
+    height: 10vh;
+    width: 90vw;
+    justify-content: center;
+    align-items: center;
 }
 
 #Pesquisar {
@@ -29,96 +69,46 @@
     padding-left: 20px;
 }
 
-.Cabecalho {
-    background-color: aqua;
-    height: 10vh;
-    width: 100vw;
-    display: flex;
-    align-items: center;
-}
-
-#logo {
-    height: 7vh;
-    width: auto;
-    margin-left: 10px;
-}
-
-#logo:hover {
-    background-color: transparent;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-#CriarGasto {
-    border: transparent solid 2px;
-    height: 5vh;
-    width: 7vw;
-    padding-top: 3px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-#CriarGasto:hover {
-    background-color: #dcdcdc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.BoxPesquisa {
-    display: flex;
-    height: 10vh;
-    width: 90vw;
-    justify-content: center;
-    align-items: center;
-}
-
-#iconPesquisar {
-    border: transparent solid 2px;
-    height: 5vh;
-    width: 7vw;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-#iconPesquisar:hover {
-    background-color: #dcdcdc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
+/* Botões Pesquisa e Ordenar */
+#CriarGasto,
+#iconPesquisar,
 #iconOrdenar {
     border: transparent solid 2px;
     height: 5vh;
     width: 7vw;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#CriarGasto {
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    padding-top: 3px;
+}
+
+#iconPesquisar {
+    /* só removeu borda arredondada direita */
+}
+
+#iconOrdenar {
     font-size: 20px;
     display: flex;
     align-items: center;
     justify-content: center;
     padding-bottom: 10px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    transition: all 0.3s ease;
-    cursor: pointer;
 }
 
+#CriarGasto:hover,
+#iconPesquisar:hover,
 #iconOrdenar:hover {
     background-color: #dcdcdc;
     transform: scale(1.05);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-.boxbarra {
-    width: 100vw;
-    height: 2vh;
-    background-color: blue;
-}
-
+/* Container Criar Gasto */
 .boxcriargasto {
     height: auto;
     min-height: 70vh;
@@ -133,7 +123,9 @@
     position: relative;
 }
 
-.titulo {
+/* Títulos */
+.titulo,
+.modal-titulo {
     margin-top: 40px;
     font-size: 40px;
     font-family: "Nunito", sans-serif;
@@ -141,7 +133,11 @@
     margin-bottom: 40px;
 }
 
-.boxColum {
+/* Layout Columnar */
+.boxColum,
+.Colum1,
+.Colum2,
+.criacategoria {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -151,15 +147,11 @@
 
 .Colum1 {
     width: 90%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     gap: 10px;
 }
 
 .Colum2 {
     width: 90%;
-    display: flex;
     flex-direction: row;
     align-items: flex-start;
     gap: 30px;
@@ -168,14 +160,12 @@
 }
 
 .criacategoria {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: flex-start;
     height: 100px;
     position: relative;
 }
 
+/* Dropdown Categorias e Tipo Gasto */
 .categorias,
 .tipo-gasto {
     position: absolute;
@@ -193,6 +183,7 @@
     min-width: 140px;
 }
 
+/* Labels */
 label {
     display: flex;
     justify-content: flex-start;
@@ -200,6 +191,7 @@ label {
     margin-top: 10px;
 }
 
+/* Inputs específicos */
 #bugDescricao {
     margin-left: -30px;
 }
@@ -215,78 +207,100 @@ label {
     margin-top: 10px;
 }
 
-.botoes {
-    border: transparent solid 2px;
+/* Botões */
+.botoes,
+#CriarGasto,
+#namebu,
+#criar,
+.modal-btn-salvar,
+.modal-btn-excluir,
+.modal-btn-cancelar {
     border-radius: 5px;
-    width: 130px;
-    height: 25px;
+    border: transparent solid 2px;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-.botoes:hover {
-    background-color: #dcdcdc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+/* Botões principais com dimensões e cores específicas */
+.botoes {
+    width: 130px;
+    height: 25px;
 }
 
-.row {
-    display: flex;
-    gap: 80px;
-    margin-top: 10px;
-    font-size: 17px;
-    justify-content: space-between;
-    width: 100%;
+#CriarGasto {
+    height: 5vh;
+    width: 7vw;
+    border-radius: 0 20px 20px 0;
+    padding-top: 3px;
 }
 
 #criar {
     height: 5vh;
     width: 15vw;
     border-radius: 20px;
-    margin-top: 30px;
-    margin-bottom: 30px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    margin: 30px 0;
     background-color: initial;
-}
-
-#criar:hover {
-    background-color: #dcdcdc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-#criacategoria {
-    margin-top: 20px;
-}
-
-#namecat {
-    width: 20vw;
-    height: 25px;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
 }
 
 #namebu {
     width: 5vw;
     height: 25px;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    transition: all 0.3s ease;
-    cursor: pointer;
+    border-radius: 0 20px 20px 0;
+    background-color: initial;
 }
 
-#namebu:hover {
+.modal-btn-salvar,
+.modal-btn-excluir {
+    width: 45%;
+    height: 5vh;
+    border-radius: 20px;
+    background-color: initial;
+    color: inherit;
+    border: none;
+}
+
+.modal-btn-excluir {
+    background-color: #e74c3c;
+    color: white;
+}
+
+.modal-btn-cancelar {
+    margin-top: 15px;
+    background-color: #95a5a6;
+    color: white;
+    border-radius: 20px;
+    height: 5vh;
+    width: 100%;
+    border: none;
+}
+
+/* Hover efeitos para botões */
+.botoes:hover,
+#CriarGasto:hover,
+#namebu:hover,
+#criar:hover,
+.modal-btn-salvar:hover {
     background-color: #dcdcdc;
     transform: scale(1.05);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Estilos para os botões de gastos na lista */
+.modal-btn-excluir:hover {
+    background-color: #c0392b;
+}
+
+.modal-btn-cancelar:hover {
+    background-color: #7f8c8d;
+}
+
+/* Inputs categoria */
+#namecat {
+    width: 20vw;
+    height: 25px;
+    border-radius: 20px 0 0 20px;
+}
+
+/* Lista Gastos */
 #Gastoss {
     display: block;
     margin: 10px 0;
@@ -319,14 +333,6 @@ label {
     position: relative;
 }
 
-.modal-titulo {
-    margin-top: 40px;
-    font-size: 40px;
-    font-family: "Nunito", sans-serif;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 .modal-row {
     display: flex;
     gap: 80px;
@@ -336,52 +342,7 @@ label {
     width: 100%;
 }
 
-.modal-btn-salvar {
-    width: 45%;
-    cursor: pointer;
-    border-radius: 20px;
-    height: 5vh;
-    transition: all 0.3s ease;
-    background-color: initial;
-}
-
-.modal-btn-salvar:hover {
-    background-color: #dcdcdc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.modal-btn-excluir {
-    width: 45%;
-    cursor: pointer;
-    border-radius: 20px;
-    height: 5vh;
-    background-color: #e74c3c;
-    color: white;
-    border: none;
-    transition: all 0.3s ease;
-}
-
-.modal-btn-excluir:hover {
-    background-color: #c0392b;
-}
-
-.modal-btn-cancelar {
-    margin-top: 15px;
-    background-color: #95a5a6;
-    color: white;
-    border-radius: 20px;
-    height: 5vh;
-    width: 100%;
-    cursor: pointer;
-    border: none;
-    transition: all 0.3s ease;
-}
-
-.modal-btn-cancelar:hover {
-    background-color: #7f8c8d;
-}
-
+/* Sidebar Usuário */
 .sidebar-usuario {
     position: fixed;
     top: 0;
@@ -415,9 +376,12 @@ label {
     border: none;
     border-radius: 6px;
     cursor: pointer;
-    background-color: #2b72f0;
-    color: white;
     font-weight: bold;
+    color: white;
+}
+
+.botoes-sidebar button:nth-child(1) {
+    background-color: #2b72f0;
 }
 
 .botoes-sidebar button:nth-child(2) {
@@ -428,6 +392,7 @@ label {
     background-color: #555;
 }
 
+/* Botão fechar sidebar */
 .fechar-sidebar {
     position: absolute;
     top: 10px;
@@ -444,6 +409,7 @@ label {
     color: #f00;
 }
 
+/* Input senha com botão olho */
 .input-senha {
     display: flex;
     align-items: center;
@@ -467,6 +433,7 @@ label {
     height: 24px;
 }
 
+/* Overlay da sidebar */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -478,17 +445,4 @@ label {
     z-index: 999;
     display: flex;
     justify-content: flex-end;
-}
-
-.sidebar-usuario {
-    position: relative;
-    width: 320px;
-    height: 100%;
-    background-color: #f7f7f7;
-    box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
 }

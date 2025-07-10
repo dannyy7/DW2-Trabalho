@@ -1,29 +1,45 @@
 import { useEffect, useState } from "react";
-import './PaginaPrincipal.css';
-import logo from '../../assets/images/image.png';
-import { useParams } from 'react-router-dom';
+import { useParams } from "react-router-dom";
+
 import Api from "../../services/api";
-import user from '../../assets/images/user.png';
+
+import logo from "../../assets/images/image.png";
+import user from "../../assets/images/user.png";
 import eyeIconOn from "../../assets/images/view.png";
 import eyeIconOff from "../../assets/images/hide.png";
 
+import "./PaginaPrincipal.css";
+
+
 export default function PaginaPrincipal() {
+    // Estados para controle de telas e visibilidade
     const [PaginaCriarGasto, setPaginaCriarGasto] = useState(false);
     const [CategoriaGasto, setCategoriaGasto] = useState(false);
     const [TipoGasto, setTipoGasto] = useState(false);
     const [PaginaCriarCategoria, setPaginaCriarCategoria] = useState(false);
-    const [NomeCategoria, setNomeCategoria] = useState("");
-    const [ErroCategoria, setErroCategoria] = useState("");
-    const [Categorias, setCategorias] = useState([]);
+
     const [MostrarAdicionarCategoria, setMostrarAdicionarCategoria] = useState(true);
     const [MostrarCategorias, setMostrarCategorias] = useState(false);
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false);
-    const [termoPesquisa, setTermoPesquisa] = useState("");
+    const [MostrarCategoriasEdicao, setMostrarCategoriasEdicao] = useState(false);
+    const [MostrarTipoGastoEdicao, setMostrarTipoGastoEdicao] = useState(false);
+
     const [MostrarSidebarUsuario, setMostrarSidebarUsuario] = useState(false);
     const [EditarUsuario, setEditarUsuario] = useState(false);
     const [MostrarSenha, setMostrarSenha] = useState(false);
+
+    // Estados para categorias e erros
+    const [NomeCategoria, setNomeCategoria] = useState("");
+    const [ErroCategoria, setErroCategoria] = useState("");
+    const [Categorias, setCategorias] = useState([]);
+
+    // Estados para o termo de pesquisa
+    const [termoPesquisa, setTermoPesquisa] = useState("");
+
+    // Estados para usuário
     const [Usuario, setUsuario] = useState("");
 
+    // Estados para criação de gasto
     const [NomeGasto, setNomeGasto] = useState("");
     const [ValordoTipo, setValordoTipo] = useState("");
     const [CategoriaDoGasto, setCategoriaDoGasto] = useState("");
@@ -31,39 +47,39 @@ export default function PaginaPrincipal() {
     const [DescricaoGasto, setDescricaoGasto] = useState("");
     const [DataGasto, setDataGasto] = useState("");
 
+    // Estados para lista e seleção de gastos
     const [ArrayDeGastos, setArrayDeGastos] = useState([]);
-
     const [GastoSelecionado, setGastoSelecionado] = useState(null);
 
+    // Estados para edição de gasto
     const [EditarNome, setEditarNome] = useState("");
     const [EditarValor, setEditarValor] = useState("");
     const [EditarDescricao, setEditarDescricao] = useState("");
     const [EditarData, setEditarData] = useState("");
     const [EditarCategoria, setEditarCategoria] = useState("");
     const [EditarTipo, setEditarTipo] = useState("");
-    const [MostrarCategoriasEdicao, setMostrarCategoriasEdicao] = useState(false);
-    const [MostrarTipoGastoEdicao, setMostrarTipoGastoEdicao] = useState(false);
 
+
+    // Controle de criação e manipulação do modal de criar gasto
     function CriarGasto() {
         setPaginaCriarGasto(true);
     }
 
+    // Controle da sidebar do usuário
     function functionUser() {
-
         const novoEstado = !MostrarSidebarUsuario;
         setMostrarSidebarUsuario(novoEstado);
-
         if (novoEstado) {
             getUser(id);
-
         }
     }
 
-
+    // Controle para limpar a seção de adicionar categoria
     function LimparAdicionarCategoria() {
         setMostrarAdicionarCategoria(false);
     }
 
+    // Controle de escolha de categoria e tipo para criação de gasto
     function EscolherCategoriaGasto() {
         setCategoriaGasto(true);
         setMostrarCategorias(!MostrarCategorias);
@@ -74,11 +90,13 @@ export default function PaginaPrincipal() {
         setMostrarTipoGasto(!MostrarTipoGasto);
     }
 
+    // Controle para abrir tela de criar nova categoria
     function CriarCategoria() {
         setPaginaCriarCategoria(true);
         setMostrarAdicionarCategoria(true);
     }
 
+    // Função para adicionar novo gasto à lista e enviar para API
     function Gastos() {
         const novoGasto = {
             NomeGastoObjeto: NomeGasto,
@@ -91,6 +109,8 @@ export default function PaginaPrincipal() {
         };
 
         setArrayDeGastos([...ArrayDeGastos, novoGasto]);
+
+        // Resetar formulário
         setPaginaCriarGasto(false);
         setNomeGasto("");
         setDescricaoGasto("");
@@ -100,14 +120,15 @@ export default function PaginaPrincipal() {
         setDataGasto("");
 
         createSpent();
-
     }
 
+    // Seleção da categoria para o gasto
     function EscolherCategoria(z) {
         setMostrarCategorias(!MostrarCategorias);
         setCategoriaDoGasto(z);
     }
 
+    // Adicionar categoria ao array de categorias
     function AdicionarArrayCategorias() {
         const nomeTrimado = NomeCategoria.trim();
         if (Categorias.includes(nomeTrimado) || nomeTrimado === "") {
@@ -118,17 +139,19 @@ export default function PaginaPrincipal() {
         LimparAdicionarCategoria();
     }
 
+    // Abrir modal de edição de gasto, carregando os dados atuais
     function AbrirEdicao(gasto, index) {
         setGastoSelecionado({ ...gasto, index });
         setEditarNome(gasto.name);
         setEditarValor(gasto.value);
         setEditarData(gasto.date);
         setEditarDescricao(gasto.description);
-        setEditarCategoria(gasto.category);   // <- CORRETO
+        setEditarCategoria(gasto.category);
         setEditarTipo(gasto.type);
         buscarCategoriaDoGastoSelecionado(gasto.id);
     }
 
+    // Salvar edição do gasto
     function SalvarEdicao() {
         const gastosAtualizados = [...ArrayDeGastos];
         gastosAtualizados[GastoSelecionado.index] = {
@@ -145,12 +168,16 @@ export default function PaginaPrincipal() {
         putSpent();
     }
 
+    // Excluir gasto selecionado
     function ExcluirGasto() {
-        const gastosAtualizados = ArrayDeGastos.filter((_, i) => i !== GastoSelecionado.index);
+        const gastosAtualizados = ArrayDeGastos.filter(
+            (_, i) => i !== GastoSelecionado.index
+        );
         setArrayDeGastos(gastosAtualizados);
         setGastoSelecionado(null);
         deleteSpents(GastoSelecionado.id);
     }
+
 
     let GastoCriar = null;
 
@@ -198,23 +225,45 @@ export default function PaginaPrincipal() {
 
                         <div className="Colum2">
                             <div className="criacategoria">
-                                <button className="botoes" onClick={EscolherCategoriaGasto}>Escolher Categoria</button>
+                                <button className="botoes" onClick={EscolherCategoriaGasto}>
+                                    Escolher Categoria
+                                </button>
                                 {CategoriaGasto && MostrarCategorias && (
                                     <div className="categorias">
-                                        <button className="botoes" onClick={CriarCategoria}>Novo</button>
-                                        {Categorias.map(x => (
-                                            <button className="botoes" key={x} onClick={() => EscolherCategoria(x)}>{x}</button>
+                                        <button className="botoes" onClick={CriarCategoria}>
+                                            Novo
+                                        </button>
+                                        {Categorias.map((x) => (
+                                            <button
+                                                className="botoes"
+                                                key={x}
+                                                onClick={() => EscolherCategoria(x)}
+                                            >
+                                                {x}
+                                            </button>
                                         ))}
                                     </div>
                                 )}
                             </div>
                             <div className="criacategoria">
-                                <button className="botoes" onClick={EscolherTipoGasto}>Escolher Tipo</button>
+                                <button className="botoes" onClick={EscolherTipoGasto}>
+                                    Escolher Tipo
+                                </button>
 
                                 {TipoGasto && MostrarTipoGasto && (
                                     <div className="tipo-gasto">
-                                        <button className="botoes" onClick={() => setValordoTipo("Fixo")}>Fixo</button>
-                                        <button className="botoes" onClick={() => setValordoTipo("Variável")}>Variável</button>
+                                        <button
+                                            className="botoes"
+                                            onClick={() => setValordoTipo("Fixo")}
+                                        >
+                                            Fixo
+                                        </button>
+                                        <button
+                                            className="botoes"
+                                            onClick={() => setValordoTipo("Variável")}
+                                        >
+                                            Variável
+                                        </button>
                                     </div>
                                 )}
                             </div>
@@ -234,17 +283,22 @@ export default function PaginaPrincipal() {
                                         onChange={(e) => setNomeCategoria(e.target.value)}
                                         placeholder="Nome da nova categoria"
                                     />
-                                    <button id="namebu" onClick={AdicionarArrayCategorias}>Adicionar</button>
+                                    <button id="namebu" onClick={AdicionarArrayCategorias}>
+                                        Adicionar
+                                    </button>
                                 </div>
                             )}
                         </div>
                     )}
 
-                    <button id="criar" onClick={Gastos}>Criar</button>
+                    <button id="criar" onClick={Gastos}>
+                        Criar
+                    </button>
                 </div>
             </div>
         );
     }
+
 
     const { id } = useParams();
 
@@ -252,18 +306,17 @@ export default function PaginaPrincipal() {
         try {
             await Api.post('/spent', {
                 name: NomeGasto,
-                value: parseFloat(ValorGasto),      // converte para float
+                value: parseFloat(ValorGasto), // converte para float
                 description: DescricaoGasto,
                 category: CategoriaDoGasto,
-                date: DataGasto,                    // string no formato 'YYYY-MM-DD'
+                date: DataGasto, // string no formato 'YYYY-MM-DD'
                 type: ValordoTipo,
-                userId: id,                        // id vindo do useParams
+                userId: id, // id vindo do useParams
             });
             getSpents();
         } catch (error) {
             console.error("Erro ao criar gasto:", error);
         }
-
     }
 
     async function getSpents() {
@@ -305,7 +358,6 @@ export default function PaginaPrincipal() {
         try {
             const response = await Api.get(`/spent/${gastoId}`);
             const gasto = response.data;
-
             const categoria = gasto.category;
 
             if (categoria && !Categorias.includes(categoria)) {
@@ -393,13 +445,14 @@ export default function PaginaPrincipal() {
         }
     }
 
-    function Ordenar(){
-
+    function Ordenar() {
+        // Função para implementar ordenação futuramente
     }
 
     useEffect(() => {
         getSpents();
     }, []);
+
 
 
     return (
@@ -415,23 +468,35 @@ export default function PaginaPrincipal() {
                         value={termoPesquisa}
                         onChange={(e) => setTermoPesquisa(e.target.value)}
                     />
-
-                    <button onClick={Pesquisar} id="iconPesquisar">🔍︎</button>
-                    <button onClick={CriarGasto} id="CriarGasto">+</button>
+                    <button onClick={Pesquisar} id="iconPesquisar">
+                        🔍︎
+                    </button>
+                    <button onClick={CriarGasto} id="CriarGasto">
+                        +
+                    </button>
                 </div>
                 <img src={user} alt="usuario" id="logo" onClick={functionUser} />
             </div>
 
             <div className="boxbarra"></div>
+
             {GastoCriar}
 
             {MostrarSidebarUsuario && (
-                <div className="sidebar-overlay" onClick={() => setMostrarSidebarUsuario(false)}>
+                <div
+                    className="sidebar-overlay"
+                    onClick={() => setMostrarSidebarUsuario(false)}
+                >
                     <div
                         className="sidebar-usuario"
                         onClick={(e) => e.stopPropagation()} // evita fechar ao clicar dentro da sidebar
                     >
-                        <button className="fechar-sidebar" onClick={() => setMostrarSidebarUsuario(false)}>×</button>
+                        <button
+                            className="fechar-sidebar"
+                            onClick={() => setMostrarSidebarUsuario(false)}
+                        >
+                            ×
+                        </button>
 
                         <h2>Dados do Usuário</h2>
 
@@ -440,7 +505,9 @@ export default function PaginaPrincipal() {
                             type="text"
                             disabled={!EditarUsuario}
                             value={Usuario.name || ""}
-                            onChange={(e) => setUsuario({ ...Usuario, nome: e.target.value })}
+                            onChange={(e) =>
+                                setUsuario({ ...Usuario, nome: e.target.value })
+                            }
                         />
 
                         <label>Telefone</label>
@@ -448,7 +515,9 @@ export default function PaginaPrincipal() {
                             type="text"
                             disabled={!EditarUsuario}
                             value={Usuario.phone || ""}
-                            onChange={(e) => setUsuario({ ...Usuario, phone: e.target.value })}
+                            onChange={(e) =>
+                                setUsuario({ ...Usuario, phone: e.target.value })
+                            }
                         />
 
                         <label>Email</label>
@@ -456,7 +525,9 @@ export default function PaginaPrincipal() {
                             type="email"
                             disabled={!EditarUsuario}
                             value={Usuario.email || ""}
-                            onChange={(e) => setUsuario({ ...Usuario, email: e.target.value })}
+                            onChange={(e) =>
+                                setUsuario({ ...Usuario, email: e.target.value })
+                            }
                         />
 
                         <label>Senha</label>
@@ -465,7 +536,9 @@ export default function PaginaPrincipal() {
                                 type={MostrarSenha ? "text" : "password"}
                                 disabled={!EditarUsuario}
                                 value={Usuario.password || ""}
-                                onChange={(e) => setUsuario({ ...Usuario, password: e.target.value })}
+                                onChange={(e) =>
+                                    setUsuario({ ...Usuario, password: e.target.value })
+                                }
                             />
                             <button
                                 type="button"
@@ -479,14 +552,12 @@ export default function PaginaPrincipal() {
                             </button>
                         </div>
 
-
-
                         <div className="botoes-sidebar">
                             <button
                                 onClick={() => {
                                     if (EditarUsuario) {
                                         alert("Dados salvos!");
-                                        putUser(id);  
+                                        putUser(id);
                                         getUser(id);
                                     }
                                     setEditarUsuario(!EditarUsuario);
@@ -502,7 +573,6 @@ export default function PaginaPrincipal() {
                 </div>
             )}
 
-
             {GastoSelecionado && (
                 <div className="boxall">
                     <div className="modal-editar">
@@ -514,16 +584,18 @@ export default function PaginaPrincipal() {
                                     className="linha"
                                     type="text"
                                     value={EditarNome}
-                                    onChange={e => setEditarNome(e.target.value)}
+                                    onChange={(e) => setEditarNome(e.target.value)}
                                     placeholder="Digite o nome do gasto"
                                 />
+
                                 <label>Valor do Gasto</label>
                                 <input
                                     className="linha"
                                     type="number"
                                     value={EditarValor}
-                                    onChange={e => setEditarValor(e.target.value)}
+                                    onChange={(e) => setEditarValor(e.target.value)}
                                 />
+
                                 <label id="bugDescricao">Descrição</label>
                                 <input
                                     className="linha"
@@ -531,13 +603,15 @@ export default function PaginaPrincipal() {
                                     value={EditarDescricao}
                                     onChange={(e) => setEditarDescricao(e.target.value)}
                                 />
+
                                 <input
                                     id="data"
                                     className="linha"
                                     type="date"
                                     value={EditarData}
-                                    onChange={e => setEditarData(e.target.value)}
+                                    onChange={(e) => setEditarData(e.target.value)}
                                 />
+
                                 <div className="row">
                                     <p>Categoria: {EditarCategoria}</p>
                                     <p>Tipo: {EditarTipo}</p>
@@ -546,10 +620,20 @@ export default function PaginaPrincipal() {
 
                             <div className="Colum2">
                                 <div className="criacategoria">
-                                    <button className="botoes" onClick={() => setMostrarCategoriasEdicao(!MostrarCategoriasEdicao)}>Escolher Categoria</button>
+                                    <button
+                                        className="botoes"
+                                        onClick={() =>
+                                            setMostrarCategoriasEdicao(!MostrarCategoriasEdicao)
+                                        }
+                                    >
+                                        Escolher Categoria
+                                    </button>
+
                                     {MostrarCategoriasEdicao && (
                                         <div className="categorias">
-                                            <button className="botoes" onClick={CriarCategoria}>Novo</button>
+                                            <button className="botoes" onClick={CriarCategoria}>
+                                                Novo
+                                            </button>
                                             {Categorias.map((cat) => (
                                                 <button
                                                     className="botoes"
@@ -577,16 +661,25 @@ export default function PaginaPrincipal() {
                                                         onChange={(e) => setNomeCategoria(e.target.value)}
                                                         placeholder="Nome da nova categoria"
                                                     />
-                                                    <button id="namebu" onClick={AdicionarArrayCategorias}>Adicionar</button>
+                                                    <button id="namebu" onClick={AdicionarArrayCategorias}>
+                                                        Adicionar
+                                                    </button>
                                                 </div>
                                             )}
                                         </div>
                                     )}
-
                                 </div>
 
                                 <div className="criacategoria">
-                                    <button className="botoes" onClick={() => setMostrarTipoGastoEdicao(!MostrarTipoGastoEdicao)}>Escolher Tipo</button>
+                                    <button
+                                        className="botoes"
+                                        onClick={() =>
+                                            setMostrarTipoGastoEdicao(!MostrarTipoGastoEdicao)
+                                        }
+                                    >
+                                        Escolher Tipo
+                                    </button>
+
                                     {MostrarTipoGastoEdicao && (
                                         <div className="tipo-gasto">
                                             <button
@@ -598,6 +691,7 @@ export default function PaginaPrincipal() {
                                             >
                                                 Fixo
                                             </button>
+
                                             <button
                                                 className="botoes"
                                                 onClick={() => {
@@ -614,32 +708,36 @@ export default function PaginaPrincipal() {
                         </div>
 
                         <div className="modal-row">
-                            <button className="modal-btn-salvar" onClick={SalvarEdicao}>Salvar</button>
-                            <button className="modal-btn-excluir" onClick={ExcluirGasto}>Excluir</button>
+                            <button className="modal-btn-salvar" onClick={SalvarEdicao}>
+                                Salvar
+                            </button>
+                            <button className="modal-btn-excluir" onClick={ExcluirGasto}>
+                                Excluir
+                            </button>
                         </div>
-                        <button className="modal-btn-cancelar" onClick={() => setGastoSelecionado(null)}>Cancelar</button>
+
+                        <button
+                            className="modal-btn-cancelar"
+                            onClick={() => setGastoSelecionado(null)}
+                        >
+                            Cancelar
+                        </button>
                     </div>
                 </div>
             )}
 
-            {
-                ArrayDeGastos.map((spent) => (
-                    <div key={spent.id}>
-                        <button
-                            id="Gastoss"
-                            onClick={() => AbrirEdicao(spent, spent.id)}
-                        >
-                            <strong>Nome:</strong> {spent.name} <br />
-                            <strong>Descrição:</strong>{spent.description}<br />
-                            <strong>Valor:</strong> R$ {spent.value} <br />
-                            <strong>Tipo:</strong> {spent.type} <br />
-                            <strong>Categoria:</strong> {spent.category} <br />
-                            <strong>Data:</strong> {spent.date}
-                        </button>
-                    </div>
-                ))
-            }
-
+            {ArrayDeGastos.map((spent) => (
+                <div key={spent.id}>
+                    <button id="Gastoss" onClick={() => AbrirEdicao(spent, spent.id)}>
+                        <strong>Nome:</strong> {spent.name} <br />
+                        <strong>Descrição:</strong> {spent.description} <br />
+                        <strong>Valor:</strong> R$ {spent.value} <br />
+                        <strong>Tipo:</strong> {spent.type} <br />
+                        <strong>Categoria:</strong> {spent.category} <br />
+                        <strong>Data:</strong> {spent.date}
+                    </button>
+                </div>
+            ))}
         </>
     );
 }

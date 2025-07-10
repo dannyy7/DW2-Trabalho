@@ -1,39 +1,43 @@
+/* Reset e box-sizing global */
 * {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
 
+/* Container principal da página */
 .PageContainer {
     display: flex;
     justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 100vw;
     background-color: #D9B88F;
     background-image: linear-gradient(135deg, #da5cda, #4fa6f8);
-    height: 100vh;
-    width: 100wh;
-    align-items: center;
 }
 
+/* Container do formulário de login/cadastro */
 .LoginContainer {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
     width: 25vw;
     height: 85vh;
-    background-color: #ffffff;
-    justify-content: flex-start;
-    flex-direction: column;
+    padding-top: 50px;
     border: solid 5px #ffffff;
     border-radius: 15px;
-    align-items: center;
-    padding-top: 50px;
-
+    background-color: #ffffff;
 }
 
+/* Container dos inputs */
 .InputContainer {
     display: flex;
     flex-direction: column;
     padding-top: 35px;
 }
 
+/* Estilização dos inputs */
 .InputConfig {
     border: none;
     background: transparent;
@@ -52,10 +56,17 @@
     border-radius: 10px;
 }
 
+/* Estilo de título */
+h1 {
+    font-family: "Nunito", sans-serif;
+    font-size: 45px;
+}
+
+/* Seção de senha com ícone de exibição */
 #PasswordConfig {
     display: flex;
-    margin-top: 30px;
     flex-direction: column;
+    margin-top: 30px;
 }
 
 .EightPasswordConfig {
@@ -76,33 +87,16 @@
     width: auto;
 }
 
-h1 {
-    font-family: "Nunito", sans-serif;
-    font-size: 45px;
-}
-
-#EsqueciSenha {
-    align-self: flex-start;
-    padding: 5px;
-    width: 15vw;
-    display: flex;
-    justify-content: flex-end;
-}
-
-#EsqueciSenha button {
-    background-color: transparent;
-    border: none;
-}
-
+/* Estilização do botão de login/cadastro */
 .LoginButton {
-    margin-top: 5px;
+    margin-top: 30px;
+    margin-left: 30px;
+    width: 80%;
+    padding: 10px;
     border: none;
     border-radius: 25px;
-    padding: 10px;
-    width: 80%;
     color: white;
     background-image: linear-gradient(90deg, #4fa6f8, #da5cda);
-    margin-left: 30px;
     cursor: pointer;
     transition: all 0.3s ease;
 }
@@ -116,18 +110,21 @@ h1 {
     transform: scale(0.8);
 }
 
-.bugfix {
-    margin-left: 50px;
+/* Link "Esqueci minha senha" */
+#EsqueciSenha {
+    align-self: flex-start;
+    width: 15vw;
+    padding: 5px;
+    display: flex;
+    justify-content: flex-end;
 }
 
-#firstbul {
-    margin-top: 30px;
+#EsqueciSenha button {
+    background-color: transparent;
+    border: none;
 }
 
-#firstbuc {
-    margin-top: 30px;
-}
-
+/* Estilo específico para texto do link */
 #EsqueciMinhaSenha {
     color: #747070;
     cursor: pointer;
@@ -137,96 +134,62 @@ h1 {
 #EsqueciMinhaSenha:hover {
     color: #ff97ff;
     transform: scale(1.07);
-
 }
 
+/* Posicionamento auxiliar */
+.bugfix {
+    margin-left: 50px;
+}
+
+#firstbul,
+#firstbuc {
+    margin-top: 30px;
+}
+
+/* Modal para redefinir senha */
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(5px);
-  background-color: rgba(0, 0, 0, 0.3);
-  display: flex;
-  align-items: flex-start;      /* Alinha no topo, ao invés de centro */
-  justify-content: center;
-  padding-top: 50px;            /* Dá um espaçamento do topo */
-  z-index: 100;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding-top: 50px;
+    backdrop-filter: blur(5px);
+    background-color: rgba(0, 0, 0, 0.3);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 100;
 }
-
 
 .modal-redefinir {
     background: white;
     padding: 20px;
-    border-radius: 10px;
     width: 320px;
+    border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
     display: flex;
     flex-direction: column;
     gap: 10px;
 }
 
+/* Paleta de cores - tema Mesquite Flat Sand Dunes */
+:root {
+    --cor-1: #656C73;
+    --cor-2: #DCEAF2;
+    --cor-3: #D9B88F;
+    --cor-4: #F2DEC4;
+    --cor-5: #A68776;
 
+    --cor-1-rgba: rgba(100, 108, 114, 1);
+    --cor-2-rgba: rgba(220, 233, 242, 1);
+    --cor-3-rgba: rgba(216, 183, 143, 1);
+    --cor-4-rgba: rgba(242, 221, 196, 1);
+    --cor-5-rgba: rgba(165, 135, 117, 1);
 
-
-/*Cores de degrade  #4fa6f8, #da5cda */
-Color Theme Swatches in Hex .Mesquite-Flat-Sand-Dunes-1-hex {
-    color: #656C73;
-}
-
-.Mesquite-Flat-Sand-Dunes-2-hex {
-    color: #DCEAF2;
-}
-
-.Mesquite-Flat-Sand-Dunes-3-hex {
-    color: #D9B88F;
-}
-
-.Mesquite-Flat-Sand-Dunes-4-hex {
-    color: #F2DEC4;
-}
-
-.Mesquite-Flat-Sand-Dunes-5-hex {
-    color: #A68776;
-}
-
-Color Theme Swatches in RGBA .Mesquite-Flat-Sand-Dunes-1-rgba {
-    color: rgba(100, 108, 114, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-2-rgba {
-    color: rgba(220, 233, 242, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-3-rgba {
-    color: rgba(216, 183, 143, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-4-rgba {
-    color: rgba(242, 221, 196, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-5-rgba {
-    color: rgba(165, 135, 117, 1);
-}
-
-Color Theme Swatches in HSLA .Mesquite-Flat-Sand-Dunes-1-hsla {
-    color: hsla(208, 6, 42, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-2-hsla {
-    color: hsla(202, 46, 90, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-3-hsla {
-    color: hsla(33, 49, 70, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-4-hsla {
-    color: hsla(33, 64, 85, 1);
-}
-
-.Mesquite-Flat-Sand-Dunes-5-hsla {
-    color: hsla(22, 21, 55, 1);
+    --cor-1-hsla: hsla(208, 6%, 42%, 1);
+    --cor-2-hsla: hsla(202, 46%, 90%, 1);
+    --cor-3-hsla: hsla(33, 49%, 70%, 1);
+    --cor-4-hsla: hsla(33, 64%, 85%, 1);
+    --cor-5-hsla: hsla(22, 21%, 55%, 1);
 }
