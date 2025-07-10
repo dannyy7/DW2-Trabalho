@@ -3,6 +3,7 @@ import './PaginaPrincipal.css';
 import logo from '../../assets/images/image.png';
 import { useParams } from 'react-router-dom';
 import Api from "../../services/api";
+import user from '../../assets/images/user.png';
 
 export default function PaginaPrincipal() {
     const [PaginaCriarGasto, setPaginaCriarGasto] = useState(false);
@@ -15,6 +16,8 @@ export default function PaginaPrincipal() {
     const [MostrarAdicionarCategoria, setMostrarAdicionarCategoria] = useState(true);
     const [MostrarCategorias, setMostrarCategorias] = useState(false);
     const [MostrarTipoGasto, setMostrarTipoGasto] = useState(false);
+    const [termoPesquisa, setTermoPesquisa] = useState("");
+
 
     const [NomeGasto, setNomeGasto] = useState("");
     const [ValordoTipo, setValordoTipo] = useState("");
@@ -36,9 +39,14 @@ export default function PaginaPrincipal() {
     const [MostrarCategoriasEdicao, setMostrarCategoriasEdicao] = useState(false);
     const [MostrarTipoGastoEdicao, setMostrarTipoGastoEdicao] = useState(false);
 
+
+
     function CriarGasto() {
         setPaginaCriarGasto(true);
     }
+
+
+
 
     function LimparAdicionarCategoria() {
         setMostrarAdicionarCategoria(false);
@@ -284,18 +292,49 @@ export default function PaginaPrincipal() {
 
     async function buscarCategoriaDoGastoSelecionado(gastoId) {
         try {
-            const response = await Api.get(`/spent/${gastoId}`); // 👈 passo 3
+            const response = await Api.get(`/spent/${gastoId}`); 
             const gasto = response.data;
 
-            const categoria = gasto.category; // 👈 passo 4
+            const categoria = gasto.category; 
 
             if (categoria && !Categorias.includes(categoria)) {
-                setCategorias((prev) => [...prev, categoria]); // 👈 passo 5
+                setCategorias((prev) => [...prev, categoria]); 
             }
         } catch (error) {
             console.error("Erro ao buscar categoria do gasto:", error);
         }
     }
+
+    async function Pesquisar() {
+        try {
+            if (!termoPesquisa.trim()) {
+                getSpents(); // mostra todos se a busca estiver vazia
+                return;
+            }
+
+            const response = await Api.get(`/spent/search?userId=${id}&name=${encodeURIComponent(termoPesquisa)}`);
+            const resultados = response.data.map(spent => ({
+                ...spent,
+                date: spent.date ? spent.date.split('T')[0] : ''
+            }));
+
+            if (resultados.length === 0) {
+                alert("Nenhum gasto com esse nome foi encontrado no banco de dados.");
+            }
+
+            setArrayDeGastos(resultados);
+            setTermoPesquisa(""); 
+        } catch (error) {
+            console.error("Erro ao buscar despesa:", error);
+            alert("Erro ao buscar despesa. Verifique a conexão ou tente novamente.");
+        }
+    }
+
+    async function Return() {
+        getSpents();
+        return;
+    }
+
 
 
     useEffect(() => {
@@ -305,11 +344,21 @@ export default function PaginaPrincipal() {
     return (
         <>
             <div className="Cabecalho">
-                <img src={logo} alt="Logo da empresa" id="logo" />
+                <img src={logo} alt="Logo da empresa" id="logo" onClick={Return} />
                 <div className="BoxPesquisa">
-                    <input type="text" name="BarraPesquisa" id="Pesquisar" placeholder="🔍︎Pesquisar" />
+                    <input
+                        type="text"
+                        name="BarraPesquisa"
+                        id="Pesquisar"
+                        placeholder="Pesquisar"
+                        value={termoPesquisa}
+                        onChange={(e) => setTermoPesquisa(e.target.value)}
+                    />
+
+                    <button onClick={Pesquisar} id="iconPesquisar">🔍︎</button>
                     <button onClick={CriarGasto} id="CriarGasto">+</button>
                 </div>
+                <img src={user} alt="usuario" id="logo" onClick={Return} />
             </div>
 
             <div className="boxbarra"></div>
@@ -376,6 +425,25 @@ export default function PaginaPrincipal() {
                                             ))}
                                         </div>
                                     )}
+
+                                    {PaginaCriarCategoria && (
+                                        <div className="criar-categoria">
+                                            {ErroCategoria !== "" && <p>{ErroCategoria}</p>}
+                                            {MostrarAdicionarCategoria && (
+                                                <div id="criacategoria">
+                                                    <input
+                                                        id="namecat"
+                                                        type="text"
+                                                        value={NomeCategoria}
+                                                        onChange={(e) => setNomeCategoria(e.target.value)}
+                                                        placeholder="Nome da nova categoria"
+                                                    />
+                                                    <button id="namebu" onClick={AdicionarArrayCategorias}>Adicionar</button>
+                                                </div>
+                                            )}
+                                        </div>
+                                    )}
+
                                 </div>
 
                                 <div className="criacategoria">

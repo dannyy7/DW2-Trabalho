@@ -3,19 +3,21 @@ import PaginaPrincipal from './pages/home/PaginaPrincipal';  // Sua página inic
 import Login from './pages/acesso/login/Login'; // A página para onde o botão vai te levar
 import Ordenar from './pages/ordenar/ordenar';
 import Register from './pages/acesso/cadastro/register';
-import Create from './pages/criar/Create';
+import { GoogleOAuthProvider } from '@react-oauth/google';
+
+const clientId = '303426835993-qcn08uo4qcrrd5kgivvltuqtvr6i5ghu.apps.googleusercontent.com';
+
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<Login />} />
-      <Route path="/PaginaPrincipal/:id" element={<PaginaPrincipal />} />
-      <Route path="/Ordenar" element={<Ordenar />} />
-      <Route path="/Register" element={<Register />} />
-      <Route path="/Create/:id" element={<Create />} />
-
-
-    </Routes>
+    <GoogleOAuthProvider clientId={clientId}>
+      <Routes>
+        <Route path="/" element={<Login />} />
+        <Route path="/PaginaPrincipal/:id" element={<PaginaPrincipal />} />
+        <Route path="/Ordenar" element={<Ordenar />} />
+        <Route path="/Register" element={<Register />} />
+      </Routes>
+    </GoogleOAuthProvider>
   );
 }
 

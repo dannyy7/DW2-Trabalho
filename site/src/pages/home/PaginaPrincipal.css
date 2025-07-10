@@ -11,7 +11,8 @@
     backdrop-filter: blur(3px);
     align-items: center;
     justify-content: center;
-    position: fixed; /* Para modal centralizar e sobrepor */
+    position: fixed;
+    /* Para modal centralizar e sobrepor */
     top: 0;
     left: 0;
     z-index: 1000;
@@ -42,6 +43,12 @@
     margin-left: 10px;
 }
 
+#logo:hover {
+    background-color: transparent;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+
 #CriarGasto {
     border: transparent solid 2px;
     height: 5vh;
@@ -63,9 +70,25 @@
 .BoxPesquisa {
     display: flex;
     height: 10vh;
-    width: 100vw;
+    width: 90vw;
     justify-content: center;
     align-items: center;
+}
+
+#iconPesquisar {
+    border: transparent solid 2px;
+    height: 5vh;
+    width: 7vw;
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+#iconPesquisar:hover {
+    background-color: #dcdcdc;
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 .boxbarra {
@@ -155,7 +178,7 @@ label {
     margin-top: 10px;
 }
 
-#bugDescricao{
+#bugDescricao {
     margin-left: -30px;
 }
 
@@ -257,7 +280,7 @@ label {
 
 #Gastoss:hover {
     background-color: #e0e0e0;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Modal Editar Gasto */

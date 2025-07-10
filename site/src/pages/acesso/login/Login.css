@@ -1,24 +1,25 @@
-
-*{
+* {
     padding: 0;
     margin: 0;
     box-sizing: border-box;
 }
-.PageContainer{
+
+.PageContainer {
     display: flex;
     justify-content: center;
-    background-color:#D9B88F;
+    background-color: #D9B88F;
     background-image: linear-gradient(135deg, #da5cda, #4fa6f8);
     height: 100vh;
     width: 100wh;
     align-items: center;
 }
-.LoginContainer{
+
+.LoginContainer {
     display: flex;
     width: 25vw;
     height: 85vh;
     background-color: #ffffff;
-    justify-content:flex-start;
+    justify-content: flex-start;
     flex-direction: column;
     border: solid 5px #ffffff;
     border-radius: 15px;
@@ -26,36 +27,43 @@
     padding-top: 50px;
 
 }
-.InputContainer{
+
+.InputContainer {
     display: flex;
     flex-direction: column;
     padding-top: 35px;
 }
-.InputConfig{
+
+.InputConfig {
     border: none;
     background: transparent;
     border-bottom: 2px solid #c5c3c0;
     width: 15vw;
     height: 5vh;
 }
-.InputConfig:hover{
+
+.InputConfig:hover {
     border-bottom: 2px solid #f5c7f5;
 }
-.InputConfig:focus{
+
+.InputConfig:focus {
     border: 2px solid #a1d1ff;
     outline: none;
     border-radius: 10px;
 }
-#PasswordConfig{
+
+#PasswordConfig {
     display: flex;
     margin-top: 30px;
     flex-direction: column;
 }
-.EightPasswordConfig{
+
+.EightPasswordConfig {
     display: flex;
     flex-direction: row;
 }
-#MostrarSenhaConfig{
+
+#MostrarSenhaConfig {
     width: 30px;
     height: 20px;
     margin-left: 10px;
@@ -63,28 +71,30 @@
     border: none;
 }
 
-.EyeIconConfig{
+.EyeIconConfig {
     height: 25px;
     width: auto;
 }
-h1{
-    font-family:  "Nunito", sans-serif;
+
+h1 {
+    font-family: "Nunito", sans-serif;
     font-size: 45px;
 }
 
-#EsqueciSenha{
+#EsqueciSenha {
     align-self: flex-start;
     padding: 5px;
     width: 15vw;
     display: flex;
     justify-content: flex-end;
 }
-#EsqueciSenha button{
+
+#EsqueciSenha button {
     background-color: transparent;
     border: none;
 }
 
-.LoginButton{
+.LoginButton {
     margin-top: 5px;
     border: none;
     border-radius: 25px;
@@ -96,53 +106,127 @@ h1{
     cursor: pointer;
     transition: all 0.3s ease;
 }
-.LoginButton:hover{
+
+.LoginButton:hover {
     transform: scale(1.05);
     background-image: linear-gradient(90deg, #6bdbfd, #f06af0);
 }
-.LoginButton:active{
+
+.LoginButton:active {
     transform: scale(0.8);
 }
-.bugfix{
+
+.bugfix {
     margin-left: 50px;
 }
-#firstbul{
+
+#firstbul {
     margin-top: 30px;
 }
-#firstbuc{
+
+#firstbuc {
     margin-top: 30px;
 }
-#EsqueciMinhaSenha{
+
+#EsqueciMinhaSenha {
     color: #747070;
     cursor: pointer;
     transition: all 0.3s ease;
 }
-#EsqueciMinhaSenha:hover{
+
+#EsqueciMinhaSenha:hover {
     color: #ff97ff;
     transform: scale(1.07);
 
 }
 
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: flex-start;      /* Alinha no topo, ao invés de centro */
+  justify-content: center;
+  padding-top: 50px;            /* Dá um espaçamento do topo */
+  z-index: 100;
+}
+
+
+.modal-redefinir {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 320px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+
+
 
 /*Cores de degrade  #4fa6f8, #da5cda */
-Color Theme Swatches in Hex
-.Mesquite-Flat-Sand-Dunes-1-hex { color: #656C73; }
-.Mesquite-Flat-Sand-Dunes-2-hex { color: #DCEAF2; }
-.Mesquite-Flat-Sand-Dunes-3-hex { color: #D9B88F; }
-.Mesquite-Flat-Sand-Dunes-4-hex { color: #F2DEC4; }
-.Mesquite-Flat-Sand-Dunes-5-hex { color: #A68776; }
+Color Theme Swatches in Hex .Mesquite-Flat-Sand-Dunes-1-hex {
+    color: #656C73;
+}
 
- Color Theme Swatches in RGBA 
- 
-.Mesquite-Flat-Sand-Dunes-1-rgba { color: rgba(100, 108, 114, 1); }
-.Mesquite-Flat-Sand-Dunes-2-rgba { color: rgba(220, 233, 242, 1); }
-.Mesquite-Flat-Sand-Dunes-3-rgba { color: rgba(216, 183, 143, 1); }
-.Mesquite-Flat-Sand-Dunes-4-rgba { color: rgba(242, 221, 196, 1); }
-.Mesquite-Flat-Sand-Dunes-5-rgba { color: rgba(165, 135, 117, 1); }
+.Mesquite-Flat-Sand-Dunes-2-hex {
+    color: #DCEAF2;
+}
 
-Color Theme Swatches in HSLA 
-.Mesquite-Flat-Sand-Dunes-1-hsla { color: hsla(208, 6, 42, 1); }
-.Mesquite-Flat-Sand-Dunes-2-hsla { color: hsla(202, 46, 90, 1); }
-.Mesquite-Flat-Sand-Dunes-3-hsla { color: hsla(33, 49, 70, 1); }
-.Mesquite-Flat-Sand-Dunes-4-hsla { color: hsla(33, 64, 85, 1); }
-.Mesquite-Flat-Sand-Dunes-5-hsla { color: hsla(22, 21, 55, 1); }
+.Mesquite-Flat-Sand-Dunes-3-hex {
+    color: #D9B88F;
+}
+
+.Mesquite-Flat-Sand-Dunes-4-hex {
+    color: #F2DEC4;
+}
+
+.Mesquite-Flat-Sand-Dunes-5-hex {
+    color: #A68776;
+}
+
+Color Theme Swatches in RGBA .Mesquite-Flat-Sand-Dunes-1-rgba {
+    color: rgba(100, 108, 114, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-2-rgba {
+    color: rgba(220, 233, 242, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-3-rgba {
+    color: rgba(216, 183, 143, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-4-rgba {
+    color: rgba(242, 221, 196, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-5-rgba {
+    color: rgba(165, 135, 117, 1);
+}
+
+Color Theme Swatches in HSLA .Mesquite-Flat-Sand-Dunes-1-hsla {
+    color: hsla(208, 6, 42, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-2-hsla {
+    color: hsla(202, 46, 90, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-3-hsla {
+    color: hsla(33, 49, 70, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-4-hsla {
+    color: hsla(33, 64, 85, 1);
+}
+
+.Mesquite-Flat-Sand-Dunes-5-hsla {
+    color: hsla(22, 21, 55, 1);
+}

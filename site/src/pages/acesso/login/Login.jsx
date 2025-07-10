@@ -4,12 +4,20 @@ import eyeIconOn from "../../../assets/images/view.png";
 import eyeIconOff from "../../../assets/images/hide.png";
 import { useNavigate } from 'react-router-dom';
 import Api from "../../../services/api";
+import { GoogleLogin } from '@react-oauth/google';
 
 function Login() {
   const [eightPassword, setEightPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [UserName, setUserName] = useState('');
   const navigate = useNavigate();
+
+  const [mostrarRedefinirSenha, setMostrarRedefinirSenha] = useState(false);
+  const [usuarioParaRedefinir, setUsuarioParaRedefinir] = useState('');
+  const [novaSenha, setNovaSenha] = useState('');
+  const [mostrarNovaSenha, setMostrarNovaSenha] = useState(false);
+
+
 
   // Parallax effect
   useEffect(() => {
@@ -70,8 +78,40 @@ function Login() {
 
   // Esqueci minha senha
   function esqueci() {
-    alert("Função de recuperação de senha ainda não implementada.");
+    setMostrarRedefinirSenha(true);
   }
+
+  async function redefinirSenha() {
+    try {
+      const response = await Api.get('/usuarios');
+      const usuarios = response.data;
+
+      const usuario = usuarios.find(user =>
+        user.name === usuarioParaRedefinir || user.email === usuarioParaRedefinir
+      );
+
+      if (!usuario) {
+        alert("Usuário não encontrado.");
+        return;
+      }
+
+      await Api.put(`/usuarios/${usuario.id}`, {
+        ...usuario,
+        password: novaSenha,
+      });
+
+      alert("Senha redefinida com sucesso!");
+      setMostrarRedefinirSenha(false);
+      setNovaSenha('');
+      setUsuarioParaRedefinir('');
+    } catch (error) {
+      console.error("Erro ao redefinir senha:", error);
+      alert("Erro ao redefinir senha.");
+    }
+  }
+
+
+
 
   return (
     <div className="parallax-container">
@@ -113,11 +153,70 @@ function Login() {
             </div>
             <button onClick={getUsers} className='LoginButton' id="firstbul">Entrar</button>
             <button onClick={clique} className='LoginButton'>Cadastrar-se</button>
+            <GoogleLogin
+              onSuccess={async (credentialResponse) => {
+                const credential = credentialResponse.credential;
+
+                try {
+                  const response = await Api.post('/auth/google', { token: credential });
+                  const { id } = response.data;
+                  navigate(`/PaginaPrincipal/${id}`);
+                } catch (err) {
+                  console.error('Erro no login com Google:', err);
+                  alert('Erro ao logar com Google.');
+                }
+              }}
+              onError={() => {
+                alert("Erro ao tentar login com Google.");
+              }}
+            />
+
           </div>
         </div>
+        {mostrarRedefinirSenha && (
+          <div className="modal-overlay">
+            <div className="modal-redefinir">
+              <h2>Redefinir Senha</h2>
+
+              <label>Usuário ou Email</label>
+              <input
+                type="text"
+                className="InputConfig"
+                value={usuarioParaRedefinir}
+                onChange={(e) => setUsuarioParaRedefinir(e.target.value)}
+                placeholder="Digite seu usuário ou email"
+              />
+
+              <label>Nova Senha</label>
+              <div className="EightPasswordConfig">
+                <input
+                  type={mostrarNovaSenha ? "text" : "password"}
+                  className="InputConfig"
+                  value={novaSenha}
+                  onChange={(e) => setNovaSenha(e.target.value)}
+                  placeholder="Digite a nova senha"
+                />
+                <button id="MostrarSenhaConfig" onClick={() => setMostrarNovaSenha(!mostrarNovaSenha)}>
+                  <img
+                    src={mostrarNovaSenha ? eyeIconOff : eyeIconOn}
+                    alt={mostrarNovaSenha ? "Ocultar" : "Revelar"}
+                    className='EyeIconConfig'
+                  />
+                </button>
+              </div>
+
+
+              <button className="LoginButton" onClick={redefinirSenha}>Salvar nova senha</button>
+              <button className="LoginButton" onClick={() => setMostrarRedefinirSenha(false)}>Cancelar</button>
+            </div>
+          </div>
+        )}
+
       </div>
-    </div>
-  );
+    </div>);
+
+
+
 }
 
 export default Login;
