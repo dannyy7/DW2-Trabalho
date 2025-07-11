@@ -5,23 +5,10 @@
     box-sizing: border-box;
 }
 
-/* Container Modal Centralizado */
-.boxall {
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    backdrop-filter: blur(3px);
-    align-items: center;
-    justify-content: center;
-    position: fixed; /* Para modal centralizar e sobrepor */
-    top: 0;
-    left: 0;
-    z-index: 1000;
-}
 
 /* Barra Superior */
 .Cabecalho {
-    background-color: aqua;
+    background: linear-gradient(180deg, #b775f5, #8ec5fc);
     height: 10vh;
     width: 100vw;
     display: flex;
@@ -42,11 +29,11 @@
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
-/* Barra Azul Fina */
-.boxbarra {
-    width: 100vw;
-    height: 2vh;
-    background-color: blue;
+
+/* Animação de brilho contínuo na barra */
+@keyframes shineBar {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
 }
 
 /* Área de Pesquisa */
@@ -62,65 +49,52 @@
     width: 60vw;
     height: 5vh;
     border: none;
-    border-top-left-radius: 20px;
-    border-bottom-left-radius: 20px;
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
+    border-radius: 20px 0 0 20px;
     padding-left: 20px;
 }
 
 /* Botões Pesquisa e Ordenar */
-#CriarGasto,
-#iconPesquisar,
-#iconOrdenar {
-    border: transparent solid 2px;
+#CriarGasto{
+    border: none;
     height: 5vh;
-    width: 7vw;
-    border-top-left-radius: 0;
-    border-bottom-left-radius: 0;
+    width: 3vw;
+    border-radius: 50px;
+    background-color: white;
     transition: all 0.3s ease;
     cursor: pointer;
+    color: #000000;
+    margin-left: 10px;
 }
-
-#CriarGasto {
-    border-top-right-radius: 20px;
-    border-bottom-right-radius: 20px;
-    padding-top: 3px;
-}
-
-#iconPesquisar {
-    /* só removeu borda arredondada direita */
-}
-
+#iconPesquisar,
 #iconOrdenar {
-    font-size: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 10px;
+    border: none;
+    height: 5vh;
+    width: 7vw;
+    border-radius: 0 20px 20px 0;
+    background-color: white;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    color: #333;
 }
 
 #CriarGasto:hover,
 #iconPesquisar:hover,
 #iconOrdenar:hover {
-    background-color: #dcdcdc;
+    background: linear-gradient(to right, #d3cce3, #e9e4f0);
     transform: scale(1.05);
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
 /* Container Criar Gasto */
 .boxcriargasto {
-    height: auto;
     min-height: 70vh;
     width: 30vw;
-    background-color: blueviolet;
-    border: transparent 2px solid;
+    background: linear-gradient(180deg, #b775f5, #8ec5fc);
     border-radius: 20px;
     padding: 20px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    position: relative;
 }
 
 /* Títulos */
@@ -131,6 +105,7 @@
     font-family: "Nunito", sans-serif;
     text-align: center;
     margin-bottom: 40px;
+    color: black;
 }
 
 /* Layout Columnar */
@@ -142,7 +117,7 @@
     flex-direction: column;
     align-items: center;
     width: 100%;
-    gap: 20px;
+
 }
 
 .Colum1 {
@@ -173,7 +148,7 @@
     left: 50%;
     transform: translateX(-50%);
     z-index: 10;
-    background-color: white;
+    background: linear-gradient(180deg, #b775f5, #8ec5fc);
     padding: 10px;
     border-radius: 10px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.2);
@@ -189,18 +164,17 @@ label {
     justify-content: flex-start;
     margin-right: 260px;
     margin-top: 10px;
+    color: black;
 }
 
-/* Inputs específicos */
-#bugDescricao {
-    margin-left: -30px;
-}
-
+/* Inputs */
 .linha {
     width: 100%;
     border: none;
     border-bottom: 2px solid black;
     background: transparent;
+    color: black;
+    padding: 5px;
 }
 
 #data {
@@ -209,84 +183,73 @@ label {
 
 /* Botões */
 .botoes,
-#CriarGasto,
 #namebu,
 #criar,
 .modal-btn-salvar,
 .modal-btn-excluir,
 .modal-btn-cancelar {
     border-radius: 5px;
-    border: transparent solid 2px;
     transition: all 0.3s ease;
     cursor: pointer;
 }
 
-/* Botões principais com dimensões e cores específicas */
 .botoes {
     width: 130px;
-    height: 25px;
+    height: 30px;
+    background-color:  #acdfff;
+    color: #333;
+    border: none;
 }
 
-#CriarGasto {
-    height: 5vh;
-    width: 7vw;
-    border-radius: 0 20px 20px 0;
-    padding-top: 3px;
+.botoes:hover,
+#CriarGasto:hover,
+#namebu:hover,
+#criar:hover,
+.modal-btn-salvar:hover {
+    background: linear-gradient(to right, #d3cce3, #e9e4f0);
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
 }
 
+/* Botões principais */
 #criar {
     height: 5vh;
     width: 15vw;
     border-radius: 20px;
     margin: 30px 0;
-    background-color: initial;
+    background-color:  #ffbfee;
+    color: #333;
+    border: none;
 }
 
 #namebu {
     width: 5vw;
     height: 25px;
     border-radius: 0 20px 20px 0;
-    background-color: initial;
+    background-color:  #ffbfee;
+    color: #333;
+    border: none;
 }
 
-.modal-btn-salvar,
-.modal-btn-excluir {
-    width: 45%;
-    height: 5vh;
-    border-radius: 20px;
-    background-color: initial;
-    color: inherit;
+.modal-btn-salvar {
+    background: #7b61ff;
+    color: white;
     border: none;
 }
 
 .modal-btn-excluir {
-    background-color: #e74c3c;
+    background: #e74c3c;
     color: white;
+    border: none;
 }
 
 .modal-btn-cancelar {
-    margin-top: 15px;
     background-color: #95a5a6;
     color: white;
     border-radius: 20px;
     height: 5vh;
     width: 100%;
     border: none;
-}
-
-/* Hover efeitos para botões */
-.botoes:hover,
-#CriarGasto:hover,
-#namebu:hover,
-#criar:hover,
-.modal-btn-salvar:hover {
-    background-color: #dcdcdc;
-    transform: scale(1.05);
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
-
-.modal-btn-excluir:hover {
-    background-color: #c0392b;
 }
 
 .modal-btn-cancelar:hover {
@@ -298,6 +261,7 @@ label {
     width: 20vw;
     height: 25px;
     border-radius: 20px 0 0 20px;
+    padding-left: 10px;
 }
 
 /* Lista Gastos */
@@ -310,19 +274,18 @@ label {
     cursor: pointer;
     border-radius: 10px;
     border: 1px solid transparent;
-    transition: all 0.3s ease;
     background-color: white;
+    transition: all 0.3s ease;
 }
 
 #Gastoss:hover {
-    background-color: #e0e0e0;
+    background-color: #f3e8ff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* Modal Editar Gasto */
 .modal-editar {
-    background-color: blueviolet;
-    border: transparent 2px solid;
+    background: linear-gradient(135deg, #b993d6, #8ca6db);
     border-radius: 20px;
     padding: 20px;
     width: 30vw;
@@ -335,21 +298,18 @@ label {
 
 .modal-row {
     display: flex;
-    gap: 80px;
-    margin-top: 10px;
     font-size: 17px;
-    justify-content: space-between;
-    width: 100%;
+    width: 500px;
+    height: 100px;
 }
 
-/* Sidebar Usuário */
 .sidebar-usuario {
     position: fixed;
     top: 0;
     right: 0;
     width: 320px;
     height: 100%;
-    background-color: #f7f7f7;
+    background: linear-gradient(180deg, #e0c3fc, #8ec5fc);
     box-shadow: -2px 0 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     display: flex;
@@ -360,7 +320,7 @@ label {
 
 .sidebar-usuario input {
     padding: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #ffffff;
     border-radius: 5px;
 }
 
@@ -381,18 +341,17 @@ label {
 }
 
 .botoes-sidebar button:nth-child(1) {
-    background-color: #2b72f0;
+    background-color: #6a11cb;
 }
 
 .botoes-sidebar button:nth-child(2) {
-    background-color: #f03e3e;
+    background-color: #e74c3c;
 }
 
 .botoes-sidebar button:nth-child(3) {
     background-color: #555;
 }
 
-/* Botão fechar sidebar */
 .fechar-sidebar {
     position: absolute;
     top: 10px;
@@ -409,7 +368,6 @@ label {
     color: #f00;
 }
 
-/* Input senha com botão olho */
 .input-senha {
     display: flex;
     align-items: center;
@@ -433,7 +391,6 @@ label {
     height: 24px;
 }
 
-/* Overlay da sidebar */
 .sidebar-overlay {
     position: fixed;
     top: 0;
@@ -445,4 +402,230 @@ label {
     z-index: 999;
     display: flex;
     justify-content: flex-end;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+.boxall {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    backdrop-filter: blur(4px);
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+}
+
+.boxbarra {
+    width: 100vw;
+    height: 2vh;
+    background: linear-gradient( 270deg, 
+        #4fa6f8, 
+        #ff43ff, 
+        #00e5ff, 
+        #ff6bf3, 
+        #4fa6f8); 
+    background-size: 200% auto;
+    animation: shineBar 4s linear infinite;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    border-bottom: 2px solid rgba(255, 255, 255, 0.2);
+}
+@keyframes shineBar {
+    0%   { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+.BoxPesquisa {
+    display: flex;
+    height: 10vh;
+    width: 90vw;
+    justify-content: center;
+    align-items: center;
+}
+
+#logo {
+    height: 7vh;
+    margin-left: 10px;
+    transition: transform .3s, box-shadow .3s;
+}
+#logo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+
+#Pesquisar {
+    width: 60vw;
+    height: 5vh;
+    border: none;
+    border-radius: 20px 0 0 20px;
+    padding-left: 20px;
+}
+
+
+#CriarGasto:hover,
+#iconPesquisar:hover,
+#iconOrdenar:hover {
+    background: linear-gradient(90deg, #d3cce3, #e9e4f0);
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+
+
+.titulo,
+.modal-titulo {
+    margin: 40px 0;
+    font: 40px "Nunito", sans-serif;
+    text-align: center;
+}
+
+.linha {
+    width: 100%;
+    background: transparent;
+    border: none;
+    border-bottom: 2px solid #000000;
+    color: #000000;
+    padding: 5px;
+}
+
+
+.modal-btn-salvar,
+.modal-btn-excluir{
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .3s;
+    width: 180px;
+    height: 50px;
+}
+.botoes,
+#namebu,
+#criar,
+.modal-btn-cancelar {
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: .3s;
+}
+.botoes,
+#criar,
+#namebu {
+    background-color:  #ffbfee;
+    color: #333;
+}
+.botoes:hover,
+#criar:hover,
+#namebu:hover,
+.modal-btn-salvar:hover {
+    background: linear-gradient(90deg, #d3cce3, #e9e4f0);
+    transform: scale(1.05);
+    box-shadow: 0 2px 5px rgba(0,0,0,.3);
+}
+.modal-btn-salvar { background:#7b61ff; color:#fff; }
+.modal-btn-excluir{ background:#e74c3c; color:#fff; }
+.modal-btn-cancelar{ background:#95a5a6; color:#fff; }
+.modal-btn-cancelar:hover{ background:#7f8c8d; }
+
+.gastos-wrapper {
+    width: 90%;
+    margin: 30px auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 20px;
+}
+
+#Gastoss {
+    padding: 18px 22px;
+    background: linear-gradient(135deg, #fafbff 0%, #eef1ff 100%);
+    color: #444;
+    border-left: 6px solid  #9d3cf8;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,.1);
+    transition: transform .25s, box-shadow .25s;
+    text-align: left;
+    cursor: pointer;
+}
+#Gastoss strong { color: #000000 }
+#Gastoss:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 16px rgba(0,0,0,.12);
+    background: linear-gradient(135deg, #f3f4ff 0%, #e3e6ff 100%);
+}
+
+.sidebar-overlay {
+    position: fixed;
+    inset: 0;
+    backdrop-filter: blur(10px);
+    background: rgba(0,0,0,.3);
+    display: flex;
+    justify-content: flex-end;
+    z-index: 999;
+}
+
+.sidebar-usuario {
+    width: 320px;
+    height: 100%;
+    padding: 20px;
+    background: linear-gradient(180deg, #b775f5, #8ec5fc);
+    box-shadow: -2px 0 8px rgba(0,0,0,.2);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    border-radius: 20px;
+}
+.sidebar-usuario input {
+    padding: 8px;
+    border: 1px solid ;
+    border-radius: 5px;
+}
+.botoes-sidebar button:nth-child(1):hover{ background: #ffbfee; }
+.botoes-sidebar button:nth-child(2):hover{ background:#ff887b; }
+.botoes-sidebar button:nth-child(3) :hover{ background:#555; }
+.botoes-sidebar button:nth-child(1){ background: #ff89e0; }
+.botoes-sidebar button:nth-child(2){ background:#fd6251; }
+.botoes-sidebar button:nth-child(3){ background:#323232; }
+
+.fechar-sidebar {
+    position: absolute;
+    top:10px; right:15px;
+    background:none; border:none;
+    font-size: 24px; font-weight:bold; cursor:pointer;
+    color:#333;
+}
+.fechar-sidebar:hover { color:#f00; }
+
+.input-senha {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+.btn-olho { background:none; border:none; cursor:pointer; }
+.btn-olho img { width:24px; height:24px; }
+
+#namecat {
+    width: 20vw; height: 25px;
+    border-radius: 20px 0 0 20px;
+    padding-left: 10px;
+}
+
+.modal-row {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    gap: 80px;
+    margin-top: 10px;
+    font-size: 17px;
+}
+#criar,
+#namebu,
+.botoes {
+    background-color: white;
+    color: #333;
 }

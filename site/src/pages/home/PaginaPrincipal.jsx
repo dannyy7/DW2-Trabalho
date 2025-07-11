@@ -472,7 +472,7 @@ export default function PaginaPrincipal() {
                         🔍︎
                     </button>
                     <button onClick={CriarGasto} id="CriarGasto">
-                        +
+                        ✚ 
                     </button>
                 </div>
                 <img src={user} alt="usuario" id="logo" onClick={functionUser} />

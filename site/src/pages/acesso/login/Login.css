@@ -1,195 +1,248 @@
 /* Reset e box-sizing global */
 * {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+/* Container com parallax */
+.parallax-container {
+  position: relative;
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Fundo animado insano com parallax */
+.parallax-background {
+  position: absolute;
+  top: -50px;
+  left: -50px;
+  width: 120vw;
+  height: 120vh;
+  background: linear-gradient(45deg, #00eeff, #75007d,  #ff91e7, #2adacb);
+  background-size: 1000% 1000%;
+  animation: crazyGradient 23s linear infinite;
+  z-index: -1;
+  transform: translate(var(--offset-x, 0px), var(--offset-y, 0px));
+  filter: blur(30px);
+  opacity: 0.8;
+  border-radius: 10%;
+}
+
+@keyframes crazyGradient {
+  0%   { background-position: 0% 50%; }
+  25%  { background-position: 25% 50%; }
+  50%  { background-position: 50% 50%; }
+  75%  { background-position: 75% 50%; }
+  100% { background-position: 100% 50%; }
 }
 
 /* Container principal da página */
 .PageContainer {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    width: 100vw;
-    background-color: #D9B88F;
-    background-image: linear-gradient(135deg, #da5cda, #4fa6f8);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  position: relative;
+  z-index: 1;
 }
 
 /* Container do formulário de login/cadastro */
 .LoginContainer {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    width: 25vw;
-    height: 85vh;
-    padding-top: 50px;
-    border: solid 5px #ffffff;
-    border-radius: 15px;
-    background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 25vw;
+  height: 85vh;
+  padding-top: 50px;
+  border: solid 5px #ffffff;
+  border-radius: 15px;
+  background-color: #ffffff;
+  z-index: 2;
+  transition: transform 0.3s ease;
+}
+
+.LoginContainer:hover {
+  transform: scale(1.02);
 }
 
 /* Container dos inputs */
 .InputContainer {
-    display: flex;
-    flex-direction: column;
-    padding-top: 35px;
+  display: flex;
+  flex-direction: column;
+  padding-top: 35px;
 }
 
 /* Estilização dos inputs */
 .InputConfig {
-    border: none;
-    background: transparent;
-    border-bottom: 2px solid #c5c3c0;
-    width: 15vw;
-    height: 5vh;
+  border: none;
+  background: transparent;
+  border-bottom: 2px solid #c5c3c0;
+  width: 15vw;
+  height: 5vh;
+  transition: border 0.3s ease;
 }
 
 .InputConfig:hover {
-    border-bottom: 2px solid #f5c7f5;
+  border-bottom: 2px solid #f5c7f5;
 }
 
 .InputConfig:focus {
-    border: 2px solid #a1d1ff;
-    outline: none;
-    border-radius: 10px;
+  border: 2px solid #a1d1ff;
+  outline: none;
+  border-radius: 10px;
 }
 
 /* Estilo de título */
 h1 {
-    font-family: "Nunito", sans-serif;
-    font-size: 45px;
+  font-family: "Nunito", sans-serif;
+  font-size: 45px;
 }
 
 /* Seção de senha com ícone de exibição */
 #PasswordConfig {
-    display: flex;
-    flex-direction: column;
-    margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
 }
 
 .EightPasswordConfig {
-    display: flex;
-    flex-direction: row;
+  display: flex;
+  flex-direction: row;
 }
 
 #MostrarSenhaConfig {
-    width: 30px;
-    height: 20px;
-    margin-left: 10px;
-    background: transparent;
-    border: none;
+  width: 30px;
+  height: 20px;
+  margin-left: 10px;
+  background: transparent;
+  border: none;
 }
 
 .EyeIconConfig {
-    height: 25px;
-    width: auto;
+  height: 25px;
+  width: auto;
 }
 
 /* Estilização do botão de login/cadastro */
 .LoginButton {
-    margin-top: 30px;
+  margin-top: 30px;
+  margin-left: 30px;
+  width: 80%;
+  padding: 10px;
+  border: none;
+  border-radius: 25px;
+  color: white;
+  background-image: linear-gradient(90deg, #4fa6f8, #da5cda);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.LoginButton:hover {
+  transform: scale(1.05);
+  background-image: linear-gradient(90deg, #6bdbfd, #f06af0);
+}
+
+.LoginButton:active {
+  transform: scale(0.8);
+}
+
+/* Link "Esqueci minha senha" */
+#EsqueciSenha {
+  align-self: flex-start;
+  width: 15vw;
+  padding: 5px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+#EsqueciSenha button {
+  background-color: transparent;
+  border: none;
+}
+
+#EsqueciMinhaSenha {
+  color: #747070;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+#EsqueciMinhaSenha:hover {
+  color: #ff97ff;
+  transform: scale(1.07);
+}
+
+/* Posicionamento auxiliar */
+.bugfix {
+  margin-left: 20px;
+}
+
+#firstbul,
+#firstbuc {
+  margin-top: 30px;
+}
+
+/* Modal para redefinir senha */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 50px;
+  backdrop-filter: blur(5px);
+  background-color: rgba(0, 0, 0, 0.3);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  z-index: 100;
+}
+
+.modal-redefinir {
+  background: white;
+  padding: 20px;
+  width: 320px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Paleta de cores - tema Mesquite Flat Sand Dunes */
+:root {
+  --cor-1: #656C73;
+  --cor-2: #DCEAF2;
+  --cor-3: #D9B88F;
+  --cor-4: #F2DEC4;
+  --cor-5: #A68776;
+
+  --cor-1-rgba: rgba(100, 108, 114, 1);
+  --cor-2-rgba: rgba(220, 233, 242, 1);
+  --cor-3-rgba: rgba(216, 183, 143, 1);
+  --cor-4-rgba: rgba(242, 221, 196, 1);
+  --cor-5-rgba: rgba(165, 135, 117, 1);
+
+  --cor-1-hsla: hsla(208, 6%, 42%, 1);
+  --cor-2-hsla: hsla(202, 46%, 90%, 1);
+  --cor-3-hsla: hsla(33, 49%, 70%, 1);
+  --cor-4-hsla: hsla(33, 64%, 85%, 1);
+  --cor-5-hsla: hsla(22, 21%, 55%, 1);
+}
+.googlecss{
+    margin-top: 15px;
     margin-left: 30px;
     width: 80%;
     padding: 10px;
     border: none;
     border-radius: 25px;
     color: white;
-    background-image: linear-gradient(90deg, #4fa6f8, #da5cda);
     cursor: pointer;
     transition: all 0.3s ease;
-}
-
-.LoginButton:hover {
-    transform: scale(1.05);
-    background-image: linear-gradient(90deg, #6bdbfd, #f06af0);
-}
-
-.LoginButton:active {
-    transform: scale(0.8);
-}
-
-/* Link "Esqueci minha senha" */
-#EsqueciSenha {
-    align-self: flex-start;
-    width: 15vw;
-    padding: 5px;
-    display: flex;
-    justify-content: flex-end;
-}
-
-#EsqueciSenha button {
-    background-color: transparent;
-    border: none;
-}
-
-/* Estilo específico para texto do link */
-#EsqueciMinhaSenha {
-    color: #747070;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-#EsqueciMinhaSenha:hover {
-    color: #ff97ff;
-    transform: scale(1.07);
-}
-
-/* Posicionamento auxiliar */
-.bugfix {
-    margin-left: 50px;
-}
-
-#firstbul,
-#firstbuc {
-    margin-top: 30px;
-}
-
-/* Modal para redefinir senha */
-.modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    padding-top: 50px;
-    backdrop-filter: blur(5px);
-    background-color: rgba(0, 0, 0, 0.3);
-    display: flex;
-    align-items: flex-start;
-    justify-content: center;
-    z-index: 100;
-}
-
-.modal-redefinir {
-    background: white;
-    padding: 20px;
-    width: 320px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.4);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-/* Paleta de cores - tema Mesquite Flat Sand Dunes */
-:root {
-    --cor-1: #656C73;
-    --cor-2: #DCEAF2;
-    --cor-3: #D9B88F;
-    --cor-4: #F2DEC4;
-    --cor-5: #A68776;
-
-    --cor-1-rgba: rgba(100, 108, 114, 1);
-    --cor-2-rgba: rgba(220, 233, 242, 1);
-    --cor-3-rgba: rgba(216, 183, 143, 1);
-    --cor-4-rgba: rgba(242, 221, 196, 1);
-    --cor-5-rgba: rgba(165, 135, 117, 1);
-
-    --cor-1-hsla: hsla(208, 6%, 42%, 1);
-    --cor-2-hsla: hsla(202, 46%, 90%, 1);
-    --cor-3-hsla: hsla(33, 49%, 70%, 1);
-    --cor-4-hsla: hsla(33, 64%, 85%, 1);
-    --cor-5-hsla: hsla(22, 21%, 55%, 1);
 }

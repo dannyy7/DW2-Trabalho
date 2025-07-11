@@ -1,181 +1,153 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from 'react-router-dom';
-import { GoogleLogin } from '@react-oauth/google';
+import { useNavigate } from "react-router-dom";
+import { GoogleLogin } from "@react-oauth/google";
 import Api from "../../../services/api";
-import './Login.css';
 
 import eyeIconOn from "../../../assets/images/view.png";
 import eyeIconOff from "../../../assets/images/hide.png";
 
+import "./Login.css";
+
 function Login() {
-  // Estados para login
-  const [UserName, setUserName] = useState('');
-  const [eightPassword, setEightPassword] = useState('');
+  /* ---------------- ESTADOS ---------------- */
+  const [UserName, setUserName] = useState("");
+  const [eightPassword, setEightPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  // Estados para redefinir senha
   const [mostrarRedefinirSenha, setMostrarRedefinirSenha] = useState(false);
-  const [usuarioParaRedefinir, setUsuarioParaRedefinir] = useState('');
-  const [novaSenha, setNovaSenha] = useState('');
+  const [usuarioParaRedefinir, setUsuarioParaRedefinir] = useState("");
+  const [novaSenha, setNovaSenha] = useState("");
   const [mostrarNovaSenha, setMostrarNovaSenha] = useState(false);
 
   const navigate = useNavigate();
 
-  // Efeito parallax no fundo
+  /* ---------------- PARALLAX ---------------- */
   useEffect(() => {
-    const container = document.querySelector('.parallax-container');
-    const background = document.querySelector('.parallax-background');
+    const container = document.querySelector(".parallax-container");
+    const bg = document.querySelector(".parallax-background");
+
+    const MAX_OFFSET = 70; // intensidade do parallax (px)
 
     const handleMouseMove = (e) => {
       const { innerWidth, innerHeight } = window;
-      const x = (e.clientX / innerWidth - 0.5) * 30;
-      const y = (e.clientY / innerHeight - 0.5) * 30;
-
-      if (background) {
-        background.style.setProperty('--offset-x', `${x}px`);
-        background.style.setProperty('--offset-y', `${y}px`);
-      }
+      const x = (e.clientX / innerWidth - 0.5) * MAX_OFFSET;
+      const y = (e.clientY / innerHeight - 0.5) * MAX_OFFSET;
+      bg?.style.setProperty("--offset-x", `${x}px`);
+      bg?.style.setProperty("--offset-y", `${y}px`);
     };
 
-    if (container) {
-      container.addEventListener('mousemove', handleMouseMove);
-    }
-
-    return () => {
-      if (container) {
-        container.removeEventListener('mousemove', handleMouseMove);
-      }
-    };
+    container?.addEventListener("mousemove", handleMouseMove);
+    return () => container?.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  // Login com usuário/senha
+  /* ---------------- LOGIN / API ------------- */
   async function getUsers() {
     try {
-      const response = await Api.get('/usuarios');
-      const users = response.data;
-
-      const filteredUsers = users.filter(
-        user =>
-          (user.name === UserName || user.email === UserName) &&
-          user.password === eightPassword
+      const { data } = await Api.get("/usuarios");
+      const user = data.find(
+        (u) =>
+          (u.name === UserName || u.email === UserName) &&
+          u.password === eightPassword,
       );
-
-      if (filteredUsers.length > 0) {
-        navigate(`/PaginaPrincipal/${filteredUsers[0].id}`);
-      } else {
-        alert('Usuário ou senha incorretos.');
-      }
-    } catch (error) {
-      console.error('Erro ao buscar usuários:', error);
-      alert('Erro ao fazer login. Verifique as informações.');
+      user ? navigate(`/PaginaPrincipal/${user.id}`) : alert("Usuário/senha inválidos.");
+    } catch {
+      alert("Erro ao fazer login.");
     }
   }
 
-  // Login com Google
-  async function loginComGoogle(credentialResponse) {
-    const credential = credentialResponse.credential;
-
+  async function loginComGoogle(res) {
     try {
-      const response = await Api.post('/auth/google', { token: credential });
-      const { id } = response.data;
-      navigate(`/PaginaPrincipal/${id}`);
-    } catch (err) {
-      console.error('Erro no login com Google:', err);
-      alert('Erro ao logar com Google.');
+      const { data } = await Api.post("/auth/google", { token: res.credential });
+      navigate(`/PaginaPrincipal/${data.id}`);
+    } catch {
+      alert("Erro ao logar com Google.");
     }
   }
 
-  // Redefinir senha
   async function redefinirSenha() {
     try {
-      const response = await Api.get('/usuarios');
-      const usuarios = response.data;
-
-      const usuario = usuarios.find(user =>
-        user.name === usuarioParaRedefinir || user.email === usuarioParaRedefinir
+      const { data } = await Api.get("/usuarios");
+      const usuario = data.find(
+        (u) => u.name === usuarioParaRedefinir || u.email === usuarioParaRedefinir,
       );
+      if (!usuario) return alert("Usuário não encontrado.");
 
-      if (!usuario) {
-        alert("Usuário não encontrado.");
-        return;
-      }
-
-      await Api.put(`/usuarios/${usuario.id}`, {
-        ...usuario,
-        password: novaSenha,
-      });
-
-      alert("Senha redefinida com sucesso!");
+      await Api.put(`/usuarios/${usuario.id}`, { ...usuario, password: novaSenha });
       setMostrarRedefinirSenha(false);
-      setNovaSenha('');
-      setUsuarioParaRedefinir('');
-    } catch (error) {
-      console.error("Erro ao redefinir senha:", error);
+      setNovaSenha("");
+      setUsuarioParaRedefinir("");
+      alert("Senha redefinida!");
+    } catch {
       alert("Erro ao redefinir senha.");
     }
   }
 
+  /* ---------------- JSX --------------------- */
   return (
     <div className="parallax-container">
-      <div className='PageContainer'>
+      <div className="parallax-background" />
+      <div className="PageContainer">
         <div className="LoginContainer">
           <h1>Login</h1>
 
-          <div className='InputContainer'>
+          <div className="InputContainer">
             <div className="bugfix">
               <label>Usuário</label>
               <input
-                className='InputConfig'
-                type="text"
+                className="InputConfig"
                 value={UserName}
                 onChange={(e) => setUserName(e.target.value)}
                 placeholder="Digite seu UserName ou email"
               />
-
-              <div id='PasswordConfig'>
+              <div id="PasswordConfig">
                 <label>Senha</label>
               </div>
-
-              <div className='EightPasswordConfig'>
+              <div className="EightPasswordConfig">
                 <input
-                  className='InputConfig'
-                  type={showPassword ? 'text' : 'password'}
+                  className="InputConfig"
+                  type={showPassword ? "text" : "password"}
                   value={eightPassword}
                   onChange={(e) => setEightPassword(e.target.value)}
-                  placeholder="Digite sua senha de 8 dígitos"
+                  placeholder="Digite sua senha"
                 />
-                <button id='MostrarSenhaConfig' onClick={() => setShowPassword(!showPassword)}>
+                <button
+                  id="MostrarSenhaConfig"
+                  onClick={() => setShowPassword(!showPassword)}
+                >
                   <img
                     src={showPassword ? eyeIconOff : eyeIconOn}
-                    alt={showPassword ? "Ocultar" : "Revelar"}
-                    className='EyeIconConfig'
+                    alt={showPassword ? "Ocultar" : "Mostrar"}
+                    className="EyeIconConfig"
                   />
                 </button>
               </div>
 
-              <div id='EsqueciSenha'>
-                <button onClick={() => setMostrarRedefinirSenha(true)} id="EsqueciMinhaSenha">
+              <div id="EsqueciSenha">
+                <button
+                  onClick={() => setMostrarRedefinirSenha(true)}
+                  id="EsqueciMinhaSenha"
+                >
                   Esqueci Minha Senha
                 </button>
               </div>
             </div>
-
-            <button onClick={getUsers} className='LoginButton' id="firstbul">
+            <button onClick={getUsers} className="LoginButton" id="firstbul">
               Entrar
             </button>
-
-            <button onClick={() => navigate('/Register')} className='LoginButton'>
+            <button
+              onClick={() => navigate("/Register")}
+              className="LoginButton"
+            >
               Cadastrar-se
             </button>
-
-            <GoogleLogin
-              onSuccess={loginComGoogle}
-              onError={() => alert("Erro ao tentar login com Google.")}
-            />
+            <div className="googlecss">
+              <GoogleLogin
+                onSuccess={loginComGoogle}
+                onError={() => alert("Erro ao tentar login com Google.")}
+              />
+            </div>
           </div>
         </div>
-
-        {/* Modal de redefinição de senha */}
         {mostrarRedefinirSenha && (
           <div className="modal-overlay">
             <div className="modal-redefinir">
@@ -183,18 +155,17 @@ function Login() {
 
               <label>Usuário ou Email</label>
               <input
-                type="text"
                 className="InputConfig"
                 value={usuarioParaRedefinir}
                 onChange={(e) => setUsuarioParaRedefinir(e.target.value)}
-                placeholder="Digite seu usuário ou email"
+                placeholder="Digite usuário ou email"
               />
 
               <label>Nova Senha</label>
               <div className="EightPasswordConfig">
                 <input
-                  type={mostrarNovaSenha ? "text" : "password"}
                   className="InputConfig"
+                  type={mostrarNovaSenha ? "text" : "password"}
                   value={novaSenha}
                   onChange={(e) => setNovaSenha(e.target.value)}
                   placeholder="Digite a nova senha"
@@ -205,8 +176,8 @@ function Login() {
                 >
                   <img
                     src={mostrarNovaSenha ? eyeIconOff : eyeIconOn}
-                    alt={mostrarNovaSenha ? "Ocultar" : "Revelar"}
-                    className='EyeIconConfig'
+                    alt={mostrarNovaSenha ? "Ocultar" : "Mostrar"}
+                    className="EyeIconConfig"
                   />
                 </button>
               </div>
@@ -214,7 +185,10 @@ function Login() {
               <button className="LoginButton" onClick={redefinirSenha}>
                 Salvar nova senha
               </button>
-              <button className="LoginButton" onClick={() => setMostrarRedefinirSenha(false)}>
+              <button
+                className="LoginButton"
+                onClick={() => setMostrarRedefinirSenha(false)}
+              >
                 Cancelar
               </button>
             </div>
