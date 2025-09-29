@@ -212,7 +212,6 @@ app.get('/spent/:id', async (req, res) => {
 
 
 const client = new OAuth2Client('303426835993-qcn08uo4qcrrd5kgivvltuqtvr6i5ghu.apps.googleusercontent.com');
-
 app.post('/auth/google', async (req, res) => {
   const { token } = req.body;
 
